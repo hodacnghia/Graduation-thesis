@@ -45,28 +45,12 @@ def save_list_stockID_to_file(listStockID):
 	theFile.write('\n'.join(listStockID))
 	theFile.close()
 	
-def read_list_stockID_from_file(fileName):
-	theFile = open(fileName, 'r')
+def read_list_stockID_from_file(filePath):
+	theFile = open(filePath, 'r')
 	listStockID = theFile.read().split('\n')
 	return listStockID
 	
 def download_history_price(stockID):
-	# comment
-	if False:
-		stockIDElem = driver.find_element_by_name("id")
-		stockIDElem.send_keys(stockID)
-		stockIDElem.submit()
-		
-		# TODO: Click Lich Su Gia
-		driver.get('http://www.cophieu68.vn/historyprice.php?id=' + stockID)
-		historyPriceElem = driver.find_element_by_link_text('Lịch Sử Giá')
-		historyPriceElem.click()
-		
-		# TODO: Download
-		downloadExcelElem = driver.find_element_by_link_text('Export Excel')
-		downloadExcelElem.click()
-	#comment
-	
 	driver.get("http://www.cophieu68.vn/export/excel.php?id=" + stockID + "&df=&dt=")
 
 	
