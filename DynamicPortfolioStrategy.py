@@ -127,3 +127,4 @@ for i in range(0, len(distance_matrix)):
     G.add_edge(stocks[i].ticker, stocks[pos_of_min_distance].ticker, weight=distance_matrix[i][pos_of_min_distance])
     print(stocks[i].ticker," " , stocks[pos_of_min_distance].ticker, " ", distance_matrix[i][pos_of_min_distance], " ", len(G.edges))
     
+nx.draw(G)

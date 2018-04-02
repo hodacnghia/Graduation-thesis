@@ -10,9 +10,9 @@ import pandas as pd
 import glob
 import os
 
-
 path = "./dulieucophieu/"
 all_files = glob.glob(os.path.join(path, "*.csv")) #make list of paths
+all_files = all_files[:10]
 
 for file in all_files:
     # Getting the file name without extension
@@ -21,6 +21,5 @@ for file in all_files:
     dfn = pd.read_csv(file)
     # Setting the file name (without extension) as the index name
     dfn.index.name = file_name
-    for x in dfn['<Close>']:
-        print(x)
 
+print (len(all_files))
