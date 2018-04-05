@@ -83,6 +83,7 @@ save_list_stockID_to_file(list_id, "stockID_vnindex.txt")
 
 listStockID = read_list_stockID_from_file('stockID_vnindex.txt')
 
+
 '''
 for id in listStockID:
     download_history_price(id)
