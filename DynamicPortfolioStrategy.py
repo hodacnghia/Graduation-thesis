@@ -5,7 +5,7 @@ Created on Sat Mar 24 11:06:37 2018
 @author: vttqh
 """
 
-import os, glob, math, datetime, sys
+import os, glob, math, datetime, sys, random
 import pandas as pd
 import numpy as np
 import networkx as nx
@@ -38,6 +38,12 @@ class Stock():
         np_list_trading_day = np.array(self.list_trading_day)
         trading_day_in_period = np_list_trading_day[np.logical_and(np_list_trading_day >= start_day, np_list_trading_day <= end_day)]
         return trading_day_in_period
+
+    def get_close_price_in_period(self, start_day, end_day):
+        np_list_trading_day = np.array(self.list_trading_day)
+        np_list_close_price = np.array(self.list_close_price)
+        close_price_in_period = np_list_close_price[np.logical_and(np_list_trading_day >= start_day, np_list_trading_day <= end_day)]
+        return close_price_in_period
 
 class Vertex():
     label = ""
@@ -74,6 +80,17 @@ class MarketIndex():
         
     def set_list_close_price(self, list_close_price):
         self.list_close_price = list_close_price
+        
+    def get_trading_day_in_period(self, start_day, end_day):
+        np_list_trading_day = np.array(self.list_trading_day)
+        trading_day_in_period = np_list_trading_day[np.logical_and(np_list_trading_day >= start_day, np_list_trading_day <= end_day)]
+        return trading_day_in_period
+
+    def get_close_price_in_period(self, start_day, end_day):
+        np_list_trading_day = np.array(self.list_trading_day)
+        np_list_close_price = np.array(self.list_close_price)
+        close_price_in_period = np_list_close_price[np.logical_and(np_list_trading_day >= start_day, np_list_trading_day <= end_day)]
+        return close_price_in_period
     
 class MarketCondition():
     rd = 0
@@ -208,7 +225,6 @@ def build_distance_matrix(stocks, selection_horizon):
                 distance = distance_of_2_stock(cc)
                 distance_matrix[i][j] = distance
                 distance_matrix[j][i] = distance
-                print(stocks[i].ticker, " ", stocks[j].ticker, " ", distance, " ", cc)
     return distance_matrix
  
 def build_MST(distance_matrix):
@@ -303,7 +319,7 @@ def calculate_trading_day_criterion(list_close_price):
     for i in range(0, len(list_close_price) - 1):
         if list_close_price[i] > list_close_price[i + 1]:
             count += 1
-    return count
+    return count / len(list_close_price)
 
 def calculate_amplitude_criterion(list_close_price):
     numerator = 0
@@ -312,13 +328,13 @@ def calculate_amplitude_criterion(list_close_price):
     for i in range(0, len(list_close_price) - 1):
         if list_close_price[i] > list_close_price[i + 1]:
             numerator += list_close_price[i] - list_close_price[i + 1]
-        denominator = abs(list_close_price[i] - list_close_price[i + 1])
+        denominator += abs(list_close_price[i] - list_close_price[i + 1])
     return numerator / denominator
 
-def portfolio_selection(stocks, selection_horizon):
-    distance_matrix = build_distance_matrix(stocks, selection_horizon)
+def portfolio_selection(stocks, index_selection_horizon):
+    distance_matrix = build_distance_matrix(stocks, index_selection_horizon)
     G = build_MST(distance_matrix)
-    nx.draw(G, with_labels = True)
+    #nx.draw(G, with_labels = True)
     
     vertices = []
     nodes = list(G.nodes)
@@ -344,48 +360,140 @@ def portfolio_selection(stocks, selection_horizon):
     return {'peripheral': peripheral_portfolios, 'central': central_portfolios}
 
 def get_selection_horizon(market_index, day_t):
+    #TODO: get trading days and close prices of market index in period
+    #OUTPUT: A dictionary contains list trading days and close prices in period from day_t - 10 month to day_t
     np_list_trading_day = np.array(market_index.list_trading_day)
     
     days_of_10month = 300
     first_day = day_t - datetime.timedelta(days=days_of_10month)
     
-    trading_days = np_list_trading_day[np.logical_and(np_list_trading_day > first_day, np_list_trading_day < day_t)]
-    close_prices = market_index.list_close_price[np.logical_and(np_list_trading_day > first_day, np_list_trading_day < day_t)]
+    trading_days = np_list_trading_day[np.logical_and(np_list_trading_day >= first_day, np_list_trading_day < day_t)]
+    close_prices = market_index.list_close_price[np.logical_and(np_list_trading_day >= first_day, np_list_trading_day < day_t)]
     
     selection_horizon = {'trading_days':trading_days, 'close_prices':close_prices}
     return selection_horizon
+
+def get_investment_horizon(market_index, day_t):
+    #TODO: get trading days and close prices of market index in period
+    #OUTPUT: A dictionary contains list trading days and close prices in period from day_t to day_t + 10 month
+    np_list_trading_day = np.array(market_index.list_trading_day)
+    
+    days_of_10month = 300
+    last_day = day_t + datetime.timedelta(days=days_of_10month)
+    
+    trading_days = np_list_trading_day[np.logical_and(np_list_trading_day > day_t, np_list_trading_day <= last_day)]
+    close_prices = market_index.list_close_price[np.logical_and(np_list_trading_day > day_t, np_list_trading_day <= last_day)]
+    
+    investment_horizon = {'trading_days':trading_days, 'close_prices':close_prices}
+    return investment_horizon
+
+def calculate_profit(price_history):
+    #TODO: Calculate profit of stock
+    #INPUT: Price history is a list of price
+    #OUTPUT: Profit
+    
+    return price_history[1] - price_history[-1]
+
+def market_condition_in_period(market_index, begin_day, end_day):
+    list_price = market_index.get_close_price_in_period(begin_day, end_day)
+    
+    mc = MarketCondition()
+    mc.set_rd(calculate_trading_day_criterion(list_price))
+    mc.set_rf(calculate_amplitude_criterion(list_price))
+    return mc
+
+def portfolio_strategy(day_t):
+    # TODO: Get central and periperal in selection horizol [day_t - 10mond, day_t]
+    days_of_10month = 300
+    selection_mc = market_condition_in_period(market_index, day_t - datetime.timedelta(days=days_of_10month), day_t)
+    index_selection_horizon = get_selection_horizon(market_index, day_t)
+    portfolios = portfolio_selection(stocks, index_selection_horizon)
+    # End
+    
+    # Calculate profit in investment horizol
+    profit_of_central = 0
+    profit_of_peripheral = 0
+    profit_of_random = 0
+    
+    central_portfolios = []
+    peripheral_portfolios = []
+    
+    last_investment_day = day_t + datetime.timedelta(days=days_of_10month)
+    investment_mc= market_condition_in_period(market_index, day_t + datetime.timedelta(days=1), last_investment_day)
+    
+    for v in portfolios['central']:
+        stock = next((s for s in stocks if s.ticker == v.label), None)
+        price_history = stock.get_close_price_in_period(day_t + datetime.timedelta(days=1), last_investment_day)
+        profit_of_central += calculate_profit(price_history)
+        
+        central_portfolios.append(stock)
+        
+    for v in portfolios['peripheral']:
+        stock = next((s for s in stocks if s.ticker == v.label), None)
+        price_history = stock.get_close_price_in_period(day_t + datetime.timedelta(days=1), last_investment_day)
+        profit_of_peripheral += calculate_profit(price_history)
+        
+        peripheral_portfolios.append(stock)
+    # End
+    
+    # TODO: Get 10% of total stocks and calculate profit of them
+    random_portfolios = random.sample(stocks, int(len(stocks)/10))
+    
+    for stock in random_portfolios:
+        price_history = stock.get_close_price_in_period(day_t + datetime.timedelta(days=1), last_investment_day)
+        profit_of_random += calculate_profit(price_history)
+    # End
+    
+    # calculate average profit
+    central_ap = profit_of_central / len(portfolios['central'])
+    peripheral_ap = profit_of_peripheral / len(portfolios['peripheral'])
+    random_ap = profit_of_random / len(random_portfolios)
+    
+    return {'selection_mc':selection_mc, 'investment_mc':investment_mc, 'day_t':day_t, \
+            'central_portfolios':central_portfolios, 'central_ap': central_ap, \
+            'peripheral_portfolios':peripheral_portfolios, 'peripheral_ap': peripheral_ap, \
+            'random_portfolios':random_portfolios, 'random_ap': random_ap}
+        
 #============================================================================#
+data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
 
-data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
-
-# TODO: get all filename .csv
+# TODO: Read all stocks infomation from files and read market index
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
 print("Tổng số cổ phiếu của sàn HOSE: ", len(all_stocks_filepath))
 
-# TODO: Read all of stocks from files
 stocks = []
+
 for i in range(0, len(all_stocks_filepath)):
     stock = read_detail_stock(all_stocks_filepath[i])
-        #if valid_stock(stock, 30):
     stocks.append(stock)
-    
-print("Số cổ phiếu còn lại sau khi lọc theo điều kiện là: ", len(stocks))
 
 market_index = read_market_index(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
+# End
 
-# select random day t
-day_t = datetime.date(2018, 4, 11)
-selection_horizon = get_selection_horizon(market_index, day_t)
+day_t = datetime.date(2017, 1, 1)
+DPS = []
 
-portfolios = portfolio_selection(stocks, selection_horizon)
+while(day_t + datetime.timedelta(days=150) < market_index.list_trading_day[0] ):
+    print(day_t)
+    infomation_ps = portfolio_strategy(day_t)
+    DPS.append(infomation_ps)
+    day_t += datetime.timedelta(days=30)
 
-print("Cổ phiếu ngoại vi")
-for v in portfolios['peripheral']:
-    print(v.label, " ", v.degree)
-
-print("Cổ phiếu trung tâm")
-for v in portfolios['central']:
-    print(v.label, " ", v.degree)
-
-
-
+for infomation_ps in DPS:
+    print("================")
+    print('day_t: ', infomation_ps['day_t'])
+    print('average profit of central portfolios: ', infomation_ps['central_ap'])
+    print('average profit of peripheral portfolios: ', infomation_ps['peripheral_ap'])
+    print('average profit of random portfolios: ', infomation_ps['random_ap'])
+    print('rd of market condition in selection horizon: ', infomation_ps['selection_mc'].rd)
+    print('rd of market condition in investment horizon: ', infomation_ps['investment_mc'].rd)
+    print("================")
+    
+'''
+infomation_ps = portfolio_strategy(day_t)
+print('average profit of central portfolios: ', infomation_ps['central_ap'])
+print('average profit of peripheral portfolios: ', infomation_ps['peripheral_ap'])
+print('average profit of random portfolios: ', infomation_ps['random_ap'])
+print('rd of market condition in selection horizon: ', infomation_ps['selection_mc'].rd)
+print('rd of market condition in investment horizon: ', infomation_ps['investment_mc'].rd)
+'''
