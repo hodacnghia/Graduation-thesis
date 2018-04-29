@@ -4,6 +4,9 @@ Created on Wed Apr 11 11:56:19 2018
 
 @author: vttqh
 """
+import os, glob, datetime
+import pandas as pd
+
 class Stock():
     ticker = ""
     list_close_price = []
@@ -43,17 +46,27 @@ def read_detail_stock(filepath):
     
     stock = Stock()
     stock.set_ticker(data_in_file['<Ticker>'].values[0])
-    stock.set_close_price(data_in_file['<Close>'].values)
     list_day = convert_list_numpy_to_list_datetime(data_in_file['<DTYYYYMMDD>'].values)
+    
+    if list_day[-1] > datetime.date(2010, 1, 1):
+        return None
+    
     stock.set_list_trading_day(list_day)
-    r = calculate_r(stock.list_close_price)
-    stock.set_r(r)
     return stock
 
 def save_list_stockID_to_file(listStockID, fileName):
     theFile = open(fileName, 'w')
     theFile.write('\n'.join(listStockID))
     theFile.close()
+
+def convert_list_numpy_to_list_datetime(list):
+    list_datetime = []
+    
+    for day in list:
+        string_day = str(day)
+        dtime = datetime.date(int(string_day[:4]), int(string_day[4:6]), int(string_day[6:8]))
+        list_datetime.append(dtime)
+    return list_datetime
 
 #====================================================================================================
 data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')

@@ -455,6 +455,7 @@ def portfolio_strategy(day_t):
             'random_portfolios':random_portfolios, 'random_ap': random_ap}
         
 #============================================================================#
+
 data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
 
 # TODO: Read all stocks infomation from files and read market index
@@ -467,33 +468,35 @@ for i in range(0, len(all_stocks_filepath)):
     stock = read_detail_stock(all_stocks_filepath[i])
     stocks.append(stock)
 
-market_index = read_market_index(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
+market_index = read_market_index(os.path.join(os.getcwd(), 'excel_^hastc.csv'))
 # End
 
-day_t = datetime.date(2017, 1, 1)
+day_t = datetime.date(2011, 1, 1)
 DPS = []
 
 while(day_t + datetime.timedelta(days=150) < market_index.list_trading_day[0] ):
-    print(day_t)
     infomation_ps = portfolio_strategy(day_t)
     DPS.append(infomation_ps)
     day_t += datetime.timedelta(days=30)
 
+ff = open('resulthnx.txt', 'w')
+
 for infomation_ps in DPS:
-    print("================")
-    print('day_t: ', infomation_ps['day_t'])
-    print('average profit of central portfolios: ', infomation_ps['central_ap'])
-    print('average profit of peripheral portfolios: ', infomation_ps['peripheral_ap'])
-    print('average profit of random portfolios: ', infomation_ps['random_ap'])
-    print('rd of market condition in selection horizon: ', infomation_ps['selection_mc'].rd)
-    print('rd of market condition in investment horizon: ', infomation_ps['investment_mc'].rd)
-    print("================")
-    
-'''
-infomation_ps = portfolio_strategy(day_t)
-print('average profit of central portfolios: ', infomation_ps['central_ap'])
-print('average profit of peripheral portfolios: ', infomation_ps['peripheral_ap'])
-print('average profit of random portfolios: ', infomation_ps['random_ap'])
-print('rd of market condition in selection horizon: ', infomation_ps['selection_mc'].rd)
-print('rd of market condition in investment horizon: ', infomation_ps['investment_mc'].rd)
-'''
+    ff.write("================")
+    ff.write("\n")
+    ff.write('day_t: ' + str(infomation_ps['day_t']))
+    ff.write("\n")
+    ff.write('average profit of central portfolios: ' + str(infomation_ps['central_ap']))
+    ff.write("\n")
+    ff.write('average profit of peripheral portfolios: ' + str(infomation_ps['peripheral_ap']))
+    ff.write("\n")
+    ff.write('average profit of random portfolios: ' + str(infomation_ps['random_ap']))
+    ff.write("\n")
+    ff.write('rd of market condition in selection horizon: ' + str(infomation_ps['selection_mc'].rd))
+    ff.write("\n")
+    ff.write('rd of market condition in investment horizon: ' + str(infomation_ps['investment_mc'].rd))
+    ff.write("\n")
+    ff.write("================")
+    ff.write("\n")
+
+ff.close()
