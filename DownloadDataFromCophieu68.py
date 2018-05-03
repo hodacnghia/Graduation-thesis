@@ -24,7 +24,7 @@ def login_to_web(driver, username = 'vttqhuy@gmail.com', password = 'Sinhvien1')
     passwordElem.send_keys(password)
     passwordElem.submit()
 
-def download_stockIDs_from_netfonds(driver, market_name):
+def download_stockIDs_from_netfonds(driver, market_name, save_filename):
     driver.get('http://www.netfonds.no/quotes/exchange.php?exchange=' + market_name)
     time.sleep(1)
     
@@ -37,7 +37,7 @@ def download_stockIDs_from_netfonds(driver, market_name):
         tag_a = l.find_element_by_css_selector('a')
         list_stockID.append(tag_a.text)
     
-    save_list_stockID_to_file(list_stockID, "stockID_nyse.txt")
+    save_list_stockID_to_file(list_stockID, save_filename)
 
 def download_vnindex_stockIDs(driver):
     driver.get('http://www.cophieu68.vn/calculating_market_index.php?id=^vnindex')
@@ -122,8 +122,8 @@ def read_list_stockID_from_file(filePath):
 def download_history_price(stockID):
     driver.get("http://www.cophieu68.vn/export/excel.php?id=" + stockID + "&df=&dt=")
     
-def crawl_data_from_netfond(driver, ticker):
-    driver.get('https://www.netfonds.no/quotes/paperhistory.php?paper=' + ticker + '.N&csv_format=csv')
+def crawl_data_from_netfond(driver, ticker, exchange):
+    driver.get('https://www.netfonds.no/quotes/paperhistory.php?paper=' + ticker + '.' + exchange + '&csv_format=csv')
     
     data = [['<Ticker>', '<DTYYYYMMDD>', '<Open>', '<High>', '<Low>', '<Close>', '<Volume>']]
     content = driver.find_element_by_css_selector('pre')
@@ -159,7 +159,7 @@ save_list_stockID_to_file(list_id, "stockID_vnindex.txt")
 listStockID = read_list_stockID_from_file('stockID_vnindex.txt')
 '''
 
-
+'''
 driver = get_driver('dulieuvnindex')
 login_to_web(driver)
 #download_vnindex_stockIDs(driver)
@@ -176,14 +176,24 @@ hnx_stockIDs = read_list_stockID_from_file('stockID_hnxindex.txt')
 
 for id in hnx_stockIDs:
     download_history_price(id)
-
+'''
 
 '''
 os.makedirs('dulieunyse', exist_ok=True)
 driver = get_driver('dulieunyse')
-#download_stockIDs_from_netfonds(driver, 'N')
+download_stockIDs_from_netfonds(driver, 'N', 'stockID_nyse.txt')
 nyse_stockIDs = read_list_stockID_from_file('stockID_nyse.txt')
+print(len(nyse_stockIDs))
+#for ticker in nyse_stockIDs:
+ #   crawl_data_from_netfond(driver, ticker, 'N')
 
-for ticker in nyse_stockIDs:
-    crawl_data_from_netfond(driver, ticker)
+os.makedirs('dulieunasdaq', exist_ok=True)
+driver = get_driver('dulieunasdaq')
+download_stockIDs_from_netfonds(driver, 'O', 'stockID_nasdaq.txt')
+nasdaq_stockIDs = read_list_stockID_from_file('stockID_nasdaq.txt')
+print(len(nasdaq_stockIDs))
 '''
+
+a = input('your choose? : ')
+print(a)
+
