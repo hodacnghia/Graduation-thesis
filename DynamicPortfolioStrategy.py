@@ -119,8 +119,8 @@ def read_detail_stock(filepath):
     stock.set_r(r)
     return stock
 
-def read_market_index(filepath):
-    #TODO: Read market index from file
+def read_market_index_cp68(filepath):
+    #TODO: Read market index from cophieu68 download file
     data_in_file = pd.read_csv(filepath)
     
     market_index = MarketIndex()
@@ -387,12 +387,16 @@ def get_investment_horizon(market_index, day_t):
     investment_horizon = {'trading_days':trading_days, 'close_prices':close_prices}
     return investment_horizon
 
-def calculate_profit(price_history):
+def calculate_average_return(price_history):
     #TODO: Calculate profit of stock
     #INPUT: Price history is a list of price
     #OUTPUT: Profit
+    total_profit = 0
     
-    return price_history[1] - price_history[-1]
+    for i in range(0, len(price_history) - 1):
+        total_profit =  price_history[i + 1] - price_history[i]
+    
+    return total_profit / (len(price_history) - 1)
 
 def market_condition_in_period(market_index, begin_day, end_day):
     list_price = market_index.get_close_price_in_period(begin_day, end_day)
@@ -411,9 +415,9 @@ def portfolio_strategy(day_t):
     # End
     
     # Calculate profit in investment horizol
-    profit_of_central = 0
-    profit_of_peripheral = 0
-    profit_of_random = 0
+    total_AR_of_central = 0
+    total_AR_of_peripheral = 0
+    total_AR_of_random = 0
     
     central_portfolios = []
     peripheral_portfolios = []
@@ -424,14 +428,14 @@ def portfolio_strategy(day_t):
     for v in portfolios['central']:
         stock = next((s for s in stocks if s.ticker == v.label), None)
         price_history = stock.get_close_price_in_period(day_t + datetime.timedelta(days=1), last_investment_day)
-        profit_of_central += calculate_profit(price_history)
+        total_AR_of_central += calculate_average_return(price_history)
         
         central_portfolios.append(stock)
         
     for v in portfolios['peripheral']:
         stock = next((s for s in stocks if s.ticker == v.label), None)
         price_history = stock.get_close_price_in_period(day_t + datetime.timedelta(days=1), last_investment_day)
-        profit_of_peripheral += calculate_profit(price_history)
+        total_AR_of_peripheral += calculate_average_return(price_history)
         
         peripheral_portfolios.append(stock)
     # End
@@ -441,37 +445,89 @@ def portfolio_strategy(day_t):
     
     for stock in random_portfolios:
         price_history = stock.get_close_price_in_period(day_t + datetime.timedelta(days=1), last_investment_day)
-        profit_of_random += calculate_profit(price_history)
+        total_AR_of_random += calculate_average_return(price_history)
     # End
     
-    # calculate average profit
-    central_ap = profit_of_central / len(portfolios['central'])
-    peripheral_ap = profit_of_peripheral / len(portfolios['peripheral'])
-    random_ap = profit_of_random / len(random_portfolios)
-    
     return {'selection_mc':selection_mc, 'investment_mc':investment_mc, 'day_t':day_t, \
-            'central_portfolios':central_portfolios, 'central_ap': central_ap, \
-            'peripheral_portfolios':peripheral_portfolios, 'peripheral_ap': peripheral_ap, \
-            'random_portfolios':random_portfolios, 'random_ap': random_ap}
-        
-#============================================================================#
+            'central_portfolios':central_portfolios, 'total_AR_of_central': total_AR_of_central, \
+            'peripheral_portfolios':peripheral_portfolios, 'total_AR_of_peripheral': total_AR_of_peripheral, \
+            'random_portfolios':random_portfolios, 'total_AR_of_random': total_AR_of_random}
 
-data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
+def classify_to_combinations_of_MC(list_result):
+    #INPUT:  The list of dictionary contains the information and the results of the investment
+    #TODO:   Classify the samples of returns of selected portfolios to the 9 combinations of market conditions
+    #OUTPUT: Dictionary contains classified samples
+    samples_were_classified = {}
+    
+    for d in list_result:
+        if d['selection_mc'].rd < 0.45:
+            if d['selection_mc'].rd < 0.45:
+                samples_were_classified['DD'] = samples_were_classified.get('DD', [])
+                samples_were_classified['DD'].append(d)
+            elif d['selection_mc'].rd < 0.55:
+                samples_were_classified['DS'] = samples_were_classified.get('DS', [])
+                samples_were_classified['DS'].append(d)
+            else:
+                samples_were_classified['DU'] = samples_were_classified.get('DU', [])
+                samples_were_classified['DU'].append(d)   
+        elif d['selection_mc'].rd < 0.55:
+            if d['selection_mc'].rd < 0.45:
+                samples_were_classified['SD'] = samples_were_classified.get('SD', [])
+                samples_were_classified['SD'].append(d)
+            elif d['selection_mc'].rd < 0.55:
+                samples_were_classified['SS'] = samples_were_classified.get('SS', [])
+                samples_were_classified['SS'].append(d)
+            else:
+                samples_were_classified['SU'] = samples_were_classified.get('SU', [])
+                samples_were_classified['SU'].append(d)
+        else:
+            if d['selection_mc'].rd < 0.45:
+                samples_were_classified['UD'] = samples_were_classified.get('UD', [])
+                samples_were_classified['UD'].append(d)
+            elif d['selection_mc'].rd < 0.55:
+                samples_were_classified['US'] = samples_were_classified.get('US', [])
+                samples_were_classified['US'].append(d)
+            else:
+                samples_were_classified['UU'] = samples_were_classified.get('UU', [])
+                samples_were_classified['UU'].append(d)
+                
+    return samples_were_classified
+    
+#============================================================================#
+    
+print("Please select one of markets below:")
+print("1: VNINDEX")
+print("2: HNXINDEX")
+selected_market = input("Select 1 number: ")
+
+if selected_market == "1":
+    data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
+    market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
+    save_result_filename = 'resultvnindex.txt'
+elif selected_market == "2":
+    data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
+    market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^hastc.csv'))
+    save_result_filename = 'resulthnxindex.txt'
+else:    
+    data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
+    market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
+#data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
 
 # TODO: Read all stocks infomation from files and read market index
+#market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
+
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
-print("Tổng số cổ phiếu của sàn HOSE: ", len(all_stocks_filepath))
+print("Tổng số cổ phiếu là: ", len(all_stocks_filepath))
+print(market_index.ticker)
 
 stocks = []
 
 for i in range(0, len(all_stocks_filepath)):
     stock = read_detail_stock(all_stocks_filepath[i])
     stocks.append(stock)
-
-market_index = read_market_index(os.path.join(os.getcwd(), 'excel_^hastc.csv'))
 # End
 
-day_t = datetime.date(2011, 1, 1)
+day_t = datetime.date(2017, 3, 1)
 DPS = []
 
 while(day_t + datetime.timedelta(days=150) < market_index.list_trading_day[0] ):
@@ -479,24 +535,32 @@ while(day_t + datetime.timedelta(days=150) < market_index.list_trading_day[0] ):
     DPS.append(infomation_ps)
     day_t += datetime.timedelta(days=30)
 
-ff = open('resulthnx.txt', 'w')
+samples_were_classified = classify_to_combinations_of_MC(DPS)
 
-for infomation_ps in DPS:
-    ff.write("================")
-    ff.write("\n")
-    ff.write('day_t: ' + str(infomation_ps['day_t']))
-    ff.write("\n")
-    ff.write('average profit of central portfolios: ' + str(infomation_ps['central_ap']))
-    ff.write("\n")
-    ff.write('average profit of peripheral portfolios: ' + str(infomation_ps['peripheral_ap']))
-    ff.write("\n")
-    ff.write('average profit of random portfolios: ' + str(infomation_ps['random_ap']))
-    ff.write("\n")
-    ff.write('rd of market condition in selection horizon: ' + str(infomation_ps['selection_mc'].rd))
-    ff.write("\n")
-    ff.write('rd of market condition in investment horizon: ' + str(infomation_ps['investment_mc'].rd))
-    ff.write("\n")
-    ff.write("================")
-    ff.write("\n")
+profit_central = 0
+profit_peripheral = 0
+profit_random = 0
+
+ff = open(save_result_filename, 'w')
+
+for key, value in samples_were_classified.items():
+    ff.write("Combination market condition: " + str(key) + "\n")
+    
+    for v in value:
+        profit_central += v['total_AR_of_central']
+        profit_peripheral += v['total_AR_of_peripheral']
+        profit_random += v['total_AR_of_random']
+    
+        ff.write('day_t: ' + str(v['day_t']) + "\n")
+        ff.write('total average return of central portfolios: ' + str(v['total_AR_of_central']) + "\n")
+        ff.write('total average return of peripheral portfolios: ' + str(v['total_AR_of_peripheral']) + "\n")
+        ff.write('total average return of random portfolios: ' + str(v['total_AR_of_random']) + "\n")
+        ff.write('rd of market condition in selection horizon: ' + str(v['selection_mc'].rd) + "\n")
+        ff.write('rd of market condition in investment horizon: ' + str(v['investment_mc'].rd) + "\n\n")
+    ff.write("================\n")
+
+ff.write("Profit of central: " + str(profit_central) + "\n")
+ff.write("Profit of preripheral: " + str(profit_peripheral) + "\n")
+ff.write("Profit of random: " + str(profit_random) + "\n")
 
 ff.close()
