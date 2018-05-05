@@ -1,4 +1,4 @@
-import sys, time, os, csv
+import sys, time, os, csv, shutil
 from selenium import webdriver
 
 def get_driver(save_to_folder):
@@ -116,13 +116,14 @@ def save_list_stockID_to_file(listStockID, fileName):
     
 def read_list_stockID_from_file(filePath):
     theFile = open(filePath, 'r')
-    listStockID = theFile.read().split('\n')
+    content = theFile.read()
+    listStockID = content.split('\n')
     return listStockID
 
 def download_history_price(stockID):
     driver.get("http://www.cophieu68.vn/export/excel.php?id=" + stockID + "&df=&dt=")
     
-def crawl_data_from_netfond(driver, ticker, exchange):
+def crawl_data_from_netfond(driver, folder_to_save, ticker, exchange):
     driver.get('https://www.netfonds.no/quotes/paperhistory.php?paper=' + ticker + '.' + exchange + '&csv_format=csv')
     
     data = [['<Ticker>', '<DTYYYYMMDD>', '<Open>', '<High>', '<Low>', '<Close>', '<Volume>']]
@@ -135,11 +136,12 @@ def crawl_data_from_netfond(driver, ticker, exchange):
         r_data = r.split(',')
         data.append([r_data[1], r_data[0], r_data[3], r_data[4], r_data[5], r_data[6], r_data[7]])
     
-    folder_to_save = os.path.join(os.getcwd(), 'dulieunyse')
+    folder_to_save = os.path.join(os.getcwd(), folder_to_save)
     file = open(os.path.join(folder_to_save, ticker + '.csv'), 'w', newline='')
     with file:
         writer = csv.writer(file)
         writer.writerows(data)
+ 
     
 current_director = os.getcwd()   
 os.makedirs('dulieuvnindex', exist_ok=True)
@@ -178,22 +180,47 @@ for id in hnx_stockIDs:
     download_history_price(id)
 '''
 
-'''
+
+shutil.rmtree('dulieunyse', ignore_errors=True)
 os.makedirs('dulieunyse', exist_ok=True)
 driver = get_driver('dulieunyse')
-download_stockIDs_from_netfonds(driver, 'N', 'stockID_nyse.txt')
+#download_stockIDs_from_netfonds(driver, 'N', 'stockID_nyse.txt')
 nyse_stockIDs = read_list_stockID_from_file('stockID_nyse.txt')
-print(len(nyse_stockIDs))
-#for ticker in nyse_stockIDs:
- #   crawl_data_from_netfond(driver, ticker, 'N')
+for ticker in nyse_stockIDs:
+    crawl_data_from_netfond(driver, 'dulieunyse',ticker, 'N')
 
+
+'''
+shutil.rmtree('dulieunasdaq')
 os.makedirs('dulieunasdaq', exist_ok=True)
 driver = get_driver('dulieunasdaq')
-download_stockIDs_from_netfonds(driver, 'O', 'stockID_nasdaq.txt')
+#download_stockIDs_from_netfonds(driver, 'O', 'stockID_nasdaq.txt')
 nasdaq_stockIDs = read_list_stockID_from_file('stockID_nasdaq.txt')
-print(len(nasdaq_stockIDs))
+for ticker in nasdaq_stockIDs:
+    crawl_data_from_netfond(driver, ticker, 'O')
+    time.sleep(0.5)
 '''
 
-a = input('your choose? : ')
-print(a)
+
+shutil.rmtree('dulieuamex', ignore_errors=True)
+os.makedirs('dulieuamex', exist_ok=True)
+driver = get_driver('dulieuamex')
+#download_stockIDs_from_netfonds(driver, 'A', 'stockID_amex.txt')
+amex_stockIDs = read_list_stockID_from_file('stockID_amex.txt')
+for ticker in amex_stockIDs:
+    crawl_data_from_netfond(driver, 'dulieuamex', ticker, 'A')
+    time.sleep(0.5)
+
+
+shutil.rmtree('dulieuolsobors', ignore_errors=True)
+os.makedirs('dulieuolsobors', exist_ok=True)
+driver = get_driver('dulieuolsobors')
+#download_stockIDs_from_netfonds(driver, 'OSE', 'stockID_olsobors.txt')
+olsobors_stockIDs = read_list_stockID_from_file('stockID_olsobors.txt')
+
+for ticker in olsobors_stockIDs:
+    crawl_data_from_netfond(driver, 'dulieuolsobors', ticker, 'OSE')
+    time.sleep(0.5)
+
+
 
