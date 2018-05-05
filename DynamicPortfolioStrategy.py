@@ -150,6 +150,16 @@ def read_market_index_cp68(filepath):
     market_index.set_list_trading_day(list_day)
     return market_index
 
+def read_market_index_yf(filepath, ticker):
+    #TODO: Read market index from yahoo finance download file
+    data_in_file = pd.read_csv(filepath)
+    
+    market_index = MarketIndex()
+    market_index.set_ticker(ticker)
+    market_index.set_list_close_price(data_in_file['Close'].values[::-1])
+    list_day = convert_list_string_to_list_datetime(data_in_file['Date'].values[::-1])
+    market_index.set_list_trading_day(list_day)
+    return market_index
 
 def calculate_r(list):
     r = []
@@ -170,6 +180,15 @@ def convert_list_numpy_to_list_datetime(list):
         list_datetime.append(dtime)
     return list_datetime
 
+def convert_list_string_to_list_datetime(list_date):
+    list_datetime = []
+    
+    for d in list_date:
+        split_d = d.split('-')
+        dtime = datetime.date(int(split_d[0]), int(split_d[1]), int(split_d[2]))
+        list_datetime.append(dtime)
+    return list_datetime
+        
 
 def calculate_expected(list):
     # INPUT: list is logarithmic return of stock
@@ -577,30 +596,35 @@ day_text = str(day_t)
 print("Please select one of markets below:")
 print("1: VNINDEX")
 print("2: HNXINDEX")
+print("3: NYSE")
+print("4: AMEX")
+print("Default: OLSO BORS")
 selected_market = input("Select 1 number: ")
 
-if selected_market == "1":
+if selected_market == '1':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
-    market_index = read_market_index_cp68(
-        os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
-    save_result_filename = 'resultvnindex'+day_text+'.txt'
-elif selected_market == "2":
+    market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
+    save_result_filename = 'resultvnindex.txt'
+elif selected_market == '2':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
-    market_index = read_market_index_cp68(
-        os.path.join(os.getcwd(), 'excel_^hastc.csv'))
-    save_result_filename = 'resulthnxindex'+day_text+'.txt'
-else:
-    data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
-    market_index = read_market_index_cp68(
-        os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
-#data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
+    market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^hastc.csv'))
+    save_result_filename = 'resulthnxindex.txt'
+elif selected_market == '3':
+    data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), '^NYA.csv'), 'NYSE')
+    save_result_filename = 'resultnyse.txt'
+elif selected_market == '4':
+    data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), '^XAX.csv'), 'AMEX')
+    save_result_filename = 'resultamex.txt'
+else:    
+    data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), '^OSEAX.csv'), 'OLSOBORS')
+    save_result_filename = 'resultolsobors.txt'
 
-# TODO: Read all stocks infomation from files and read market index
-#market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
-
+# TODO: Read all stocks infomation from files
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
 print("Tổng số cổ phiếu là: ", len(all_stocks_filepath))
-print(market_index.ticker)
 
 stocks = []
 
@@ -609,9 +633,11 @@ for i in range(0, len(all_stocks_filepath)):
     stocks.append(stock)
 # End
 
+day_t = datetime.date(2014, 3, 1)
 DPS = []
 
-while(day_t + datetime.timedelta(days=150) < market_index.list_trading_day[0]):
+while(day_t + datetime.timedelta(days=300) < market_index.list_trading_day[0] ):
+    print(day_t)
     infomation_ps = portfolio_strategy(day_t)
     DPS.append(infomation_ps)
     day_t += datetime.timedelta(days=30)
