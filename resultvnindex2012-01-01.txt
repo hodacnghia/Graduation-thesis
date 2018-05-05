@@ -1,0 +1,513 @@
+Combination market condition: DD
+day_t: 2012-01-01
+total average return of central portfolios: 0.0047949970773740035
+total average return of peripheral portfolios: 4.7079553001297153e-05
+total average return of random portfolios: 0.0027230446924764984
+rd of market condition in selection horizon: 0.44285714285714284
+rd of market condition in investment horizon: 0.5170731707317073
+
+================
+Combination market condition: SS
+day_t: 2012-01-31
+total average return of central portfolios: -0.01417279308725514
+total average return of peripheral portfolios: -0.014354181611322464
+total average return of random portfolios: -0.017238841527846323
+rd of market condition in selection horizon: 0.46078431372549017
+rd of market condition in investment horizon: 0.48095238095238096
+
+day_t: 2012-03-01
+total average return of central portfolios: -0.04374360176522136
+total average return of peripheral portfolios: -0.03596834659782654
+total average return of random portfolios: -0.03035815602578818
+rd of market condition in selection horizon: 0.47596153846153844
+rd of market condition in investment horizon: 0.4857142857142857
+
+day_t: 2012-03-31
+total average return of central portfolios: 0.013907004830917885
+total average return of peripheral portfolios: 0.002466244126109904
+total average return of random portfolios: -0.004339348191100725
+rd of market condition in selection horizon: 0.49038461538461536
+rd of market condition in investment horizon: 0.5023923444976076
+
+day_t: 2012-04-30
+total average return of central portfolios: -0.001892052143493112
+total average return of peripheral portfolios: -0.006822582308608601
+total average return of random portfolios: -0.00880027319893974
+rd of market condition in selection horizon: 0.5097087378640777
+rd of market condition in investment horizon: 0.5024390243902439
+
+day_t: 2012-05-30
+total average return of central portfolios: -0.001813531131544296
+total average return of peripheral portfolios: 0.0033265246062157243
+total average return of random portfolios: 0.005622463870680075
+rd of market condition in selection horizon: 0.4926829268292683
+rd of market condition in investment horizon: 0.5339805825242718
+
+day_t: 2012-06-29
+total average return of central portfolios: 0.01958583433373347
+total average return of peripheral portfolios: -0.0006389408341007937
+total average return of random portfolios: 0.021673835469274264
+rd of market condition in selection horizon: 0.46601941747572817
+rd of market condition in investment horizon: 0.551219512195122
+
+day_t: 2012-07-29
+total average return of central portfolios: -0.0021782178217821715
+total average return of peripheral portfolios: -0.008523107753482355
+total average return of random portfolios: -0.007312947878502376
+rd of market condition in selection horizon: 0.46116504854368934
+rd of market condition in investment horizon: 0.5566502463054187
+
+day_t: 2012-08-28
+total average return of central portfolios: -0.0030048212545519893
+total average return of peripheral portfolios: -0.0029391614521704483
+total average return of random portfolios: -0.005615422725480737
+rd of market condition in selection horizon: 0.47572815533980584
+rd of market condition in investment horizon: 0.5346534653465347
+
+day_t: 2012-09-27
+total average return of central portfolios: 0.011759446352798535
+total average return of peripheral portfolios: 0.01642468976669813
+total average return of random portfolios: -0.0021057189870726683
+rd of market condition in selection horizon: 0.5024390243902439
+rd of market condition in investment horizon: 0.5320197044334976
+
+day_t: 2012-10-27
+total average return of central portfolios: 0.0033794223018360782
+total average return of peripheral portfolios: 0.005620665061503519
+total average return of random portfolios: -0.0018965305070769594
+rd of market condition in selection horizon: 0.5170731707317073
+rd of market condition in investment horizon: 0.5392156862745098
+
+day_t: 2012-11-26
+total average return of central portfolios: 0.0018819499091382395
+total average return of peripheral portfolios: -0.0192463784114874
+total average return of random portfolios: -0.003988453576687527
+rd of market condition in selection horizon: 0.4834123222748815
+rd of market condition in investment horizon: 0.5594059405940595
+
+day_t: 2012-12-26
+total average return of central portfolios: -0.009713865903642437
+total average return of peripheral portfolios: -0.017070556623635724
+total average return of random portfolios: -0.006213694476655985
+rd of market condition in selection horizon: 0.4881516587677725
+rd of market condition in investment horizon: 0.5495049504950495
+
+day_t: 2013-01-25
+total average return of central portfolios: -0.009818848415188212
+total average return of peripheral portfolios: 0.01934453166088907
+total average return of random portfolios: 0.007994661392781656
+rd of market condition in selection horizon: 0.5023923444976076
+rd of market condition in investment horizon: 0.5196078431372549
+
+day_t: 2013-02-24
+total average return of central portfolios: 0.025380996687242724
+total average return of peripheral portfolios: 0.04554188651286152
+total average return of random portfolios: 0.026498941534107454
+rd of market condition in selection horizon: 0.5024390243902439
+rd of market condition in investment horizon: 0.5190476190476191
+
+day_t: 2013-03-26
+total average return of central portfolios: 0.008265582655826567
+total average return of peripheral portfolios: 0.003714445259202324
+total average return of random portfolios: 0.004383201399719964
+rd of market condition in selection horizon: 0.5314009661835749
+rd of market condition in investment horizon: 0.5336538461538461
+
+day_t: 2013-04-25
+total average return of central portfolios: 0.014833179870331083
+total average return of peripheral portfolios: 0.011124635527620594
+total average return of random portfolios: 0.0121961357982813
+rd of market condition in selection horizon: 0.5485436893203883
+rd of market condition in investment horizon: 0.5445544554455446
+
+day_t: 2013-06-24
+total average return of central portfolios: 0.001063892360855803
+total average return of peripheral portfolios: -0.010441025716769194
+total average return of random portfolios: -0.0016913979646121786
+rd of market condition in selection horizon: 0.5369458128078818
+rd of market condition in investment horizon: 0.5637254901960784
+
+day_t: 2013-07-24
+total average return of central portfolios: 0.0016171717171717277
+total average return of peripheral portfolios: -0.0030205687830687725
+total average return of random portfolios: -0.005028287101581653
+rd of market condition in selection horizon: 0.5294117647058824
+rd of market condition in investment horizon: 0.5671641791044776
+
+day_t: 2013-08-23
+total average return of central portfolios: 0.01184999999999999
+total average return of peripheral portfolios: 0.014552575171504859
+total average return of random portfolios: 0.009029959758286972
+rd of market condition in selection horizon: 0.5392156862745098
+rd of market condition in investment horizon: 0.572139303482587
+
+day_t: 2013-11-21
+total average return of central portfolios: 0.0013180465155988154
+total average return of peripheral portfolios: 0.00012064290496299355
+total average return of random portfolios: 0.001533935120000171
+rd of market condition in selection horizon: 0.5219512195121951
+rd of market condition in investment horizon: 0.595
+
+day_t: 2013-12-21
+total average return of central portfolios: 0.015114947818737519
+total average return of peripheral portfolios: 0.005998173406716098
+total average return of random portfolios: 0.009938609244963698
+rd of market condition in selection horizon: 0.5190476190476191
+rd of market condition in investment horizon: 0.5621890547263682
+
+day_t: 2014-01-20
+total average return of central portfolios: 0.0026061047288271806
+total average return of peripheral portfolios: -0.001258409932775418
+total average return of random portfolios: 0.00605585587942855
+rd of market condition in selection horizon: 0.5358851674641149
+rd of market condition in investment horizon: 0.5373134328358209
+
+day_t: 2014-02-19
+total average return of central portfolios: -0.005933023686515302
+total average return of peripheral portfolios: -0.014701294670614864
+total average return of random portfolios: -0.02721974905528423
+rd of market condition in selection horizon: 0.541871921182266
+rd of market condition in investment horizon: 0.5288461538461539
+
+day_t: 2014-11-16
+total average return of central portfolios: 0.00875621890547269
+total average return of peripheral portfolios: -0.009005085873861644
+total average return of random portfolios: -0.004776253114916089
+rd of market condition in selection horizon: 0.5396039603960396
+rd of market condition in investment horizon: 0.49504950495049505
+
+day_t: 2014-12-16
+total average return of central portfolios: -0.008812707182320433
+total average return of peripheral portfolios: -0.032203855754848014
+total average return of random portfolios: -0.027812190193081107
+rd of market condition in selection horizon: 0.5263157894736842
+rd of market condition in investment horizon: 0.5174129353233831
+
+day_t: 2015-01-15
+total average return of central portfolios: 0.0072011932296036085
+total average return of peripheral portfolios: -0.009539258340429062
+total average return of random portfolios: -0.009429693015960227
+rd of market condition in selection horizon: 0.5265700483091788
+rd of market condition in investment horizon: 0.4876847290640394
+
+day_t: 2015-02-14
+total average return of central portfolios: -0.0036122896437825775
+total average return of peripheral portfolios: 0.010598634380704285
+total average return of random portfolios: 0.002500424796806815
+rd of market condition in selection horizon: 0.5384615384615384
+rd of market condition in investment horizon: 0.46078431372549017
+
+day_t: 2015-03-16
+total average return of central portfolios: 0.008835650202109838
+total average return of peripheral portfolios: -0.014803575624394293
+total average return of random portfolios: 0.0046078518441093185
+rd of market condition in selection horizon: 0.526829268292683
+rd of market condition in investment horizon: 0.46634615384615385
+
+day_t: 2015-04-15
+total average return of central portfolios: -0.01016483084185681
+total average return of peripheral portfolios: 0.012045831667855753
+total average return of random portfolios: -0.002349853331208244
+rd of market condition in selection horizon: 0.5121951219512195
+rd of market condition in investment horizon: 0.46601941747572817
+
+day_t: 2015-05-15
+total average return of central portfolios: -0.009077360707439258
+total average return of peripheral portfolios: 0.0029657703623033153
+total average return of random portfolios: -0.013495639230310538
+rd of market condition in selection horizon: 0.47761194029850745
+rd of market condition in investment horizon: 0.4927536231884058
+
+day_t: 2015-06-14
+total average return of central portfolios: 0.014927536231884067
+total average return of peripheral portfolios: -0.0031735413767298984
+total average return of random portfolios: 0.022497868635232725
+rd of market condition in selection horizon: 0.4975124378109453
+rd of market condition in investment horizon: 0.4807692307692308
+
+day_t: 2015-07-14
+total average return of central portfolios: -0.005812807881773402
+total average return of peripheral portfolios: 0.0008337519012617074
+total average return of random portfolios: -0.008075338358375211
+rd of market condition in selection horizon: 0.4975369458128079
+rd of market condition in investment horizon: 0.4852941176470588
+
+day_t: 2015-08-13
+total average return of central portfolios: 0.018465700440637743
+total average return of peripheral portfolios: 0.026332382932398937
+total average return of random portfolios: 0.022880136710992417
+rd of market condition in selection horizon: 0.5073891625615764
+rd of market condition in investment horizon: 0.5098039215686274
+
+day_t: 2015-09-12
+total average return of central portfolios: 0.0018644505693191631
+total average return of peripheral portfolios: 0.003463892888625166
+total average return of random portfolios: -0.0043891243241174225
+rd of market condition in selection horizon: 0.49504950495049505
+rd of market condition in investment horizon: 0.5339805825242718
+
+day_t: 2015-10-12
+total average return of central portfolios: 0.002388591800356477
+total average return of peripheral portfolios: -0.0032809991819631504
+total average return of random portfolios: 0.0004844893847023705
+rd of market condition in selection horizon: 0.5148514851485149
+rd of market condition in investment horizon: 0.5024390243902439
+
+day_t: 2015-11-11
+total average return of central portfolios: -0.015602131395405526
+total average return of peripheral portfolios: -0.027859732664931226
+total average return of random portfolios: -0.02566310760660297
+rd of market condition in selection horizon: 0.4852941176470588
+rd of market condition in investment horizon: 0.5245098039215687
+
+day_t: 2015-12-11
+total average return of central portfolios: -0.023710504442150074
+total average return of peripheral portfolios: -0.00810415617232917
+total average return of random portfolios: -0.0037206004832914096
+rd of market condition in selection horizon: 0.46078431372549017
+rd of market condition in investment horizon: 0.5637254901960784
+
+day_t: 2016-01-10
+total average return of central portfolios: -0.02140435069215551
+total average return of peripheral portfolios: -0.01194751477226075
+total average return of random portfolios: -0.0015947900050563004
+rd of market condition in selection horizon: 0.4688995215311005
+rd of market condition in investment horizon: 0.558252427184466
+
+day_t: 2016-02-09
+total average return of central portfolios: -0.003660810602558179
+total average return of peripheral portfolios: -0.028925178822232018
+total average return of random portfolios: -0.0009049393889946302
+rd of market condition in selection horizon: 0.46859903381642515
+rd of market condition in investment horizon: 0.5652173913043478
+
+day_t: 2016-03-10
+total average return of central portfolios: 0.0014903846153846306
+total average return of peripheral portfolios: -0.014420348341116452
+total average return of random portfolios: 0.006970571645480932
+rd of market condition in selection horizon: 0.49038461538461536
+rd of market condition in investment horizon: 0.5550239234449761
+
+day_t: 2016-04-09
+total average return of central portfolios: -0.015249927557229797
+total average return of peripheral portfolios: -0.013814871264613206
+total average return of random portfolios: 0.0060906800251972395
+rd of market condition in selection horizon: 0.4807692307692308
+rd of market condition in investment horizon: 0.5560975609756098
+
+day_t: 2016-05-09
+total average return of central portfolios: -0.01650485436893205
+total average return of peripheral portfolios: -0.01228325333678869
+total average return of random portfolios: -0.010043845912934522
+rd of market condition in selection horizon: 0.48292682926829267
+rd of market condition in investment horizon: 0.5507246376811594
+
+day_t: 2016-06-08
+total average return of central portfolios: -0.002678706172342713
+total average return of peripheral portfolios: -0.006059026591395443
+total average return of random portfolios: 0.0038495388369382015
+rd of market condition in selection horizon: 0.5073170731707317
+rd of market condition in investment horizon: 0.5555555555555556
+
+day_t: 2016-07-08
+total average return of central portfolios: -0.03633606464094684
+total average return of peripheral portfolios: -0.005716536438927958
+total average return of random portfolios: -0.001674999112073543
+rd of market condition in selection horizon: 0.5339805825242718
+rd of market condition in investment horizon: 0.5490196078431373
+
+day_t: 2016-08-07
+total average return of central portfolios: -0.034460784313725464
+total average return of peripheral portfolios: -0.013986688230663846
+total average return of random portfolios: -0.009156926341721397
+rd of market condition in selection horizon: 0.5
+rd of market condition in investment horizon: 0.5658536585365853
+
+day_t: 2016-09-06
+total average return of central portfolios: -0.02784313725490195
+total average return of peripheral portfolios: -0.0019935227382488884
+total average return of random portfolios: -0.0017852899280801698
+rd of market condition in selection horizon: 0.526829268292683
+rd of market condition in investment horizon: 0.5756097560975609
+
+day_t: 2017-05-04
+total average return of central portfolios: 0.002277232373087742
+total average return of peripheral portfolios: 0.042310416957788075
+total average return of random portfolios: 0.006073800020878033
+rd of market condition in selection horizon: 0.5463414634146342
+rd of market condition in investment horizon: 0.6292682926829268
+
+================
+Combination market condition: UU
+day_t: 2013-05-25
+total average return of central portfolios: -0.023968369437173818
+total average return of peripheral portfolios: -0.006062124667173412
+total average return of random portfolios: -0.0056989117207121975
+rd of market condition in selection horizon: 0.5566502463054187
+rd of market condition in investment horizon: 0.5533980582524272
+
+day_t: 2013-09-22
+total average return of central portfolios: -0.006894436347188015
+total average return of peripheral portfolios: -0.008813525308574785
+total average return of random portfolios: 0.007913606054249633
+rd of market condition in selection horizon: 0.5566502463054187
+rd of market condition in investment horizon: 0.5960591133004927
+
+day_t: 2013-10-22
+total average return of central portfolios: 0.00045638376510125404
+total average return of peripheral portfolios: -0.0010250647320100756
+total average return of random portfolios: 0.00010610634006902515
+rd of market condition in selection horizon: 0.5517241379310345
+rd of market condition in investment horizon: 0.5792079207920792
+
+day_t: 2014-03-21
+total average return of central portfolios: 0.027924158699944548
+total average return of peripheral portfolios: -0.00568090881543231
+total average return of random portfolios: -0.002580052968019109
+rd of market condition in selection horizon: 0.5533980582524272
+rd of market condition in investment horizon: 0.5242718446601942
+
+day_t: 2014-04-20
+total average return of central portfolios: -0.04125603864734299
+total average return of peripheral portfolios: -0.01361686100320839
+total average return of random portfolios: -0.014057260352757313
+rd of market condition in selection horizon: 0.5609756097560976
+rd of market condition in investment horizon: 0.5384615384615384
+
+day_t: 2014-05-20
+total average return of central portfolios: 0.010295566502462987
+total average return of peripheral portfolios: -0.0010590577146314373
+total average return of random portfolios: -0.014911654069052635
+rd of market condition in selection horizon: 0.5643564356435643
+rd of market condition in investment horizon: 0.5245098039215687
+
+day_t: 2014-06-19
+total average return of central portfolios: -0.0016620745317413779
+total average return of peripheral portfolios: -0.005835131968264814
+total average return of random portfolios: 0.0024463623712165355
+rd of market condition in selection horizon: 0.5742574257425742
+rd of market condition in investment horizon: 0.5147058823529411
+
+day_t: 2014-07-19
+total average return of central portfolios: 0.008142857142857183
+total average return of peripheral portfolios: -0.006317390703563205
+total average return of random portfolios: 0.020722688560928664
+rd of market condition in selection horizon: 0.5960591133004927
+rd of market condition in investment horizon: 0.47761194029850745
+
+day_t: 2014-08-18
+total average return of central portfolios: -0.007816867791459887
+total average return of peripheral portfolios: 0.0007027076600914519
+total average return of random portfolios: -0.01697812706221993
+rd of market condition in selection horizon: 0.5812807881773399
+rd of market condition in investment horizon: 0.5
+
+day_t: 2014-09-17
+total average return of central portfolios: 0.02338476158533176
+total average return of peripheral portfolios: 0.005667985942957054
+total average return of random portfolios: 0.009033139404649383
+rd of market condition in selection horizon: 0.5970149253731343
+rd of market condition in investment horizon: 0.5
+
+day_t: 2014-10-17
+total average return of central portfolios: -0.019419985499637464
+total average return of peripheral portfolios: -0.0005113223407148179
+total average return of random portfolios: -0.005252516381868362
+rd of market condition in selection horizon: 0.5621890547263682
+rd of market condition in investment horizon: 0.504950495049505
+
+day_t: 2016-10-06
+total average return of central portfolios: 0.03058823529411766
+total average return of peripheral portfolios: 0.054119687478951975
+total average return of random portfolios: 0.0488904337564168
+rd of market condition in selection horizon: 0.5609756097560976
+rd of market condition in investment horizon: 0.5609756097560976
+
+day_t: 2016-11-05
+total average return of central portfolios: -0.01195121951219519
+total average return of peripheral portfolios: -0.005580635671890958
+total average return of random portfolios: -0.0045385758548581265
+rd of market condition in selection horizon: 0.558252427184466
+rd of market condition in investment horizon: 0.5728155339805825
+
+day_t: 2016-12-05
+total average return of central portfolios: 0.006047407696434662
+total average return of peripheral portfolios: -0.00543016728493201
+total average return of random portfolios: -0.010333319473015938
+rd of market condition in selection horizon: 0.5652173913043478
+rd of market condition in investment horizon: 0.5784313725490197
+
+day_t: 2017-01-04
+total average return of central portfolios: 0.00983137254901965
+total average return of peripheral portfolios: -0.010994946027144126
+total average return of random portfolios: -0.026911751066194558
+rd of market condition in selection horizon: 0.5571428571428572
+rd of market condition in investment horizon: 0.5707317073170731
+
+day_t: 2017-02-03
+total average return of central portfolios: -0.012434189282432576
+total average return of peripheral portfolios: 0.03293766069873702
+total average return of random portfolios: 0.00770685846367687
+rd of market condition in selection horizon: 0.5560975609756098
+rd of market condition in investment horizon: 0.6047619047619047
+
+day_t: 2017-03-05
+total average return of central portfolios: -0.02946460521737023
+total average return of peripheral portfolios: -0.020480205304021674
+total average return of random portfolios: -0.026460353312976567
+rd of market condition in selection horizon: 0.5528846153846154
+rd of market condition in investment horizon: 0.6066350710900474
+
+day_t: 2017-04-04
+total average return of central portfolios: 0.013787861533692408
+total average return of peripheral portfolios: -0.014243829255354196
+total average return of random portfolios: 0.0032218338145250055
+rd of market condition in selection horizon: 0.5576923076923077
+rd of market condition in investment horizon: 0.6231884057971014
+
+day_t: 2017-06-03
+total average return of central portfolios: -0.011359335116469825
+total average return of peripheral portfolios: -0.011807511153223068
+total average return of random portfolios: -0.016557277126757117
+rd of market condition in selection horizon: 0.5658536585365853
+rd of market condition in investment horizon: 0.6456310679611651
+
+day_t: 2017-07-03
+total average return of central portfolios: -0.015605636962278794
+total average return of peripheral portfolios: -0.012099712520756825
+total average return of random portfolios: -0.0064580057658231715
+rd of market condition in selection horizon: 0.5728155339805825
+rd of market condition in investment horizon: 0.6305418719211823
+
+day_t: 2017-08-02
+total average return of central portfolios: -0.0005126262626262614
+total average return of peripheral portfolios: -0.043316864669041
+total average return of random portfolios: 0.003848651813241342
+rd of market condition in selection horizon: 0.558252427184466
+rd of market condition in investment horizon: 0.6408839779005525
+
+day_t: 2017-09-01
+total average return of central portfolios: 0.005235597215876698
+total average return of peripheral portfolios: -0.0003298607882903273
+total average return of random portfolios: 0.0018670714493574244
+rd of market condition in selection horizon: 0.5728155339805825
+rd of market condition in investment horizon: 0.6477987421383647
+
+day_t: 2017-10-01
+total average return of central portfolios: 0.018568449588155535
+total average return of peripheral portfolios: -0.002850964198513788
+total average return of random portfolios: 0.027729070815997493
+rd of market condition in selection horizon: 0.5756097560975609
+rd of market condition in investment horizon: 0.6714285714285714
+
+day_t: 2017-10-31
+total average return of central portfolios: 0.023597111700560013
+total average return of peripheral portfolios: 0.10233885789534096
+total average return of random portfolios: 0.021849812694867195
+rd of market condition in selection horizon: 0.5728155339805825
+rd of market condition in investment horizon: 0.6779661016949152
+
+================
+Profit of central: -0.12812210871283108
+Profit of preripheral: -0.1055581100240358
+Profit of random: -0.05847757511807405
