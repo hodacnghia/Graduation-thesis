@@ -124,9 +124,6 @@ def read_detail_stock(filepath):
     # TODO: Read stock info from file
     data_in_file = pd.read_csv(filepath)
 
-    # if len(data_in_file) < 1000:
-    # return None
-
     stock = Stock()
     stock.set_ticker(data_in_file['<Ticker>'].values[0])
     stock.set_close_price(data_in_file['<Close>'].values)
@@ -136,7 +133,6 @@ def read_detail_stock(filepath):
     r = calculate_r(stock.list_close_price)
     stock.set_r(r)
     return stock
-
 
 def read_market_index_cp68(filepath):
     # TODO: Read market index from cophieu68 download file
@@ -169,7 +165,6 @@ def calculate_r(list):
     r.append(0)
     return r
 
-
 def convert_list_numpy_to_list_datetime(list):
     list_datetime = []
 
@@ -187,8 +182,7 @@ def convert_list_string_to_list_datetime(list_date):
         split_d = d.split('-')
         dtime = datetime.date(int(split_d[0]), int(split_d[1]), int(split_d[2]))
         list_datetime.append(dtime)
-    return list_datetime
-        
+    return list_datetime   
 
 def calculate_expected(list):
     # INPUT: list is logarithmic return of stock
@@ -198,7 +192,6 @@ def calculate_expected(list):
     for item in list:
         expected += item
     return expected / len(list)
-
 
 def expected_between2list(stock1_in_st, stock2_in_st):
     # INPUT: list1, list2 are logarithmic return of stock 1 and stock 2
@@ -218,7 +211,6 @@ def expected_between2list(stock1_in_st, stock2_in_st):
 
     return calculate_expected(list_multi_r_of_2stock)
 
-
 def correlation_coefficent(stock1_in_st, stock2_in_st):
     expected2list = expected_between2list(stock1_in_st, stock2_in_st)
 
@@ -229,27 +221,11 @@ def correlation_coefficent(stock1_in_st, stock2_in_st):
         calculate_expected(np.power(stock2_in_st['r'], 2)) - calculate_expected(stock2_in_st['r'])**2)
     return numerator / math.sqrt(denominator)
 
-
 def distance_of_2_stock(correlation_coefficent):
     return math.sqrt(2 * (1 - correlation_coefficent))
 
-
 def calculate_correlation_cofficent_by_distance(distance):
     return (2 - distance * distance) / 2
-
-
-def valid_stock(stock, period_condition):
-    if datetime.date.today() - datetime.timedelta(days=period_condition) > stock.list_trading_day[0]:
-        return False
-
-    for i in range(0, len(stock.list_trading_day) - 1):
-        days_after_sub = stock.list_trading_day[i] - \
-            datetime.timedelta(days=20)
-
-        if days_after_sub > stock.list_trading_day[i+1]:
-            return False
-    return True
-
 
 def build_distance_matrix(stocks, selection_horizon):
     # TODO: calculate distance matrix depend on time of selection horizon
@@ -267,19 +243,14 @@ def build_distance_matrix(stocks, selection_horizon):
                 end_day = selection_horizon['trading_days'][0]
 
                 r_of_stock_i = stocks[i].get_r_in_period(start_day, end_day)
-                trading_day_of_stock_i = stocks[i].get_trading_day_in_period(
-                    start_day, end_day)
-                stock_i_in_period = {
-                    'trading_days': trading_day_of_stock_i, 'r': r_of_stock_i}
+                trading_day_of_stock_i = stocks[i].get_trading_day_in_period(start_day, end_day)
+                stock_i_in_period = {'trading_days': trading_day_of_stock_i, 'r': r_of_stock_i}
 
                 r_of_stock_j = stocks[j].get_r_in_period(start_day, end_day)
-                trading_day_of_stock_j = stocks[j].get_trading_day_in_period(
-                    start_day, end_day)
-                stock_j_in_period = {
-                    'trading_days': trading_day_of_stock_j, 'r': r_of_stock_j}
+                trading_day_of_stock_j = stocks[j].get_trading_day_in_period(start_day, end_day)
+                stock_j_in_period = {'trading_days': trading_day_of_stock_j, 'r': r_of_stock_j}
 
-                cc = correlation_coefficent(
-                    stock_i_in_period, stock_j_in_period)
+                cc = correlation_coefficent(stock_i_in_period, stock_j_in_period)
                 distance = distance_of_2_stock(cc)
                 distance_matrix[i][j] = distance
                 distance_matrix[j][i] = distance
@@ -403,7 +374,6 @@ def calculate_amplitude_criterion(list_close_price):
 def portfolio_selection(stocks, index_selection_horizon):
     distance_matrix = build_distance_matrix(stocks, index_selection_horizon)
     G = build_MST(distance_matrix)
-    #nx.draw(G, with_labels = True)
 
     vertices = []
     nodes = list(G.nodes)
@@ -423,7 +393,7 @@ def portfolio_selection(stocks, index_selection_horizon):
 
     vertices = sorted(vertices, key=lambda v: (v.degree))
 
-    ten_percent = int(len(vertices) / 10)
+    ten_percent = int(len(vertices) / 20)
     peripheral_portfolios = vertices[:ten_percent]
     central_portfolios = vertices[-ten_percent:]
     return {'peripheral': peripheral_portfolios, 'central': central_portfolios}
@@ -486,7 +456,7 @@ def market_condition_in_period(market_index, begin_day, end_day):
     return mc
 
 
-def portfolio_strategy(day_t):
+def portfolio_strategy(day_t, random_portfolios):
     # TODO: Get central and periperal in selection horizol [day_t - 10mond, day_t]
     days_of_10month = 300
     selection_mc = market_condition_in_period(
@@ -524,8 +494,7 @@ def portfolio_strategy(day_t):
         peripheral_portfolios.append(stock)
     # End
 
-    # TODO: Get 10% of total stocks and calculate profit of them
-    random_portfolios = random.sample(stocks, int(len(stocks)/10))
+    # TODO: calculate profit of random_portfolios
 
     for stock in random_portfolios:
         price_history = stock.get_close_price_in_period(
@@ -537,7 +506,6 @@ def portfolio_strategy(day_t):
             'central_portfolios': central_portfolios, 'total_AR_of_central': total_AR_of_central,
             'peripheral_portfolios': peripheral_portfolios, 'total_AR_of_peripheral': total_AR_of_peripheral,
             'random_portfolios': random_portfolios, 'total_AR_of_random': total_AR_of_random}
-
 
 def classify_to_combinations_of_MC(list_result, day_t):
     # INPUT:  The list of dictionary contains the information and the results of the investment
@@ -634,11 +602,14 @@ for i in range(0, len(all_stocks_filepath)):
 # End
 
 day_t = datetime.date(2014, 3, 1)
+# TODO: Get 10% of total stocks
+random_portfolios = random.sample(stocks, int(len(stocks)/20))
+
 DPS = []
 
 while(day_t + datetime.timedelta(days=300) < market_index.list_trading_day[0] ):
     print(day_t)
-    infomation_ps = portfolio_strategy(day_t)
+    infomation_ps = portfolio_strategy(day_t, random_portfolios)
     DPS.append(infomation_ps)
     day_t += datetime.timedelta(days=30)
 

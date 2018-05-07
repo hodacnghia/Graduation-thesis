@@ -4,7 +4,7 @@ Created on Wed Apr 11 11:56:19 2018
 
 @author: vttqh
 """
-import os, glob, datetime
+import os, glob, datetime, re
 import pandas as pd
 
 class Stock():
@@ -64,6 +64,30 @@ def read_detail_stock(filepath):
     
     return stock
 
+def read_detail_stock_yf(filepath, ticker):
+    #TODO: Read market index from yahoo finance download file
+    data_in_file = pd.read_csv(filepath)
+    
+    stock = Stock()
+    stock.set_ticker(ticker)
+    stock.set_list_close_price(data_in_file['Close'].values[::-1])
+    list_day = convert_list_string_to_list_datetime(data_in_file['Date'].values[::-1])
+    
+    if list_day[-1] > datetime.date(2013, 1, 1):
+        return None
+    
+    stock.set_list_trading_day(list_day)
+    return stock
+
+def convert_list_string_to_list_datetime(list_date):
+    list_datetime = []
+    
+    for d in list_date:
+        split_d = d.split('-')
+        dtime = datetime.date(int(split_d[0]), int(split_d[1]), int(split_d[2]))
+        list_datetime.append(dtime)
+    return list_datetime
+
 def save_list_stockID_to_file(listStockID, fileName):
     theFile = open(fileName, 'w')
     theFile.write('\n'.join(listStockID))
@@ -79,7 +103,7 @@ def convert_list_numpy_to_list_datetime(list):
     return list_datetime
 
 #====================================================================================================
-data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
+data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
 
 # TODO: get all filename .csv
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
@@ -100,7 +124,7 @@ save_list_stockID_to_file(stocks, 'stockID_hnxindex.txt')
 print(len(stocks))
 '''
 
-
+'''
 # TODO: Read all of stocks from files download in netfond
 stocks = []
 for i in range(0, len(all_stocks_filepath)):
@@ -122,3 +146,17 @@ for s in stocks:
     
 save_list_stockID_to_file(stocks_ticker, 'stockID_nyse.txt')
 print(len(stocks_ticker))
+'''
+
+
+# TODO: Read all of stocks from files download in yahoo finance
+d = datetime.date(2014, 3, 1)
+ds = d - datetime.timedelta(days=300)
+d1 = datetime.date(2017, 6, 13)
+de = d1 + datetime.timedelta(days=300)
+print(ds)
+print(de)
+       
+        
+        
+        
