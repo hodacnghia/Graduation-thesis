@@ -162,6 +162,7 @@ listStockID = read_list_stockID_from_file('stockID_vnindex.txt')
 '''
 
 '''
+shutil.rmtree('dulieuvnindex', ignore_errors=True)
 driver = get_driver('dulieuvnindex')
 login_to_web(driver)
 #download_vnindex_stockIDs(driver)
@@ -170,7 +171,7 @@ vnindex_stockIDs = read_list_stockID_from_file('stockID_vnindex.txt')
 for id in vnindex_stockIDs:
     download_history_price(id)
 
-
+shutil.rmtree('dulieuhnxindex', ignore_errors=True)
 driver = get_driver('dulieuhnxindex')
 login_to_web(driver)
 #download_hnxindex_stockIDs(driver)
@@ -180,7 +181,7 @@ for id in hnx_stockIDs:
     download_history_price(id)
 '''
 
-
+'''
 shutil.rmtree('dulieunyse', ignore_errors=True)
 os.makedirs('dulieunyse', exist_ok=True)
 driver = get_driver('dulieunyse')
@@ -189,19 +190,7 @@ nyse_stockIDs = read_list_stockID_from_file('stockID_nyse.txt')
 for ticker in nyse_stockIDs:
     crawl_data_from_netfond(driver, 'dulieunyse',ticker, 'N')
 
-
 '''
-shutil.rmtree('dulieunasdaq')
-os.makedirs('dulieunasdaq', exist_ok=True)
-driver = get_driver('dulieunasdaq')
-#download_stockIDs_from_netfonds(driver, 'O', 'stockID_nasdaq.txt')
-nasdaq_stockIDs = read_list_stockID_from_file('stockID_nasdaq.txt')
-for ticker in nasdaq_stockIDs:
-    crawl_data_from_netfond(driver, ticker, 'O')
-    time.sleep(0.5)
-'''
-
-
 shutil.rmtree('dulieuamex', ignore_errors=True)
 os.makedirs('dulieuamex', exist_ok=True)
 driver = get_driver('dulieuamex')
@@ -211,7 +200,7 @@ for ticker in amex_stockIDs:
     crawl_data_from_netfond(driver, 'dulieuamex', ticker, 'A')
     time.sleep(0.5)
 
-
+'''
 shutil.rmtree('dulieuolsobors', ignore_errors=True)
 os.makedirs('dulieuolsobors', exist_ok=True)
 driver = get_driver('dulieuolsobors')
@@ -221,6 +210,67 @@ olsobors_stockIDs = read_list_stockID_from_file('stockID_olsobors.txt')
 for ticker in olsobors_stockIDs:
     crawl_data_from_netfond(driver, 'dulieuolsobors', ticker, 'OSE')
     time.sleep(0.5)
+'''
+
+'''
+#TODO: Downlaod IDs of top 300 largest volumn nasdaq stocks in netfond
+class Stock():
+    ticker = ""
+    volumn = 0
+    
+    def __init__(self, ticker, volumn):
+        self.ticker = ticker
+        self.volumn = volumn
+
+stocks = []
+
+driver = get_driver('dulieunasdaq')
+driver.get('https://www.netfonds.no/quotes/exchange.php?exchange=O')
+t = driver.find_elements_by_class_name('com')
+rows = t[1].find_elements_by_css_selector('tr')
+rows = rows[1:]
+for r in rows:
+    columns = r.find_elements_by_css_selector('td')
+    
+    if columns[5].text == ' ':
+        continue
+    
+    total = ""
+    ss = columns[5].text.split(' ')
+    for s in ss:
+        total += s
+        
+    price = ""
+    pp = columns[4].text.split(' ')
+    for p in pp:
+        price += p
+    
+    if float(price) < 5:
+        continue
+    
+    stock = Stock(columns[0].text, int(total))
+    print(stock.ticker, ' ', stock.volumn)
+    stocks.append(stock)
+    
+stocks = sorted(stocks, key=lambda s:(s.volumn), reverse=True)
+stockIDs = []
+
+for s in stocks[:300]:
+    stockIDs.append(s.ticker)
+    
+save_list_stockID_to_file(stockIDs, 'stockID_nasdaq.txt')
 
 
+shutil.rmtree('dulieunasdaq', ignore_errors=True)
+os.makedirs('dulieunasdaq', exist_ok=True)
+driver = get_driver('dulieunasdaq')
 
+nasdaq_stockIDs = read_list_stockID_from_file('stockID_nasdaq.txt')
+
+for i in nasdaq_stockIDs:
+    driver.get('https://finance.yahoo.com/quote/' + i + '/history?period1=1325350800&period2=1525453200&interval=1d&filter=history&frequency=1d')
+    time.sleep(1)
+    a = driver.find_element_by_link_text('Download Data')
+    a.click()
+    time.sleep(1)
+'''

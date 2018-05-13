@@ -124,9 +124,6 @@ def read_detail_stock(filepath):
     # TODO: Read stock info from file
     data_in_file = pd.read_csv(filepath)
 
-    # if len(data_in_file) < 1000:
-    # return None
-
     stock = Stock()
     stock.set_ticker(data_in_file['<Ticker>'].values[0])
     stock.set_close_price(data_in_file['<Close>'].values)
@@ -136,7 +133,6 @@ def read_detail_stock(filepath):
     r = calculate_r(stock.list_close_price)
     stock.set_r(r)
     return stock
-
 
 def read_market_index_cp68(filepath):
     # TODO: Read market index from cophieu68 download file
@@ -169,7 +165,6 @@ def calculate_r(list):
     r.append(0)
     return r
 
-
 def convert_list_numpy_to_list_datetime(list):
     list_datetime = []
 
@@ -187,8 +182,7 @@ def convert_list_string_to_list_datetime(list_date):
         split_d = d.split('-')
         dtime = datetime.date(int(split_d[0]), int(split_d[1]), int(split_d[2]))
         list_datetime.append(dtime)
-    return list_datetime
-        
+    return list_datetime   
 
 def calculate_expected(list):
     # INPUT: list is logarithmic return of stock
@@ -198,7 +192,6 @@ def calculate_expected(list):
     for item in list:
         expected += item
     return expected / len(list)
-
 
 def expected_between2list(stock1_in_st, stock2_in_st):
     # INPUT: list1, list2 are logarithmic return of stock 1 and stock 2
@@ -218,7 +211,6 @@ def expected_between2list(stock1_in_st, stock2_in_st):
 
     return calculate_expected(list_multi_r_of_2stock)
 
-
 def correlation_coefficent(stock1_in_st, stock2_in_st):
     expected2list = expected_between2list(stock1_in_st, stock2_in_st)
 
@@ -229,27 +221,11 @@ def correlation_coefficent(stock1_in_st, stock2_in_st):
         calculate_expected(np.power(stock2_in_st['r'], 2)) - calculate_expected(stock2_in_st['r'])**2)
     return numerator / math.sqrt(denominator)
 
-
 def distance_of_2_stock(correlation_coefficent):
     return math.sqrt(2 * (1 - correlation_coefficent))
 
-
 def calculate_correlation_cofficent_by_distance(distance):
     return (2 - distance * distance) / 2
-
-
-def valid_stock(stock, period_condition):
-    if datetime.date.today() - datetime.timedelta(days=period_condition) > stock.list_trading_day[0]:
-        return False
-
-    for i in range(0, len(stock.list_trading_day) - 1):
-        days_after_sub = stock.list_trading_day[i] - \
-            datetime.timedelta(days=20)
-
-        if days_after_sub > stock.list_trading_day[i+1]:
-            return False
-    return True
-
 
 def build_distance_matrix(stocks, selection_horizon):
     # TODO: calculate distance matrix depend on time of selection horizon
@@ -267,19 +243,14 @@ def build_distance_matrix(stocks, selection_horizon):
                 end_day = selection_horizon['trading_days'][0]
 
                 r_of_stock_i = stocks[i].get_r_in_period(start_day, end_day)
-                trading_day_of_stock_i = stocks[i].get_trading_day_in_period(
-                    start_day, end_day)
-                stock_i_in_period = {
-                    'trading_days': trading_day_of_stock_i, 'r': r_of_stock_i}
+                trading_day_of_stock_i = stocks[i].get_trading_day_in_period(start_day, end_day)
+                stock_i_in_period = {'trading_days': trading_day_of_stock_i, 'r': r_of_stock_i}
 
                 r_of_stock_j = stocks[j].get_r_in_period(start_day, end_day)
-                trading_day_of_stock_j = stocks[j].get_trading_day_in_period(
-                    start_day, end_day)
-                stock_j_in_period = {
-                    'trading_days': trading_day_of_stock_j, 'r': r_of_stock_j}
+                trading_day_of_stock_j = stocks[j].get_trading_day_in_period(start_day, end_day)
+                stock_j_in_period = {'trading_days': trading_day_of_stock_j, 'r': r_of_stock_j}
 
-                cc = correlation_coefficent(
-                    stock_i_in_period, stock_j_in_period)
+                cc = correlation_coefficent(stock_i_in_period, stock_j_in_period)
                 distance = distance_of_2_stock(cc)
                 distance_matrix[i][j] = distance
                 distance_matrix[j][i] = distance
@@ -403,7 +374,6 @@ def calculate_amplitude_criterion(list_close_price):
 def portfolio_selection(stocks, index_selection_horizon):
     distance_matrix = build_distance_matrix(stocks, index_selection_horizon)
     G = build_MST(distance_matrix)
-    #nx.draw(G, with_labels = True)
 
     vertices = []
     nodes = list(G.nodes)
@@ -424,8 +394,20 @@ def portfolio_selection(stocks, index_selection_horizon):
     vertices = sorted(vertices, key=lambda v: (v.degree))
 
     ten_percent = int(len(vertices) / 10)
-    peripheral_portfolios = vertices[:ten_percent]
-    central_portfolios = vertices[-ten_percent:]
+    peripheral_vertices = vertices[:ten_percent]
+    central_vertices = vertices[-ten_percent:]
+    
+    central_portfolios = []
+    peripheral_portfolios = []
+    
+    for v in central_vertices:
+        stock = next((s for s in stocks if s.ticker == v.label), None)
+        central_portfolios.append(stock)
+
+    for v in peripheral_vertices:
+        stock = next((s for s in stocks if s.ticker == v.label), None)
+        peripheral_portfolios.append(stock)
+    
     return {'peripheral': peripheral_portfolios, 'central': central_portfolios}
 
 
@@ -476,6 +458,16 @@ def calculate_average_return(price_history):
 
     return total_profit / (len(price_history) - 1)
 
+def total_AR_of_portfolios_in_period(portfolios, start_day, end_day):
+    #TODO: calculate total average return of all stocks of portfolios in period
+    #INPUT: portfolios is set of stock, start_day is the date begin invest , end_day is the date finish invest
+    #OUTPUT: total average return
+    total_AR = 0
+    for stock in portfolios:
+        price_history = stock.get_close_price_in_period(start_day, end_day)
+        total_AR += calculate_average_return(price_history)
+    return total_AR
+        
 
 def market_condition_in_period(market_index, begin_day, end_day):
     list_price = market_index.get_close_price_in_period(begin_day, end_day)
@@ -486,113 +478,184 @@ def market_condition_in_period(market_index, begin_day, end_day):
     return mc
 
 
-def portfolio_strategy(day_t):
+def portfolio_strategy(day_t, random_portfolios):
     # TODO: Get central and periperal in selection horizol [day_t - 10mond, day_t]
     days_of_10month = 300
-    selection_mc = market_condition_in_period(
-        market_index, day_t - datetime.timedelta(days=days_of_10month), day_t)
+    selection_mc = market_condition_in_period(market_index, day_t - datetime.timedelta(days=days_of_10month), day_t)
     index_selection_horizon = get_selection_horizon(market_index, day_t)
     portfolios = portfolio_selection(stocks, index_selection_horizon)
     # End
 
     # Calculate profit in investment horizol
-    total_AR_of_central = 0
-    total_AR_of_peripheral = 0
-    total_AR_of_random = 0
-
-    central_portfolios = []
-    peripheral_portfolios = []
-
     last_investment_day = day_t + datetime.timedelta(days=days_of_10month)
-    investment_mc = market_condition_in_period(
-        market_index, day_t + datetime.timedelta(days=1), last_investment_day)
-
-    for v in portfolios['central']:
-        stock = next((s for s in stocks if s.ticker == v.label), None)
-        price_history = stock.get_close_price_in_period(
-            day_t + datetime.timedelta(days=1), last_investment_day)
-        total_AR_of_central += calculate_average_return(price_history)
-
-        central_portfolios.append(stock)
-
-    for v in portfolios['peripheral']:
-        stock = next((s for s in stocks if s.ticker == v.label), None)
-        price_history = stock.get_close_price_in_period(
-            day_t + datetime.timedelta(days=1), last_investment_day)
-        total_AR_of_peripheral += calculate_average_return(price_history)
-
-        peripheral_portfolios.append(stock)
+    investment_mc = market_condition_in_period(market_index, day_t + datetime.timedelta(days=1), last_investment_day)
+        
+    total_AR_of_central    = total_AR_of_portfolios_in_period(portfolios['central'], day_t + datetime.timedelta(days=1), last_investment_day)
+    total_AR_of_peripheral = total_AR_of_portfolios_in_period(portfolios['peripheral'], day_t + datetime.timedelta(days=1), last_investment_day)
+    total_AR_of_random     = total_AR_of_portfolios_in_period(random_portfolios, day_t + datetime.timedelta(days=1), last_investment_day)
     # End
 
-    # TODO: Get 10% of total stocks and calculate profit of them
-    random_portfolios = random.sample(stocks, int(len(stocks)/10))
-
-    for stock in random_portfolios:
-        price_history = stock.get_close_price_in_period(
-            day_t + datetime.timedelta(days=1), last_investment_day)
-        total_AR_of_random += calculate_average_return(price_history)
-    # End
-
-    return {'selection_mc': selection_mc, 'investment_mc': investment_mc, 'day_t': day_t,
-            'central_portfolios': central_portfolios, 'total_AR_of_central': total_AR_of_central,
-            'peripheral_portfolios': peripheral_portfolios, 'total_AR_of_peripheral': total_AR_of_peripheral,
+    return {'selection_mc': selection_mc, 'investment_mc': investment_mc, 'day_t': day_t, 'last_investment_day': last_investment_day,
+            'central_portfolios': portfolios['central'], 'total_AR_of_central': total_AR_of_central,
+            'peripheral_portfolios': portfolios['peripheral'], 'total_AR_of_peripheral': total_AR_of_peripheral,
             'random_portfolios': random_portfolios, 'total_AR_of_random': total_AR_of_random}
 
-
-def classify_to_combinations_of_MC(list_result, day_t):
+def classify_to_combinations_of_MC(list_result):
     # INPUT:  The list of dictionary contains the information and the results of the investment
     # TODO:   Classify the samples of returns of selected portfolios to the 9 combinations of market conditions
     # OUTPUT: Dictionary contains classified samples
     samples_were_classified = {}
 
     for d in list_result:
-        if d['selection_mc'].rd < 0.45:
-            if d['selection_mc'].rd < 0.45:
-                samples_were_classified['DD'] = samples_were_classified.get('DD', [
-                ])
-                samples_were_classified['DD'].append(d)
-            elif d['selection_mc'].rd < 0.55:
-                samples_were_classified['DS'] = samples_were_classified.get('DS', [
-                ])
-                samples_were_classified['DS'].append(d)
-            else:
-                samples_were_classified['DU'] = samples_were_classified.get('DU', [
-                ])
-                samples_were_classified['DU'].append(d)
-        elif d['selection_mc'].rd < 0.55:
-            if d['selection_mc'].rd < 0.45:
-                samples_were_classified['SD'] = samples_were_classified.get('SD', [
-                ])
-                samples_were_classified['SD'].append(d)
-            elif d['selection_mc'].rd < 0.55:
-                samples_were_classified['SS'] = samples_were_classified.get('SS', [
-                ])
-                samples_were_classified['SS'].append(d)
-            else:
-                samples_were_classified['SU'] = samples_were_classified.get('SU', [
-                ])
-                samples_were_classified['SU'].append(d)
-        else:
-            if d['selection_mc'].rd < 0.45:
-                samples_were_classified['UD'] = samples_were_classified.get('UD', [
-                ])
-                samples_were_classified['UD'].append(d)
-            elif d['selection_mc'].rd < 0.55:
-                samples_were_classified['US'] = samples_were_classified.get('US', [
-                ])
-                samples_were_classified['US'].append(d)
-            else:
-                samples_were_classified['UU'] = samples_were_classified.get('UU', [
-                ])
-                samples_were_classified['UU'].append(d)
+        combination = combination_of_MC(d['selection_mc'].rd, d['investment_mc'].rd)
+        
+        if combination == 'DD':
+            samples_were_classified['DD'] = samples_were_classified.get('DD', [])
+            samples_were_classified['DD'].append(d)
+        if combination == 'DS':
+            samples_were_classified['DS'] = samples_were_classified.get('DS', [])
+            samples_were_classified['DS'].append(d)
+        if combination == 'DU':
+            samples_were_classified['DU'] = samples_were_classified.get('DU', [])
+            samples_were_classified['DU'].append(d)
+        if combination == 'SD':
+            samples_were_classified['SD'] = samples_were_classified.get('SD', [])
+            samples_were_classified['SD'].append(d)
+        if combination == 'SS':
+            samples_were_classified['SS'] = samples_were_classified.get('SS', [])
+            samples_were_classified['SS'].append(d)
+        if combination == 'SU':
+            samples_were_classified['SU'] = samples_were_classified.get('SU', [])
+            samples_were_classified['SU'].append(d)
+        if combination == 'UD':
+            samples_were_classified['UD'] = samples_were_classified.get('UD', [])
+            samples_were_classified['UD'].append(d)
+        if combination == 'US':
+            samples_were_classified['US'] = samples_were_classified.get('US', [])
+            samples_were_classified['US'].append(d)
+        if combination == 'UU':
+            samples_were_classified['UU'] = samples_were_classified.get('UU', [])
+            samples_were_classified['UU'].append(d)
 
     return samples_were_classified
 
+def train_to_find_OPS(market_name, start_day, end_day):
+    # TODO: Training to find the optimal portfolio strategy in each combination of market conditions between start_day and end_day
+    # INPUT: Stocks: information of all stocks, start_day: the date begin traing, end_day: the date complete traning
+    # OUTPUT: The dictionary contains key is ombination of market conditions and value is optimal portfolio
+    
+    optimal_portfolios_in_MC = {}
+    random_portfolios = random.sample(stocks, int(len(stocks) / 10))
+
+    DPS = []
+    day_t = start_day
+
+    while(day_t <= end_day):
+        print(day_t)
+        infomation_ps = portfolio_strategy(day_t, random_portfolios)
+        DPS.append(infomation_ps)
+        day_t += datetime.timedelta(days=30)
+        
+    samples_were_classified = classify_to_combinations_of_MC(DPS)
+    
+    ff = open(market_name + '_train.txt', 'w')
+    
+    for key, value in samples_were_classified.items():
+        ff.write("Combination market condition: " + str(key) + "\n")
+
+        for v in value:
+            ff.write('day_t: ' + str(v['day_t']) + "\n")
+            ff.write('total average return of central portfolios: ' + str(v['total_AR_of_central']) + "\n")
+            ff.write('total average return of peripheral portfolios: ' + str(v['total_AR_of_peripheral']) + "\n")
+            ff.write('total average return of random portfolios: ' + str(v['total_AR_of_random']) + "\n")
+            ff.write('rd of market condition in selection horizon: ' + str(v['selection_mc'].rd) + "\n")
+            ff.write('rd of market condition in investment horizon: ' + str(v['investment_mc'].rd) + "\n\n")
+        ff.write("================\n")
+
+    ff.close()
+    
+    for key, value in samples_were_classified.items():
+        profit_of_central = 0
+        profit_of_peripheral = 0
+        profit_of_random = 0
+        
+        for v in value:
+            profit_of_central += v['total_AR_of_central']
+            profit_of_peripheral += v['total_AR_of_peripheral']
+            profit_of_random += v['total_AR_of_random']
+        
+        if profit_of_central >= profit_of_peripheral:
+            optimal_portfolios_in_MC[key] = 'central'
+        else:
+            optimal_portfolios_in_MC[key] = 'peripheral'
+                
+    return optimal_portfolios_in_MC
+
+def combination_of_MC(selection_mc, investment_mc):
+    #TODO: compare to return combination of market condition
+    #INPUT: mc_in_selection, mc_in_investment is float number
+    #OUTPUT: combination of market condition
+    
+    if selection_mc < 0.45:
+        if investment_mc < 0.45:
+            return 'DD'
+        elif investment_mc < 0.55:
+            return 'DS'
+        else:
+            return 'DU'
+    elif selection_mc < 0.55:
+        if investment_mc < 0.45:
+            return 'SD'
+        elif investment_mc < 0.55:
+            return 'SS'
+        else:
+            return 'SU'
+    else:
+        if investment_mc < 0.45:
+            return 'UD'
+        elif investment_mc < 0.55:
+            return 'US'
+        else:
+            return 'UU'
+
+def invest_DPS(OPS, market_name, start_day, end_day):
+    #TODO: Use dynamic portfolio strategy to invest in period between start_day and end_day
+    #INPUT: stocks: all stocks in market, OPS: dictionary with key is conbination of market and value is optimal portfolio
+    total_average_return = 0
+    day_t = start_day
+    
+    ff = open(market_name + '_invest.txt', 'w')
+    
+    while day_t < end_day:
+        ps = portfolio_strategy(day_t, [])
+        
+        combination = combination_of_MC(ps['selection_mc'].rd, ps['investment_mc'].rd)
+        
+        if combination in OPS.keys():
+            optimal_portfolio = OPS[combination]
+            average_return_of_portfolio = 0
+            
+            if (optimal_portfolio == 'central'):
+                average_return_of_portfolio += ps['total_AR_of_central']
+            else:
+                average_return_of_portfolio += ps['total_AR_of_peripheral']
+                
+            total_average_return += average_return_of_portfolio
+            
+            ff.write('day_t: ' + str(ps['day_t']) + '\n')
+            ff.write('last_investment_day: ' + str(ps['last_investment_day']) + '\n')
+            ff.write('optimal portfolios: ' + str(optimal_portfolio) + '\n')
+            ff.write('average_return_of_portfolio: ' + str(average_return_of_portfolio) + '\n')
+        
+        day_t += datetime.timedelta(days=30)
+    
+    ff.write('========================\n')
+    ff.write('total_average_return: ' + str(total_average_return)) 
+    ff.close()         
+        
+    
 #============================================================================#
 
-
-day_t = datetime.date(2014, 3, 1)
-day_text = str(day_t)
 print("Please select one of markets below:")
 print("1: VNINDEX")
 print("2: HNXINDEX")
@@ -604,23 +667,23 @@ selected_market = input("Select 1 number: ")
 if selected_market == '1':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
     market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
-    save_result_filename = 'resultvnindex.txt'
+    market_name = 'HOSE'
 elif selected_market == '2':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
     market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^hastc.csv'))
-    save_result_filename = 'resulthnxindex.txt'
+    market_name = 'HNX'
 elif selected_market == '3':
     data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^NYA.csv'), 'NYSE')
-    save_result_filename = 'resultnyse.txt'
+    market_name = 'NYSE'
 elif selected_market == '4':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^XAX.csv'), 'AMEX')
-    save_result_filename = 'resultamex.txt'
+    market_name = 'AMEX'
 else:    
     data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^OSEAX.csv'), 'OLSOBORS')
-    save_result_filename = 'resultolsobors.txt'
+    market_name = 'OLSOBORS'
 
 # TODO: Read all stocks infomation from files
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
@@ -633,46 +696,15 @@ for i in range(0, len(all_stocks_filepath)):
     stocks.append(stock)
 # End
 
-day_t = datetime.date(2014, 3, 1)
-DPS = []
+# Train to find optimal portfolios under each combination of market conditions in period
+start_day_train = datetime.date(2009, 1, 1)
+end_day_train = datetime.date(2015, 6, 1)
 
-while(day_t + datetime.timedelta(days=300) < market_index.list_trading_day[0] ):
-    print(day_t)
-    infomation_ps = portfolio_strategy(day_t)
-    DPS.append(infomation_ps)
-    day_t += datetime.timedelta(days=30)
+#OPS is dictionary contain key is conbination of market and value is optimal portfolio
+OPS = train_to_find_OPS(market_name, start_day_train, end_day_train)
 
-samples_were_classified = classify_to_combinations_of_MC(DPS, day_t)
+# Investment
+start_day_invest = datetime.date(2015, 6, 1)
+end_day_invest = datetime.date(2017, 6, 1)
 
-profit_central = 0
-profit_peripheral = 0
-profit_random = 0
-
-ff = open(save_result_filename, 'w')
-
-for key, value in samples_were_classified.items():
-    ff.write("Combination market condition: " + str(key) + "\n")
-
-    for v in value:
-        profit_central += v['total_AR_of_central']
-        profit_peripheral += v['total_AR_of_peripheral']
-        profit_random += v['total_AR_of_random']
-
-        ff.write('day_t: ' + str(v['day_t']) + "\n")
-        ff.write('total average return of central portfolios: ' +
-                 str(v['total_AR_of_central']) + "\n")
-        ff.write('total average return of peripheral portfolios: ' +
-                 str(v['total_AR_of_peripheral']) + "\n")
-        ff.write('total average return of random portfolios: ' +
-                 str(v['total_AR_of_random']) + "\n")
-        ff.write('rd of market condition in selection horizon: ' +
-                 str(v['selection_mc'].rd) + "\n")
-        ff.write('rd of market condition in investment horizon: ' +
-                 str(v['investment_mc'].rd) + "\n\n")
-    ff.write("================\n")
-
-ff.write("Profit of central: " + str(profit_central) + "\n")
-ff.write("Profit of preripheral: " + str(profit_peripheral) + "\n")
-ff.write("Profit of random: " + str(profit_random) + "\n")
-
-ff.close()
+invest_DPS(OPS, market_name, start_day_invest, end_day_invest)

@@ -4,7 +4,7 @@ Created on Wed Apr 11 11:56:19 2018
 
 @author: vttqh
 """
-import os, glob, datetime
+import os, glob, datetime, re
 import pandas as pd
 
 class Stock():
@@ -52,7 +52,7 @@ def read_detail_stock(filepath):
     stock.set_ticker(data_in_file['<Ticker>'].values[0])
     list_day = convert_list_numpy_to_list_datetime(data_in_file['<DTYYYYMMDD>'].values)    
     
-    if list_day[-1] > datetime.date(2013, 1, 1):
+    if list_day[-1] > datetime.date(2008, 1, 1):
         return None
     stock.set_list_trading_day(list_day)
     
@@ -63,6 +63,30 @@ def read_detail_stock(filepath):
     stock.average_volumn(total_volumn / len(volumns))
     
     return stock
+
+def read_detail_stock_yf(filepath, ticker):
+    #TODO: Read market index from yahoo finance download file
+    data_in_file = pd.read_csv(filepath)
+    
+    stock = Stock()
+    stock.set_ticker(ticker)
+    stock.set_list_close_price(data_in_file['Close'].values[::-1])
+    list_day = convert_list_string_to_list_datetime(data_in_file['Date'].values[::-1])
+    
+    if list_day[-1] > datetime.date(2013, 1, 1):
+        return None
+    
+    stock.set_list_trading_day(list_day)
+    return stock
+
+def convert_list_string_to_list_datetime(list_date):
+    list_datetime = []
+    
+    for d in list_date:
+        split_d = d.split('-')
+        dtime = datetime.date(int(split_d[0]), int(split_d[1]), int(split_d[2]))
+        list_datetime.append(dtime)
+    return list_datetime
 
 def save_list_stockID_to_file(listStockID, fileName):
     theFile = open(fileName, 'w')
@@ -79,12 +103,11 @@ def convert_list_numpy_to_list_datetime(list):
     return list_datetime
 
 #====================================================================================================
-data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
+data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
 
 # TODO: get all filename .csv
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
 print("Tổng số cổ phiếu của sàn: ", len(all_stocks_filepath))
-
 
 '''
 # TODO: Read all of stocks from files download in cophieu68
@@ -96,9 +119,10 @@ for i in range(0, len(all_stocks_filepath)):
         if valid_stock(stock, 30):
             stocks.append(stock.ticker)
             
-save_list_stockID_to_file(stocks, 'stockID_hnxindex.txt')
+save_list_stockID_to_file(stocks, 'stockID_vnindex.txt')
 print(len(stocks))
 '''
+
 
 
 # TODO: Read all of stocks from files download in netfond
@@ -120,5 +144,13 @@ stocks_ticker = []
 for s in stocks:
     stocks_ticker.append(s.ticker)
     
-save_list_stockID_to_file(stocks_ticker, 'stockID_nyse.txt')
+save_list_stockID_to_file(stocks_ticker, 'stockID_amex.txt')
 print(len(stocks_ticker))
+
+
+
+# TODO: Read all of stocks from files download in yahoo finance
+       
+        
+        
+        
