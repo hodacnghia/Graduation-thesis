@@ -419,33 +419,12 @@ def get_selection_horizon(market_index, day_t):
     days_of_10month = 300
     first_day = day_t - datetime.timedelta(days=days_of_10month)
 
-    trading_days = np_list_trading_day[np.logical_and(
-        np_list_trading_day >= first_day, np_list_trading_day < day_t)]
-    close_prices = market_index.list_close_price[np.logical_and(
-        np_list_trading_day >= first_day, np_list_trading_day < day_t)]
+    trading_days = np_list_trading_day[np.logical_and(np_list_trading_day >= first_day, np_list_trading_day < day_t)]
+    close_prices = market_index.list_close_price[np.logical_and(np_list_trading_day >= first_day, np_list_trading_day < day_t)]
 
     selection_horizon = {'trading_days': trading_days,
                          'close_prices': close_prices}
     return selection_horizon
-
-
-def get_investment_horizon(market_index, day_t):
-    # TODO: get trading days and close prices of market index in period
-    # OUTPUT: A dictionary contains list trading days and close prices in period from day_t to day_t + 10 month
-    np_list_trading_day = np.array(market_index.list_trading_day)
-
-    days_of_10month = 300
-    last_day = day_t + datetime.timedelta(days=days_of_10month)
-
-    trading_days = np_list_trading_day[np.logical_and(
-        np_list_trading_day > day_t, np_list_trading_day <= last_day)]
-    close_prices = market_index.list_close_price[np.logical_and(
-        np_list_trading_day > day_t, np_list_trading_day <= last_day)]
-
-    investment_horizon = {'trading_days': trading_days,
-                          'close_prices': close_prices}
-    return investment_horizon
-
 
 def calculate_average_return(price_history):
     # TODO: Calculate profit of stock
@@ -487,7 +466,8 @@ def portfolio_strategy(day_t, random_portfolios):
     # End
 
     # Calculate profit in investment horizol
-    last_investment_day = day_t + datetime.timedelta(days=days_of_10month)
+    number_of_investment_days = 300
+    last_investment_day = day_t + datetime.timedelta(days=number_of_investment_days)
     investment_mc = market_condition_in_period(market_index, day_t + datetime.timedelta(days=1), last_investment_day)
         
     total_AR_of_central    = total_AR_of_portfolios_in_period(portfolios['central'], day_t + datetime.timedelta(days=1), last_investment_day)
@@ -667,23 +647,23 @@ selected_market = input("Select 1 number: ")
 if selected_market == '1':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
     market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
-    market_name = 'HOSE'
+    market_name = 'HOSE1'
 elif selected_market == '2':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
     market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^hastc.csv'))
-    market_name = 'HNX'
+    market_name = 'HNX1'
 elif selected_market == '3':
     data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^NYA.csv'), 'NYSE')
-    market_name = 'NYSE'
+    market_name = 'NYSE1'
 elif selected_market == '4':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^XAX.csv'), 'AMEX')
-    market_name = 'AMEX'
+    market_name = 'AMEX1'
 else:    
     data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^OSEAX.csv'), 'OLSOBORS')
-    market_name = 'OLSOBORS'
+    market_name = 'OLSOBORS1'
 
 # TODO: Read all stocks infomation from files
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
@@ -697,14 +677,17 @@ for i in range(0, len(all_stocks_filepath)):
 # End
 
 # Train to find optimal portfolios under each combination of market conditions in period
-start_day_train = datetime.date(2009, 1, 1)
-end_day_train = datetime.date(2015, 6, 1)
+start_day_train = datetime.date(2017, 1, 1)
+end_day_train = datetime.date(2017, 1, 29)
 
 #OPS is dictionary contain key is conbination of market and value is optimal portfolio
 OPS = train_to_find_OPS(market_name, start_day_train, end_day_train)
 
+
+'''
 # Investment
 start_day_invest = datetime.date(2015, 6, 1)
 end_day_invest = datetime.date(2017, 6, 1)
 
 invest_DPS(OPS, market_name, start_day_invest, end_day_invest)
+'''
