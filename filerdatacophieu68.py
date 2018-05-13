@@ -52,7 +52,7 @@ def read_detail_stock(filepath):
     stock.set_ticker(data_in_file['<Ticker>'].values[0])
     list_day = convert_list_numpy_to_list_datetime(data_in_file['<DTYYYYMMDD>'].values)    
     
-    if list_day[-1] > datetime.date(2013, 1, 1):
+    if list_day[-1] > datetime.date(2008, 1, 1):
         return None
     stock.set_list_trading_day(list_day)
     
@@ -103,12 +103,11 @@ def convert_list_numpy_to_list_datetime(list):
     return list_datetime
 
 #====================================================================================================
-data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
+data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
 
 # TODO: get all filename .csv
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
 print("Tổng số cổ phiếu của sàn: ", len(all_stocks_filepath))
-
 
 '''
 # TODO: Read all of stocks from files download in cophieu68
@@ -120,11 +119,12 @@ for i in range(0, len(all_stocks_filepath)):
         if valid_stock(stock, 30):
             stocks.append(stock.ticker)
             
-save_list_stockID_to_file(stocks, 'stockID_hnxindex.txt')
+save_list_stockID_to_file(stocks, 'stockID_vnindex.txt')
 print(len(stocks))
 '''
 
-'''
+
+
 # TODO: Read all of stocks from files download in netfond
 stocks = []
 for i in range(0, len(all_stocks_filepath)):
@@ -144,18 +144,12 @@ stocks_ticker = []
 for s in stocks:
     stocks_ticker.append(s.ticker)
     
-save_list_stockID_to_file(stocks_ticker, 'stockID_nyse.txt')
+save_list_stockID_to_file(stocks_ticker, 'stockID_amex.txt')
 print(len(stocks_ticker))
-'''
+
 
 
 # TODO: Read all of stocks from files download in yahoo finance
-d = datetime.date(2014, 3, 1)
-ds = d - datetime.timedelta(days=300)
-d1 = datetime.date(2017, 6, 13)
-de = d1 + datetime.timedelta(days=300)
-print(ds)
-print(de)
        
         
         

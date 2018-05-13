@@ -162,6 +162,7 @@ listStockID = read_list_stockID_from_file('stockID_vnindex.txt')
 '''
 
 '''
+shutil.rmtree('dulieuvnindex', ignore_errors=True)
 driver = get_driver('dulieuvnindex')
 login_to_web(driver)
 #download_vnindex_stockIDs(driver)
@@ -170,7 +171,7 @@ vnindex_stockIDs = read_list_stockID_from_file('stockID_vnindex.txt')
 for id in vnindex_stockIDs:
     download_history_price(id)
 
-
+shutil.rmtree('dulieuhnxindex', ignore_errors=True)
 driver = get_driver('dulieuhnxindex')
 login_to_web(driver)
 #download_hnxindex_stockIDs(driver)
@@ -189,7 +190,7 @@ nyse_stockIDs = read_list_stockID_from_file('stockID_nyse.txt')
 for ticker in nyse_stockIDs:
     crawl_data_from_netfond(driver, 'dulieunyse',ticker, 'N')
 
-
+'''
 shutil.rmtree('dulieuamex', ignore_errors=True)
 os.makedirs('dulieuamex', exist_ok=True)
 driver = get_driver('dulieuamex')
@@ -199,7 +200,7 @@ for ticker in amex_stockIDs:
     crawl_data_from_netfond(driver, 'dulieuamex', ticker, 'A')
     time.sleep(0.5)
 
-
+'''
 shutil.rmtree('dulieuolsobors', ignore_errors=True)
 os.makedirs('dulieuolsobors', exist_ok=True)
 driver = get_driver('dulieuolsobors')
@@ -211,7 +212,7 @@ for ticker in olsobors_stockIDs:
     time.sleep(0.5)
 '''
 
-
+'''
 #TODO: Downlaod IDs of top 300 largest volumn nasdaq stocks in netfond
 class Stock():
     ticker = ""
@@ -272,3 +273,4 @@ for i in nasdaq_stockIDs:
     a = driver.find_element_by_link_text('Download Data')
     a.click()
     time.sleep(1)
+'''
