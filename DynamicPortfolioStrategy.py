@@ -14,6 +14,7 @@ import random
 import pandas as pd
 import numpy as np
 import networkx as nx
+from operator import attrgetter
 #============================================================================#
 
 
@@ -60,8 +61,8 @@ class Vertex():
     label = ""
     degree = 0
     c = 0
-    d_distance = 0
-    d_correlation = 0
+    distance = 0
+    correlation = 0
 
     def set_label(self, label):
         self.label = label
@@ -72,11 +73,11 @@ class Vertex():
     def set_c(self, c):
         self.c = c
 
-    def set_d_distance(self, d_distance):
-        self.d_distance = d_distance
+    def set_distance(self, distance):
+        self.distance = distance
 
-    def set_d_correlation(self, d_correlation):
-        self.d_correlation = d_correlation
+    def set_correlation(self, correlation):
+        self.correlation = correlation
 
 
 class MarketIndex():
@@ -262,12 +263,10 @@ def build_MST(distance_matrix):
 
     for stock in stocks:
         G.add_node(stock.ticker)
-
     prim(distance_matrix)
 
     for i in range(1, len(parent)):
         G.add_edge(stocks[parent[i]].ticker, stocks[i].ticker, weight=key[i])
-
     return G
 
 
@@ -315,13 +314,12 @@ def calculate_betweenness_centrality(graph):
                 if nodes[pos_node_k] != nodes[pos_node_i] and nodes[pos_node_k] != nodes[pos_node_j]:
                     if nodes[pos_node_k] in shortest_path:
                         list_bc[pos_node_k] += 1 / len(shortest_path)
-
     return list_bc
 
 
-def calculate_d_correlation(graph):
+def calculate_correlation(graph):
     nodes = list(graph.node)
-    list_d_correlation = [0] * len(nodes)
+    list_correlation = [0] * len(nodes)
 
     for pos_node in range(0, len(nodes)):
         label_of_node = nodes[pos_node]
@@ -329,15 +327,15 @@ def calculate_d_correlation(graph):
 
         for label_of_neighbor in neighbors:
             distance = graph[label_of_node][label_of_neighbor]['weight']
-            list_d_correlation[pos_node] += calculate_correlation_cofficent_by_distance(
+            list_correlation[pos_node] += calculate_correlation_cofficent_by_distance(
                 distance)
 
-    return list_d_correlation
+    return list_correlation
 
 
-def calculate_d_distance(graph):
+def calculate_distance(graph):
     nodes = list(graph.node)
-    list_d_distance = [0] * len(nodes)
+    list_distance = [0] * len(nodes)
 
     for pos_node in range(0, len(nodes)):
         label_of_node = nodes[pos_node]
@@ -345,10 +343,10 @@ def calculate_d_distance(graph):
 
         for label_of_neighbor in neighbors:
             distance = graph[label_of_node][label_of_neighbor]['weight']
-            list_d_distance[pos_node] += distance
-        list_d_distance[pos_node] /= len(neighbors)
+            list_distance[pos_node] += distance
+        list_distance[pos_node] /= len(neighbors)
 
-    return list_d_distance
+    return list_distance
 
 
 def calculate_trading_day_criterion(list_close_price):
@@ -370,6 +368,64 @@ def calculate_amplitude_criterion(list_close_price):
         denominator += abs(list_close_price[i] - list_close_price[i + 1])
     return numerator / denominator
 
+def sort_vertices(graph, vertices, sort_by):
+    #TODO: Sort vertices by properties
+    #INPUT: vertices: list vertex, sort_by: attribute want to sort by
+    #OUTPUT: vertices after sort
+    if sort_by == BY_DEGREE:
+        vertices = sorted(vertices, key=lambda v: (v.degree))
+        
+    elif sort_by == BY_C:
+        vertices = sorted(vertices, key=lambda v: (v.c))
+        
+    elif sort_by == BY_D_DEGREE:
+        # v_n_d is list dictionary contain vertex and distance to vertex have largest degree
+        v_n_d = []
+        v_largest = max(vertices, key=attrgetter('degree'))
+        spl = dict(nx.all_pairs_dijkstra_path_length(graph))
+        
+        for v in vertices:
+            distance = spl[v.label][v_largest.label]
+            v_n_d.append({'vertex':v, 'd_to_largest':distance})
+        v_n_d = sorted(v_n_d, key=lambda v: (v['d_to_largest']), reverse=True)
+        
+        vertices = []
+        for vd in v_n_d:
+            vertices.append(vd['vertex'])
+            
+    elif sort_by == BY_CORRELATION:
+        # v_n_d is list dictionary contain vertex and distance to vertex have largest total correlation
+        v_n_d = []
+        v_largest = max(vertices, key=attrgetter('correlation'))
+        spl = dict(nx.all_pairs_dijkstra_path_length(graph))
+        
+        for v in vertices:
+            distance = spl[v.label][v_largest.label]
+            v_n_d.append({'vertex':v, 'd_to_largest':distance})
+        v_n_d = sorted(v_n_d, key=lambda v: (v['d_to_largest']), reverse=True)
+        
+        vertices = []
+        for vd in v_n_d:
+            vertices.append(vd['vertex'])
+            print(vd['vertex'].label, ' ', vd['d_to_largest'])
+            
+    else:
+        #BY_DISTANCE
+        # v_n_d is list dictionary contain vertex and distance to vertex have smallest mean distance
+        v_n_d = []
+        v_smallest = min(vertices, key=attrgetter('distance'))
+        spl = dict(nx.all_pairs_dijkstra_path_length(graph))
+        
+        for v in vertices:
+            distance = spl[v.label][v_smallest.label]
+            v_n_d.append({'vertex':v, 'd_to_smallest':distance})
+        v_n_d = sorted(v_n_d, key=lambda v: (v['d_to_smallest']), reverse=True)
+        
+        vertices = []
+        for vd in v_n_d:
+            vertices.append(vd['vertex'])
+        
+    return vertices
 
 def portfolio_selection(stocks, index_selection_horizon):
     distance_matrix = build_distance_matrix(stocks, index_selection_horizon)
@@ -379,19 +435,19 @@ def portfolio_selection(stocks, index_selection_horizon):
     nodes = list(G.nodes)
 
     list_bc = calculate_betweenness_centrality(G)
-    list_d_correlation = calculate_d_correlation(G)
-    list_d_distance = calculate_d_distance(G)
+    list_correlation = calculate_correlation(G)
+    list_distance = calculate_distance(G)
 
     for i in range(0, len(nodes)):
         v = Vertex()
         v.set_label(nodes[i])
         v.set_degree(G.degree(nodes[i]))
         v.set_c(list_bc[i])
-        v.set_d_correlation(list_d_correlation[i])
-        v.set_d_distance(list_d_distance[i])
+        v.set_correlation(list_correlation[i])
+        v.set_distance(list_distance[i])
         vertices.append(v)
 
-    vertices = sorted(vertices, key=lambda v: (v.degree))
+    vertices = sort_vertices(G, vertices, BY_DISTANCE)
 
     ten_percent = int(len(vertices) / 10)
     peripheral_vertices = vertices[:ten_percent]
@@ -635,6 +691,11 @@ def invest_DPS(OPS, market_name, start_day, end_day):
         
     
 #============================================================================#
+BY_DEGREE = 1
+BY_C = 2
+BY_D_DEGREE = 3
+BY_CORRELATION = 4
+BY_DISTANCE = 5
 
 print("Please select one of markets below:")
 print("1: VNINDEX")
