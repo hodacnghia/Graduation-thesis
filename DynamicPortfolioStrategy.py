@@ -683,7 +683,7 @@ def invest_DPS(OPS, market_name, start_day, end_day):
             ff.write('optimal portfolios: ' + str(optimal_portfolio) + '\n')
             ff.write('average_return_of_portfolio: ' + str(average_return_of_portfolio) + '\n')
         
-        day_t += datetime.timedelta(days=30)
+        day_t += datetime.timedelta(days=150)
     
     ff.write('========================\n')
     ff.write('total_average_return: ' + str(total_average_return)) 
@@ -697,6 +697,7 @@ BY_D_DEGREE = 3
 BY_CORRELATION = 4
 BY_DISTANCE = 5
 
+
 print("Please select one of markets below:")
 print("1: VNINDEX")
 print("2: HNXINDEX")
@@ -708,23 +709,23 @@ selected_market = input("Select 1 number: ")
 if selected_market == '1':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
     market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
-    market_name = 'HOSE1'
+    market_name = 'HOSE10'
 elif selected_market == '2':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
     market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^hastc.csv'))
-    market_name = 'HNX1'
+    market_name = 'HNX10'
 elif selected_market == '3':
     data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^NYA.csv'), 'NYSE')
-    market_name = 'NYSE1'
+    market_name = 'NYSE10'
 elif selected_market == '4':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^XAX.csv'), 'AMEX')
-    market_name = 'AMEX1'
+    market_name = 'AMEX10'
 else:    
     data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^OSEAX.csv'), 'OLSOBORS')
-    market_name = 'OLSOBORS1'
+    market_name = 'OLSOBORS10'
 
 # TODO: Read all stocks infomation from files
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
