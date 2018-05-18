@@ -447,7 +447,7 @@ def portfolio_selection(stocks, index_selection_horizon):
         v.set_distance(list_distance[i])
         vertices.append(v)
 
-    vertices = sort_vertices(G, vertices, BY_DISTANCE)
+    vertices = sort_vertices(G, vertices, BY_DEGREE)
 
     ten_percent = int(len(vertices) / 10)
     peripheral_vertices = vertices[:ten_percent]
@@ -594,12 +594,17 @@ def train_to_find_OPS(market_name, start_day, end_day):
         
     samples_were_classified = classify_to_combinations_of_MC(DPS)
     
+    total_profit_central = 0
+    total_profit_peripheral = 0
+    
     ff = open(market_name + '_train.txt', 'w')
     
     for key, value in samples_were_classified.items():
         ff.write("Combination market condition: " + str(key) + "\n")
 
         for v in value:
+            total_profit_central += v['total_AR_of_central']
+            total_profit_peripheral += v['total_AR_of_peripheral']
             ff.write('day_t: ' + str(v['day_t']) + "\n")
             ff.write('total average return of central portfolios: ' + str(v['total_AR_of_central']) + "\n")
             ff.write('total average return of peripheral portfolios: ' + str(v['total_AR_of_peripheral']) + "\n")
@@ -607,9 +612,12 @@ def train_to_find_OPS(market_name, start_day, end_day):
             ff.write('rd of market condition in selection horizon: ' + str(v['selection_mc'].rd) + "\n")
             ff.write('rd of market condition in investment horizon: ' + str(v['investment_mc'].rd) + "\n\n")
         ff.write("================\n")
-
+    ff.write('Profit of central: ' + str(total_profit_central) + '\n')
+    ff.write('Profit of peripheral: ' + str(total_profit_peripheral) + '\n')
     ff.close()
     
+    '''
+    # Find optimal portfolios under combination portfolios
     for key, value in samples_were_classified.items():
         profit_of_central = 0
         profit_of_peripheral = 0
@@ -626,6 +634,7 @@ def train_to_find_OPS(market_name, start_day, end_day):
             optimal_portfolios_in_MC[key] = 'peripheral'
                 
     return optimal_portfolios_in_MC
+    '''
 
 def combination_of_MC(selection_mc, investment_mc):
     #TODO: compare to return combination of market condition
@@ -702,29 +711,34 @@ print("1: VNINDEX")
 print("2: HNXINDEX")
 print("3: NYSE")
 print("4: AMEX")
+print("5: Nasdaq")
 print("Default: OLSO BORS")
 selected_market = input("Select 1 number: ")
 
 if selected_market == '1':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
     market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
-    market_name = 'HOSE1'
+    market_name = 'HOSE_CP'
 elif selected_market == '2':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
     market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^hastc.csv'))
-    market_name = 'HNX1'
+    market_name = 'HNX_CP'
 elif selected_market == '3':
     data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^NYA.csv'), 'NYSE')
-    market_name = 'NYSE1'
+    market_name = 'NYSE_CP'
 elif selected_market == '4':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^XAX.csv'), 'AMEX')
-    market_name = 'AMEX1'
-else:    
+    market_name = 'AMEX_CP'
+elif selected_market == '5':    
     data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^OSEAX.csv'), 'OLSOBORS')
-    market_name = 'OLSOBORS1'
+    market_name = 'OLSOBORS_CP'
+else:
+    data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), '^IXIC.csv'), 'NASDAQ')
+    market_name = 'NASDAQ_CP'
 
 # TODO: Read all stocks infomation from files
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
@@ -738,8 +752,8 @@ for i in range(0, len(all_stocks_filepath)):
 # End
 
 # Train to find optimal portfolios under each combination of market conditions in period
-start_day_train = datetime.date(2017, 1, 1)
-end_day_train = datetime.date(2017, 1, 29)
+start_day_train = datetime.date(2015, 6, 1)
+end_day_train = datetime.date(2017, 6, 1)
 
 #OPS is dictionary contain key is conbination of market and value is optimal portfolio
 OPS = train_to_find_OPS(market_name, start_day_train, end_day_train)

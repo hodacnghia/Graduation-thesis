@@ -4,7 +4,7 @@ Created on Wed Apr 11 11:56:19 2018
 
 @author: vttqh
 """
-import os, glob, datetime, re
+import os, glob, datetime
 import pandas as pd
 
 class Stock():
@@ -103,7 +103,7 @@ def convert_list_numpy_to_list_datetime(list):
     return list_datetime
 
 #====================================================================================================
-data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
+data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
 
 # TODO: get all filename .csv
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
@@ -136,15 +136,15 @@ for i in range(0, len(all_stocks_filepath)):
          
 stocks = sorted(stocks, key = lambda s: (s.average_volumn))
 
-if (len(stocks) > 300):
-    stocks = stocks[:300]
+if (len(stocks) > 200):
+    stocks = stocks[:200]
 
 stocks_ticker = []
 
 for s in stocks:
     stocks_ticker.append(s.ticker)
     
-save_list_stockID_to_file(stocks_ticker, 'stockID_amex.txt')
+save_list_stockID_to_file(stocks_ticker, 'stockID_nyse.txt')
 print(len(stocks_ticker))
 
 
