@@ -1,4 +1,4 @@
-import sys, time, os, csv, shutil
+import sys, time, os, csv, shutil, re, glob
 from selenium import webdriver
 
 def get_driver(save_to_folder):
@@ -189,6 +189,7 @@ driver = get_driver('dulieunyse')
 nyse_stockIDs = read_list_stockID_from_file('stockID_nyse.txt')
 for ticker in nyse_stockIDs:
     crawl_data_from_netfond(driver, 'dulieunyse',ticker, 'N')
+'''
 
 '''
 shutil.rmtree('dulieuamex', ignore_errors=True)
@@ -199,6 +200,7 @@ amex_stockIDs = read_list_stockID_from_file('stockID_amex.txt')
 for ticker in amex_stockIDs:
     crawl_data_from_netfond(driver, 'dulieuamex', ticker, 'A')
     time.sleep(0.5)
+    '''
 
 '''
 shutil.rmtree('dulieuolsobors', ignore_errors=True)
@@ -255,11 +257,10 @@ for r in rows:
 stocks = sorted(stocks, key=lambda s:(s.volumn), reverse=True)
 stockIDs = []
 
-for s in stocks[:300]:
+for s in stocks[:150]:
     stockIDs.append(s.ticker)
     
 save_list_stockID_to_file(stockIDs, 'stockID_nasdaq.txt')
-
 
 shutil.rmtree('dulieunasdaq', ignore_errors=True)
 os.makedirs('dulieunasdaq', exist_ok=True)
@@ -269,8 +270,11 @@ nasdaq_stockIDs = read_list_stockID_from_file('stockID_nasdaq.txt')
 
 for i in nasdaq_stockIDs:
     driver.get('https://finance.yahoo.com/quote/' + i + '/history?period1=1325350800&period2=1525453200&interval=1d&filter=history&frequency=1d')
-    time.sleep(1)
+    time.sleep(2)
     a = driver.find_element_by_link_text('Download Data')
     a.click()
-    time.sleep(1)
+    time.sleep(2)
 '''
+all_stocks_filepath = glob.glob(os.path.join(os.path.join(os.getcwd(), 'dulieuamex'), "*.csv"))
+print(all_stocks_filepath[0])
+print(all_stocks_filepath[0][all_stocks_filepath[0].rfind('\\') + 1 : all_stocks_filepath[0].rfind('.')])
