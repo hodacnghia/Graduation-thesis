@@ -1,9 +1,0 @@
-Combination market condition: SS
-day_t: 2017-01-01
-total average return of central portfolios: -0.01963768115942033
-total average return of peripheral portfolios: -0.004002260542163575
-total average return of random portfolios: -0.0220963541666666
-rd of market condition in selection horizon: 0.5406698564593302
-rd of market condition in investment horizon: 0.5336538461538461
-
-================

@@ -467,7 +467,7 @@ def portfolio_selection(stocks, index_selection_horizon):
         v.set_distance(list_distance[i])
         vertices.append(v)
 
-    vertices = sort_vertices(G, vertices, BY_CORRELATION)
+    vertices = sort_vertices(G, vertices, BY_C)
 
     ten_percent = int(len(vertices) / 10)
     peripheral_vertices = vertices[:ten_percent]
@@ -647,17 +647,16 @@ def train_to_find_OPS(market_name, start_day, end_day):
         for v in value:
             total_profit_central += v['total_AR_of_central']
             total_profit_peripheral += v['total_AR_of_peripheral']
-            ff.write('day_t: ' + str(v['day_t']) + "\n")
-            ff.write('total average return of central portfolios: ' +
-                     str(v['total_AR_of_central']) + "\n")
-            ff.write('total average return of peripheral portfolios: ' +
-                     str(v['total_AR_of_peripheral']) + "\n")
-            ff.write('total average return of random portfolios: ' +
-                     str(v['total_AR_of_random']) + "\n")
-            ff.write('rd of market condition in selection horizon: ' +
-                     str(v['selection_mc'].rd) + "\n")
-            ff.write('rd of market condition in investment horizon: ' +
-                     str(v['investment_mc'].rd) + "\n\n")
+            ff.write('{\n')
+            ff.write('day_t: ' + str(v['day_t']) + ",\n")
+            ff.write('total_AR_of_central_portfolios: ' + str(v['total_AR_of_central']) + ",\n")
+            ff.write('total_AR_of_peripheral_portfolios: ' + str(v['total_AR_of_peripheral']) + ",\n")
+            ff.write('total_AR_of_random_portfolios: ' + str(v['total_AR_of_random']) + ",\n")
+            ff.write('rd_of_MC_in_selection_horizon: ' + str(v['selection_mc'].rd) + ",\n")
+            ff.write('rd_of_MC_in_investment_horizon: ' + str(v['investment_mc'].rd) + ",\n")
+            ff.write('rf_of_MC_in_selection_horizon: ' + str(v['selection_mc'].rf) + ",\n")
+            ff.write('rf_of_MC_in_investment_horizon: ' + str(v['investment_mc'].rf) + ",\n")
+            ff.write('},\n')
         ff.write("================\n")
     ff.write('Profit of central: ' + str(total_profit_central) + '\n')
     ff.write('Profit of peripheral: ' + str(total_profit_peripheral) + '\n')
@@ -764,15 +763,14 @@ print("1: VNINDEX")
 print("2: HNXINDEX")
 print("3: NYSE")
 print("4: AMEX")
-print("5: Nasdaq")
-print("Default: OLSO BORS")
+print("5: OLSO BORS")
+print("Default: Nasdaq")
 selected_market = input("Select 1 number: ")
 
 if selected_market == '1':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
-    market_index = read_market_index_cp68(
-        os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
-    market_name = 'HOSE_BY_CORRELATION10'
+    market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
+    market_name = 'HOSE_CP'
 elif selected_market == '2':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
     market_index = read_market_index_cp68(
@@ -795,9 +793,8 @@ elif selected_market == '5':
     market_name = 'OLSOBORS_BY_CORRELATION10'
 else:
     data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^IXIC.csv'), 'NASDAQ')
-    market_name = 'NASDAQ_BY_CORRELATION10'
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), '^IXIC.csv'), 'NASDAQ')
+    market_name = 'NASDAQ_CP'
 # TODO: Read all stocks infomation from files
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
 print("Tổng số cổ phiếu là: ", len(all_stocks_filepath))
@@ -811,7 +808,7 @@ for i in range(0, len(all_stocks_filepath)):
 
 # Train to find optimal portfolios under each combination of market conditions in period
 start_day_train = datetime.date(2015, 6, 1)
-end_day_train = datetime.date(2017, 6, 1)
+end_day_train = datetime.date(2015, 12, 1)
 
 # OPS is dictionary contain key is conbination of market and value is optimal portfolio
 OPS = train_to_find_OPS(market_name, start_day_train, end_day_train)
