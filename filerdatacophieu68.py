@@ -102,12 +102,41 @@ def convert_list_numpy_to_list_datetime(list):
         list_datetime.append(dtime)
     return list_datetime
 
+def change_format_excel(filepath, save_to):
+    file = pd.read_csv(filepath)
+    date = file['Date'].values[::-1]
+    open = file['Open'].values[::-1]
+    high = file['High'].values[::-1]
+    low = file['Low'].values[::-1]
+    close = file['Close'].values[::-1]
+    volume = file['Volume'].values[::-1]
+    
+    t =  filepath[filepath.rfind('\\') + 1:filepath.rfind('.')]
+    ticker = [t] * len(date)
+    
+    dtyyyymmdd = []
+    
+    for d in date:
+        split_d = d.split('-')
+        yyyymmdd = ''.join(split_d)
+        dtyyyymmdd.append(yyyymmdd)
+        
+    dframe = list(zip(ticker, dtyyyymmdd, open, high, low, close, volume))
+    
+    os.remove(filepath)
+    df = pd.DataFrame(data = dframe, columns=['<Ticker>', '<DTYYYMMDD>', '<Open>', 'High', '<Low>', '<close>', '<Volume>'])
+    df.to_csv(os.path.join(save_to, t + '.csv'), index=False, header=True)
+
 #====================================================================================================
-data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
+data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
 
 # TODO: get all filename .csv
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
 print("Tổng số cổ phiếu của sàn: ", len(all_stocks_filepath))
+
+#Change format data
+for fp in all_stocks_filepath:
+    change_format_excel(fp, os.getcwd(), 'dulieunasdaq')
 
 '''
 # TODO: Read all of stocks from files download in cophieu68
@@ -124,7 +153,7 @@ print(len(stocks))
 '''
 
 
-
+'''
 # TODO: Read all of stocks from files download in netfond
 stocks = []
 for i in range(0, len(all_stocks_filepath)):
@@ -150,7 +179,7 @@ print(len(stocks_ticker))
 
 
 # TODO: Read all of stocks from files download in yahoo finance
-       
+'''     
         
         
         
