@@ -141,7 +141,22 @@ def crawl_data_from_netfond(driver, folder_to_save, ticker, exchange):
     with file:
         writer = csv.writer(file)
         writer.writerows(data)
- 
+
+def crawl_stockID_in_tradingeconomic(driver, market_name, save_to):
+    stockIDs = []
+    driver.get('https://tradingeconomics.com/' + market_name + '/stock-market')
+    
+    showmore = driver.find_element_by_css_selector('svg')
+    showmore.click()
+    
+    div_contains_table = driver.find_element_by_class_name('table-minimize')
+    
+    rows = div_contains_table.find_elements_by_css_selector('tr')
+    for r in rows[1:]:
+        txt = r.text
+        stockID = txt.split(' ')[0]
+        stockIDs.append(stockID)
+    save_list_stockID_to_file(stockIDs, save_to)
     
 current_director = os.getcwd()   
 os.makedirs('dulieuvnindex', exist_ok=True)
@@ -275,6 +290,15 @@ for i in nasdaq_stockIDs:
     a.click()
     time.sleep(2)
 '''
-all_stocks_filepath = glob.glob(os.path.join(os.path.join(os.getcwd(), 'dulieuamex'), "*.csv"))
-print(all_stocks_filepath[0])
-print(all_stocks_filepath[0][all_stocks_filepath[0].rfind('\\') + 1 : all_stocks_filepath[0].rfind('.')])
+
+#shutil.rmtree('dulieunikkei225', ignore_errors=True)
+driver = get_driver('dulieunikkei225')
+#crawl_stockID_in_tradingeconomic(driver, 'japan', 'stockID_nikkei225.txt')
+nekkei_stockIDs = read_list_stockID_from_file('stockID_nikkei225.txt')
+
+for i in nekkei_stockIDs:
+    driver.get('https://finance.yahoo.com/quote/' + i + '.T/history?period1=1199120400&period2=1526749200&interval=1d&filter=history&frequency=1d')
+    time.sleep(2)
+    a = driver.find_element_by_link_text('Download Data')
+    a.click()
+    time.sleep(2)
