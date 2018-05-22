@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 CY,20180504,14.97,15.5,14.88,15.39,4922700
 CY,20180503,14.81,15.16,14.69,15.1,6563600
 CY,20180502,14.93,15.15,14.84,14.95,6400200

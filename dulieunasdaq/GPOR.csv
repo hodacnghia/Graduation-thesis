@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 GPOR,20180504,8.72,8.98,8.72,8.91,2684400
 GPOR,20180503,9.17,9.29,8.76,8.76,2665700
 GPOR,20180502,9.24,9.41,9.08,9.23,3200100

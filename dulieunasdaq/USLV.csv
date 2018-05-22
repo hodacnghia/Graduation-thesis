@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 USLV,20180504,9.81,10.02,9.77,10.02,2480300
 USLV,20180503,10.06,10.1,9.83,9.89,2769300
 USLV,20180502,9.81,10.08,9.7,9.8,7301500

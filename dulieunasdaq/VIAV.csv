@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 VIAV,20180504,10.14,10.17,9.75,9.86,6214600
 VIAV,20180503,9.52,9.52,9.12,9.44,3792700
 VIAV,20180502,9.37,9.73,9.37,9.62,3026700

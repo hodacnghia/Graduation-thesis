@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 KERX,20180504,4.58,4.68,4.53,4.6,552800
 KERX,20180503,4.81,4.81,4.57,4.59,464400
 KERX,20180502,4.51,4.9,4.41,4.78,1176200

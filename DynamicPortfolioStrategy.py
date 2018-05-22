@@ -185,14 +185,14 @@ def convert_list_string_to_list_datetime(list_date):
         list_datetime.append(dtime)
     return list_datetime   
 
-def calculate_expected(list):
+def calculate_expected(l):
     # INPUT: list is logarithmic return of stock
     # TODO: Calculate expected of stock
     expected = 0
 
-    for item in list:
+    for item in l:
         expected += item
-    return expected / len(list)
+    return expected / len(l)
 
 def expected_between2list(stock1_in_st, stock2_in_st):
     # INPUT: list1, list2 are logarithmic return of stock 1 and stock 2
@@ -251,6 +251,12 @@ def build_distance_matrix(stocks, selection_horizon):
                 trading_day_of_stock_j = stocks[j].get_trading_day_in_period(start_day, end_day)
                 stock_j_in_period = {'trading_days': trading_day_of_stock_j, 'r': r_of_stock_j}
 
+                #fix bug
+                if len(r_of_stock_i) == 0:
+                    print(stocks[i].ticker)
+                if len(r_of_stock_j) == 0:
+                    print(stocks[j].ticker)
+
                 cc = correlation_coefficent(stock_i_in_period, stock_j_in_period)
                 distance = distance_of_2_stock(cc)
                 distance_matrix[i][j] = distance
@@ -292,11 +298,12 @@ def prim(distance_matrix, start=0):
 def extract_min():
     min = sys.maxsize
 
+    u = 0
+    
     for i in range(0, len(stocks)):
         if free[i] == True and key[i] < min:
             min = key[i]
             u = i
-
     return u
 
 
@@ -447,7 +454,7 @@ def portfolio_selection(stocks, index_selection_horizon):
         v.set_distance(list_distance[i])
         vertices.append(v)
 
-    vertices = sort_vertices(G, vertices, BY_C)
+    vertices = sort_vertices(G, vertices, BY_D_DEGREE)
 
     ten_percent = int(len(vertices) / 10)
     peripheral_vertices = vertices[:ten_percent]
@@ -717,37 +724,84 @@ print("2: HNXINDEX")
 print("3: NYSE")
 print("4: AMEX")
 print("5: OLSO BORS")
-print("Default: Nasdaq")
+print("6: Nasdaq")
+print("7: AEX")
+print("8: CAC40")
+print("9: EURO100")
+print("10: IBEX35")
+print("11: NIKKEI225")
+print("12: TSX")
+print("13: XU100")
+print("14: IPC")
+print("15: BOVESPA")
 selected_market = input("Select 1 number: ")
 
 if selected_market == '1':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
     market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
-    market_name = 'HOSE_CP'
+    market_name = 'byDdegree_HOSE'
 elif selected_market == '2':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
     market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^hastc.csv'))
-    market_name = 'HNX_CP'
+    market_name = 'byDdegree_HNX'
 elif selected_market == '3':
     data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^NYA.csv'), 'NYSE')
-    market_name = 'NYSE_CP'
+    market_name = 'byDdegree_NYSE'
 elif selected_market == '4':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^XAX.csv'), 'AMEX')
-    market_name = 'AMEX_CP'
+    market_name = 'byDdegree_AMEX'
 elif selected_market == '5':    
     data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^OSEAX.csv'), 'OLSOBORS')
-    market_name = 'OLSOBORS_CP'
-else:
+    market_name = 'byDdegree_OLSOBORS'
+elif selected_market == '6':
     data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^IXIC.csv'), 'NASDAQ')
-    market_name = 'NASDAQ_CP'
+    market_name = 'byDdegree_NASDAQ'
+elif selected_market == '7':
+    data_dictionary = os.path.join(os.getcwd(), 'dulieuAEX')
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), '^AEX.csv'), 'AEX')
+    market_name = 'byDdegree_AEX'
+elif selected_market == '8':
+    data_dictionary = os.path.join(os.getcwd(), 'dulieucac40')
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), '^FCHI.csv'), 'CAC40')
+    market_name = 'byDdegree_CAC40'
+elif selected_market == '9':
+    data_dictionary = os.path.join(os.getcwd(), 'dulieuEuronext100')
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), '^N100.csv'), 'EURO100')
+    market_name = 'byDdegree_EURO100'
+elif selected_market == '10':
+    data_dictionary = os.path.join(os.getcwd(), 'dulieuIBEX35')
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), '^IBEX.csv'), 'IBEX35')
+    market_name = 'byDdegree_IBEX35'
+elif selected_market == '11':
+    data_dictionary = os.path.join(os.getcwd(), 'dulieunikkei225')
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), '^N225.csv'), 'NIKKEI225')
+    market_name = 'byDdegree_NIKKEI225'
+elif selected_market == '12':
+    data_dictionary = os.path.join(os.getcwd(), 'dulieuTSX')
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), '^GSPTSE.csv'), 'TSX')
+    market_name = 'byDdegree_TSX'
+elif selected_market == '13':
+    data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), 'XU100.IS.csv'), 'XU100')
+    market_name = 'byDdegree_XU100'
+elif selected_market == '14':
+    data_dictionary = os.path.join(os.getcwd(), 'dulieuIPC')
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), '^MXX.csv'), 'IPC')
+    market_name = 'byDdegree_IPC'
+elif selected_market == '15':
+    data_dictionary = os.path.join(os.getcwd(), 'dulieuBOVESPA')
+    market_index = read_market_index_yf(os.path.join(os.getcwd(), '^BVSP.csv'), 'BOVESPA')
+    market_name = 'byDdegree_BOVESPA'
+else:
+    print("...")
 
 # TODO: Read all stocks infomation from files
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
-print("Tổng số cổ phiếu là: ", len(all_stocks_filepath))
+print("Tong so co phieu la: ", len(all_stocks_filepath))
 
 stocks = []
 
@@ -758,7 +812,7 @@ for i in range(0, len(all_stocks_filepath)):
 
 # Train to find optimal portfolios under each combination of market conditions in period
 start_day_train = datetime.date(2015, 6, 1)
-end_day_train = datetime.date(2015, 12, 1)
+end_day_train = datetime.date(2017, 6, 1)
 
 #OPS is dictionary contain key is conbination of market and value is optimal portfolio
 OPS = train_to_find_OPS(market_name, start_day_train, end_day_train)

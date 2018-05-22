@@ -35,9 +35,10 @@ def valid_stock(stock, period_condition):
         return False
     
     for i in range(0, len(stock.list_trading_day) - 1):
-        days_after_sub = stock.list_trading_day[i] - datetime.timedelta(days=20)
+        days_after_sub = stock.list_trading_day[i] - datetime.timedelta(days=30)
         
         if days_after_sub > stock.list_trading_day[i+1]:
+            print(stock.ticker)
             return False
     return True
 
@@ -45,14 +46,12 @@ def read_detail_stock(filepath):
     #TODO: Read stock info from file
     data_in_file = pd.read_csv(filepath)
     
-    if len(data_in_file) < 1000:
-        return None
-    
     stock = Stock()
     stock.set_ticker(data_in_file['<Ticker>'].values[0])
-    list_day = convert_list_numpy_to_list_datetime(data_in_file['<DTYYYYMMDD>'].values)    
+    list_day = convert_list_numpy_to_list_datetime(data_in_file['<DTYYYYMMDD>'].values)
     
-    if list_day[-1] > datetime.date(2008, 1, 1):
+    if list_day[-1] > datetime.date(2014, 6, 1):
+        os.remove(filepath)
         return None
     stock.set_list_trading_day(list_day)
     
@@ -73,7 +72,8 @@ def read_detail_stock_yf(filepath, ticker):
     stock.set_list_close_price(data_in_file['Close'].values[::-1])
     list_day = convert_list_string_to_list_datetime(data_in_file['Date'].values[::-1])
     
-    if list_day[-1] > datetime.date(2013, 1, 1):
+    if list_day[-1] > datetime.date(2014, 1, 1):
+        os.remove(filepath)
         return None
     
     stock.set_list_trading_day(list_day)
@@ -124,21 +124,22 @@ def change_format_excel(filepath, save_to):
     dframe = list(zip(ticker, dtyyyymmdd, open, high, low, close, volume))
     
     os.remove(filepath)
-    df = pd.DataFrame(data = dframe, columns=['<Ticker>', '<DTYYYMMDD>', '<Open>', 'High', '<Low>', '<close>', '<Volume>'])
+    df = pd.DataFrame(data = dframe, columns=['<Ticker>', '<DTYYYYMMDD>', '<Open>', 'High', '<Low>', '<Close>', '<Volume>'])
     df.to_csv(os.path.join(save_to, t + '.csv'), index=False, header=True)
 
 #====================================================================================================
-data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
+data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
 
 # TODO: get all filename .csv
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
 print("Tổng số cổ phiếu của sàn: ", len(all_stocks_filepath))
 
+'''
 #Change format data
 for fp in all_stocks_filepath:
-    change_format_excel(fp, os.getcwd(), 'dulieunasdaq')
-
+    change_format_excel(fp, os.path.join(os.getcwd(), 'dulieuIPC'))
 '''
+
 # TODO: Read all of stocks from files download in cophieu68
 stocks = []
 for i in range(0, len(all_stocks_filepath)):
@@ -150,7 +151,6 @@ for i in range(0, len(all_stocks_filepath)):
             
 save_list_stockID_to_file(stocks, 'stockID_vnindex.txt')
 print(len(stocks))
-'''
 
 
 '''

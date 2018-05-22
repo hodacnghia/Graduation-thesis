@@ -1,5 +1,6 @@
 import sys, time, os, csv, shutil, re, glob
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 
 def get_driver(save_to_folder):
     save_path = os.path.join(current_director, save_to_folder)
@@ -146,8 +147,8 @@ def crawl_stockID_in_tradingeconomic(driver, market_name, save_to):
     stockIDs = []
     driver.get('https://tradingeconomics.com/' + market_name + '/stock-market')
     
-    showmore = driver.find_element_by_css_selector('svg')
-    showmore.click()
+    #showmore = driver.find_element_by_css_selector('svg')
+    #showmore.click()
     
     div_contains_table = driver.find_element_by_class_name('table-minimize')
     
@@ -155,6 +156,7 @@ def crawl_stockID_in_tradingeconomic(driver, market_name, save_to):
     for r in rows[1:]:
         txt = r.text
         stockID = txt.split(' ')[0]
+        print(stockID)
         stockIDs.append(stockID)
     save_list_stockID_to_file(stockIDs, save_to)
     
@@ -291,14 +293,20 @@ for i in nasdaq_stockIDs:
     time.sleep(2)
 '''
 
-#shutil.rmtree('dulieunikkei225', ignore_errors=True)
-driver = get_driver('dulieunikkei225')
-#crawl_stockID_in_tradingeconomic(driver, 'japan', 'stockID_nikkei225.txt')
-nekkei_stockIDs = read_list_stockID_from_file('stockID_nikkei225.txt')
 
-for i in nekkei_stockIDs:
-    driver.get('https://finance.yahoo.com/quote/' + i + '.T/history?period1=1199120400&period2=1526749200&interval=1d&filter=history&frequency=1d')
-    time.sleep(2)
-    a = driver.find_element_by_link_text('Download Data')
-    a.click()
-    time.sleep(2)
+shutil.rmtree('dulieuIPC', ignore_errors=True)
+os.makedirs('dulieuIPC', exist_ok=True)
+driver = get_driver('dulieuIPC')
+crawl_stockID_in_tradingeconomic(driver, 'mexico', 'stockID_IPC.txt')
+cac40_stockIDs = read_list_stockID_from_file('stockID_IPC.txt')
+
+for i in cac40_stockIDs:
+    driver.get('https://finance.yahoo.com/quote/' + i + '.MX/history?period1=1199120400&period2=1526749200&interval=1d&filter=history&frequency=1d')
+    time.sleep(1)
+    try:
+        a = driver.find_element_by_link_text('Download Data')
+        a.click()
+    except NoSuchElementException:
+        print(i)
+        continue
+    time.sleep(1)
