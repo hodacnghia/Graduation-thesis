@@ -251,12 +251,6 @@ def build_distance_matrix(stocks, selection_horizon):
                 trading_day_of_stock_j = stocks[j].get_trading_day_in_period(start_day, end_day)
                 stock_j_in_period = {'trading_days': trading_day_of_stock_j, 'r': r_of_stock_j}
 
-                #fix bug
-                if len(r_of_stock_i) == 0:
-                    print(stocks[i].ticker)
-                if len(r_of_stock_j) == 0:
-                    print(stocks[j].ticker)
-
                 cc = correlation_coefficent(stock_i_in_period, stock_j_in_period)
                 distance = distance_of_2_stock(cc)
                 distance_matrix[i][j] = distance
@@ -414,7 +408,6 @@ def sort_vertices(graph, vertices, sort_by):
         vertices = []
         for vd in v_n_d:
             vertices.append(vd['vertex'])
-            print(vd['vertex'].label, ' ', vd['d_to_largest'])
             
     else:
         #BY_DISTANCE
@@ -454,7 +447,7 @@ def portfolio_selection(stocks, index_selection_horizon):
         v.set_distance(list_distance[i])
         vertices.append(v)
 
-    vertices = sort_vertices(G, vertices, BY_D_DEGREE)
+    vertices = sort_vertices(G, vertices, BY_DISTANCE)
 
     ten_percent = int(len(vertices) / 10)
     peripheral_vertices = vertices[:ten_percent]
@@ -739,63 +732,63 @@ selected_market = input("Select 1 number: ")
 if selected_market == '1':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
     market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
-    market_name = 'byDdegree_HOSE'
+    market_name = 'byDdistance_HOSE'
 elif selected_market == '2':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
     market_index = read_market_index_cp68(os.path.join(os.getcwd(), 'excel_^hastc.csv'))
-    market_name = 'byDdegree_HNX'
+    market_name = 'byDdistance_HNX'
 elif selected_market == '3':
     data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^NYA.csv'), 'NYSE')
-    market_name = 'byDdegree_NYSE'
+    market_name = 'byDdistance_NYSE'
 elif selected_market == '4':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^XAX.csv'), 'AMEX')
-    market_name = 'byDdegree_AMEX'
+    market_name = 'byDdistance_AMEX'
 elif selected_market == '5':    
     data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^OSEAX.csv'), 'OLSOBORS')
-    market_name = 'byDdegree_OLSOBORS'
+    market_name = 'byDdistance_OLSOBORS'
 elif selected_market == '6':
     data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^IXIC.csv'), 'NASDAQ')
-    market_name = 'byDdegree_NASDAQ'
+    market_name = 'byDdistance_NASDAQ'
 elif selected_market == '7':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuAEX')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^AEX.csv'), 'AEX')
-    market_name = 'byDdegree_AEX'
+    market_name = 'byDdistance_AEX'
 elif selected_market == '8':
     data_dictionary = os.path.join(os.getcwd(), 'dulieucac40')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^FCHI.csv'), 'CAC40')
-    market_name = 'byDdegree_CAC40'
+    market_name = 'byDdistance_CAC40'
 elif selected_market == '9':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuEuronext100')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^N100.csv'), 'EURO100')
-    market_name = 'byDdegree_EURO100'
+    market_name = 'byDdistance_EURO100'
 elif selected_market == '10':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuIBEX35')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^IBEX.csv'), 'IBEX35')
-    market_name = 'byDdegree_IBEX35'
+    market_name = 'byDdistance_IBEX35'
 elif selected_market == '11':
     data_dictionary = os.path.join(os.getcwd(), 'dulieunikkei225')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^N225.csv'), 'NIKKEI225')
-    market_name = 'byDdegree_NIKKEI225'
+    market_name = 'byDdistance_NIKKEI225'
 elif selected_market == '12':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuTSX')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^GSPTSE.csv'), 'TSX')
-    market_name = 'byDdegree_TSX'
+    market_name = 'byDdistance_TSX'
 elif selected_market == '13':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), 'XU100.IS.csv'), 'XU100')
-    market_name = 'byDdegree_XU100'
+    market_name = 'byDdistance_XU100'
 elif selected_market == '14':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuIPC')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^MXX.csv'), 'IPC')
-    market_name = 'byDdegree_IPC'
+    market_name = 'byDdistance_IPC'
 elif selected_market == '15':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuBOVESPA')
     market_index = read_market_index_yf(os.path.join(os.getcwd(), '^BVSP.csv'), 'BOVESPA')
-    market_name = 'byDdegree_BOVESPA'
+    market_name = 'byDdistance_BOVESPA'
 else:
     print("...")
 
