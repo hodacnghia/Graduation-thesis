@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 TVIX,20180504,7.31,7.44,6.7,6.76,46062500
 TVIX,20180503,7.11,7.92,7.0,7.1,80888100
 TVIX,20180502,6.96,6.99,6.53,6.88,45906200

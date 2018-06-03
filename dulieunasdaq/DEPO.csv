@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 DEPO,20180504,5.97,6.1,5.88,5.93,957200
 DEPO,20180503,6.28,6.36,5.94,5.99,1216500
 DEPO,20180502,6.33,6.47,6.26,6.28,1410900

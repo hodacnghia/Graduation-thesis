@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 CSIQ,20180504,15.11,15.55,15.08,15.32,368300
 CSIQ,20180503,15.43,15.51,15.0,15.14,259300
 CSIQ,20180502,15.4,15.66,15.4,15.48,362000

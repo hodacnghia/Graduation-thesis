@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 SNCR,20180504,10.14,10.64,10.14,10.47,380800
 SNCR,20180503,10.37,10.4,9.98,10.18,487200
 SNCR,20180502,10.7,10.89,10.29,10.41,711900

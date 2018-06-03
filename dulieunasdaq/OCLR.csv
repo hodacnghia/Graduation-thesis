@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 OCLR,20180504,8.07,8.41,8.02,8.27,1746100
 OCLR,20180503,8.09,8.22,7.87,8.08,1582500
 OCLR,20180502,8.4,8.5,8.01,8.1,4727700

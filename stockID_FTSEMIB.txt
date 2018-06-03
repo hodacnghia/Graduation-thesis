@@ -6,7 +6,6 @@ G
 FCA
 ATL
 LUX
-TS
 CNHI
 TIT
 SRG

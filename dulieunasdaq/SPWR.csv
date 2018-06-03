@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 SPWR,20180504,8.1,8.41,8.05,8.1,1242700
 SPWR,20180503,8.38,8.4,8.05,8.14,1544200
 SPWR,20180502,8.4,8.55,8.35,8.36,885500

@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 ENPH,20180504,4.52,4.56,4.28,4.3,1237100
 ENPH,20180503,4.63,4.63,4.32,4.5,1925600
 ENPH,20180502,4.3,4.84,4.21,4.63,3267000

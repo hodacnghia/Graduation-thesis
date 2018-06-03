@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 ERIC,20180504,7.64,7.75,7.63,7.73,3370900
 ERIC,20180503,7.53,7.55,7.41,7.52,4416000
 ERIC,20180502,7.55,7.57,7.42,7.44,4938400

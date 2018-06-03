@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYMMDD>,<Open>,High,<Low>,<close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
 REGI,20180504,12.85,13.3,12.5,13.2,1310000
 REGI,20180503,13.2,13.35,13.05,13.35,412600
 REGI,20180502,13.2,13.38,13.18,13.3,298600
