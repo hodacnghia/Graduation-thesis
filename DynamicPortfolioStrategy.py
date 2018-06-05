@@ -268,14 +268,7 @@ def build_distance_matrix(stocks, selection_horizon):
                 stock_j_in_period = {
                     'trading_days': trading_day_of_stock_j, 'r': r_of_stock_j}
 
-                # fix bug
-                if len(r_of_stock_i) == 0:
-                    print(stocks[i].ticker)
-                if len(r_of_stock_j) == 0:
-                    print(stocks[j].ticker)
-
-                cc = correlation_coefficent(
-                    stock_i_in_period, stock_j_in_period)
+                cc = correlation_coefficent(stock_i_in_period, stock_j_in_period)
                 distance = distance_of_2_stock(cc)
                 distance_matrix[i][j] = distance
                 distance_matrix[j][i] = distance
@@ -433,13 +426,7 @@ def sort_vertices(graph, vertices, sort_by):
         vertices = []
         for vd in v_n_d:
             vertices.append(vd['vertex'])
-            print(vd['vertex'].label, ' ', vd['d_to_largest'])
-
-    else:
-        # BY_DISTANCE
-        # v_n_d is list dictionary contain vertex and distance to vertex have smallest mean distance
         v_n_d = []
-        v_smallest = min(vertices, key=attrgetter('distance'))
         spl = dict(nx.all_pairs_dijkstra_path_length(graph))
 
         for v in vertices:
@@ -474,7 +461,7 @@ def portfolio_selection(stocks, index_selection_horizon):
         v.set_distance(list_distance[i])
         vertices.append(v)
 
-    vertices = sort_vertices(G, vertices, BY_D_DEGREE)
+    vertices = sort_vertices(G, vertices, BY_DISTANCE)
 
     ten_percent = int(len(vertices) / 10)
     peripheral_vertices = vertices[:ten_percent]
