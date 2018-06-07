@@ -166,7 +166,7 @@ for i in range(0, len(all_stocks_filepath)):
         if valid_stock(stock, 30):
             stocks.append(stock.ticker)
 
-save_list_stockID_to_file(stocks, 'stockID_Shanghai.txt')
+# save_list_stockID_to_file(stocks, 'stockID_SENSEX.txt')
 print(len(stocks))
 
 
