@@ -319,15 +319,15 @@ for i in nasdaq_stockIDs:
 '''
 
 
-shutil.rmtree('dulieuSSEC50', ignore_errors=True)
-os.makedirs('dulieuSSEC50', exist_ok=True)
-driver = get_driver('dulieuSSEC50')
-# crawl_stockID_in_tradingeconomic(driver, 'sse50:ind', 'stockID_SSEC50.txt')
-cac40_stockIDs = read_list_stockID_from_file('stockID_SSEC50.txt')
+shutil.rmtree('dulieuturkey', ignore_errors=True)
+os.makedirs('dulieuturkey', exist_ok=True)
+driver = get_driver('dulieuturkey')
+# crawl_stockID_in_tradingeconomic(driver, 'turkey', 'stockID_turkey.txt')
+cac40_stockIDs = read_list_stockID_from_file('stockID_turkey.txt')
 
 for i in cac40_stockIDs:
     driver.get('https://finance.yahoo.com/quote/' + i +
-               '.SS/history?period1=1325350800&period2=1525453200&interval=1d&filter=history&frequency=1d')
+               '.IS/history?period1=1325350800&period2=1525453200&interval=1d&filter=history&frequency=1d')
     time.sleep(1)
     try:
         a = driver.find_element_by_link_text('Download Data')

@@ -463,7 +463,7 @@ def portfolio_selection(stocks, index_selection_horizon):
         v.set_distance(list_distance[i])
         vertices.append(v)
 
-    vertices = sort_vertices(G, vertices, BY_CORRELATION)
+    vertices = sort_vertices(G, vertices, BY_DISTANCE)
 
     ten_percent = int(len(vertices) / 10)
     peripheral_vertices = vertices[:ten_percent]
@@ -844,12 +844,12 @@ elif selected_market == '12':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuTSX')
     market_index = read_market_index_yf(
         os.path.join(os.getcwd(), '^GSPTSE.csv'), 'TSX')
-    market_name = 'byDcorralation_TSX'
+    market_name = 'bydegree_TSX'
 elif selected_market == '13':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
     market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), 'XU100.IS.csv'), 'XU100')
-    market_name = 'byDcorralation_XU100'
+        os.path.join(os.getcwd(), '^XU100.csv'), 'XU100')
+    market_name = 'byDdistance_XU100'
 elif selected_market == '14':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuIPC')
     market_index = read_market_index_yf(
@@ -904,7 +904,7 @@ start_day_train = datetime.date(2015, 6, 1)
 end_day_train = datetime.date(2017, 6, 1)
 
 # OPS is dictionary contain key is conbination of market and value is optimal portfolio
-OPS = train_to_find_OPS(market_name, start_day_train, end_day_train)
+train_to_find_OPS(market_name, start_day_train, end_day_train)
 
 
 '''

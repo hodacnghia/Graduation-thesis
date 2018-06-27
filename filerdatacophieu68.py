@@ -145,7 +145,7 @@ def change_format_excel(filepath, save_to):
 
 
 # ====================================================================================================
-data_dictionary = os.path.join(os.getcwd(), 'dulieuShanghai')
+data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
 
 # TODO: get all filename .csv
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
@@ -154,7 +154,7 @@ print("Tổng số cổ phiếu của sàn: ", len(all_stocks_filepath))
 
 # Change format data
 for fp in all_stocks_filepath:
-    change_format_excel(fp, os.path.join(os.getcwd(), 'dulieuShanghai'))
+    change_format_excel(fp, os.path.join(os.getcwd(), 'dulieuturkey'))
 
 
 # TODO: Read all of stocks from files download in cophieu68
