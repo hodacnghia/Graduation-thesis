@@ -246,7 +246,7 @@ rf_of_MC_in_investment_horizon: 0.5302144420540473,
 {
 day_t: 2016-04-26,
 total_AR_of_central_portfolios: 7.282323050505051,
-total_AR_of_peripheral_portfolios: nan,
+total_AR_of_peripheral_portfolios: 0,
 total_AR_of_random_portfolios: 5.562626383838384,
 rd_of_MC_in_selection_horizon: 0.49504950495049505,
 rd_of_MC_in_investment_horizon: 0.5628140703517588,
@@ -255,4 +255,4 @@ rf_of_MC_in_investment_horizon: 0.5311232892455955,
 },
 ================
 Profit of central: -8.091883206090667
-Profit of peripheral: nan
+Profit of peripheral: -10.2016021944

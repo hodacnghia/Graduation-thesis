@@ -263,4 +263,4 @@ rf_of_MC_in_investment_horizon: nan,
 },
 ================
 Profit of central: -0.05622725037466764
-Profit of peripheral: nan
+Profit of peripheral: -0.0942227250425667
