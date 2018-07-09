@@ -15,48 +15,9 @@ import pandas as pd
 import numpy as np
 import networkx as nx
 from operator import attrgetter
+from CLASS import Stock, MarketIndex
+import ReadFile
 #============================================================================#
-
-
-class Stock():
-    ticker = ""
-    list_close_price = []
-    list_trading_day = []
-    r = []
-
-    def set_ticker(self, ticker):
-        self.ticker = ticker
-
-    def set_close_price(self, list_close_price):
-        self.list_close_price = list_close_price
-
-    def set_list_trading_day(self, list_trading_day):
-        self.list_trading_day = list_trading_day
-
-    def set_r(self, r):
-        self.r = r
-
-    def get_r_in_period(self, start_day, end_day):
-        np_list_trading_day = np.array(self.list_trading_day)
-        np_r = np.array(self.r)
-        r_in_period = np_r[np.logical_and(
-            np_list_trading_day >= start_day, np_list_trading_day <= end_day)]
-        return r_in_period
-
-    def get_trading_day_in_period(self, start_day, end_day):
-        np_list_trading_day = np.array(self.list_trading_day)
-        trading_day_in_period = np_list_trading_day[np.logical_and(
-            np_list_trading_day >= start_day, np_list_trading_day <= end_day)]
-        return trading_day_in_period
-
-    def get_close_price_in_period(self, start_day, end_day):
-        np_list_trading_day = np.array(self.list_trading_day)
-        np_list_close_price = np.array(self.list_close_price)
-        close_price_in_period = np_list_close_price[np.logical_and(
-            np_list_trading_day >= start_day, np_list_trading_day <= end_day)]
-        return close_price_in_period
-
-
 class Vertex():
     label = ""
     degree = 0
@@ -79,35 +40,6 @@ class Vertex():
     def set_correlation(self, correlation):
         self.correlation = correlation
 
-
-class MarketIndex():
-    ticker = ""
-    list_trading_day = []
-    list_close_price = []
-
-    def set_ticker(self, ticker):
-        self.ticker = ticker
-
-    def set_list_trading_day(self, list_trading_day):
-        self.list_trading_day = list_trading_day
-
-    def set_list_close_price(self, list_close_price):
-        self.list_close_price = list_close_price
-
-    def get_trading_day_in_period(self, start_day, end_day):
-        np_list_trading_day = np.array(self.list_trading_day)
-        trading_day_in_period = np_list_trading_day[np.logical_and(
-            np_list_trading_day >= start_day, np_list_trading_day <= end_day)]
-        return trading_day_in_period
-
-    def get_close_price_in_period(self, start_day, end_day):
-        np_list_trading_day = np.array(self.list_trading_day)
-        np_list_close_price = np.array(self.list_close_price)
-        close_price_in_period = np_list_close_price[np.logical_and(
-            np_list_trading_day >= start_day, np_list_trading_day <= end_day)]
-        return close_price_in_period
-
-
 class MarketCondition():
     rd = 0
     rf = 0
@@ -119,49 +51,6 @@ class MarketCondition():
         self.rf = rf
 
 #============================================================================#
-
-
-def read_detail_stock(filepath):
-    # TODO: Read stock info from file
-    data_in_file = pd.read_csv(filepath)
-
-    stock = Stock()
-    stock.set_ticker(data_in_file['<Ticker>'].values[0])
-    stock.set_close_price(data_in_file['<Close>'].values)
-    list_day = convert_list_numpy_to_list_datetime(
-        data_in_file['<DTYYYYMMDD>'].values)
-    stock.set_list_trading_day(list_day)
-    r = calculate_r(stock.list_close_price)
-    stock.set_r(r)
-    return stock
-
-
-def read_market_index_cp68(filepath):
-    # TODO: Read market index from cophieu68 download file
-    data_in_file = pd.read_csv(filepath)
-
-    market_index = MarketIndex()
-    market_index.set_ticker(data_in_file['<Ticker>'].values[0])
-    market_index.set_list_close_price(data_in_file['<Close>'].values)
-    list_day = convert_list_numpy_to_list_datetime(
-        data_in_file['<DTYYYYMMDD>'].values)
-    market_index.set_list_trading_day(list_day)
-    return market_index
-
-
-def read_market_index_yf(filepath, ticker):
-    # TODO: Read market index from yahoo finance download file
-    data_in_file = pd.read_csv(filepath)
-
-    market_index = MarketIndex()
-    market_index.set_ticker(ticker)
-    market_index.set_list_close_price(data_in_file['Close'].values[::-1])
-    list_day = convert_list_string_to_list_datetime(
-        data_in_file['Date'].values[::-1])
-    market_index.set_list_trading_day(list_day)
-    return market_index
-
-
 def calculate_r(list):
     r = []
     for i in range(0, len(list) - 1):
@@ -787,104 +676,84 @@ selected_market = input("Select 1 number: ")
 
 if selected_market == '1':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
-    market_index = read_market_index_cp68(
-        os.path.join(os.getcwd(), 'excel_^vnindex.csv'))
-    market_name = 'byDcorralation_HOSE'
+    market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
+    save_result_to = 'byDcorralation_HOSE'
 elif selected_market == '2':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
-    market_index = read_market_index_cp68(
-        os.path.join(os.getcwd(), 'excel_^hastc.csv'))
-    market_name = 'byDcorralation_HNX'
+    market_datapath = os.path.join(os.getcwd(), 'excel_^hastc.csv')
+    save_result_to = 'byDcorralation_HNX'
 elif selected_market == '3':
     data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^NYA.csv'), 'NYSE')
-    market_name = 'byDcorralation_NYSE'
+    market_datapath = os.path.join(os.getcwd(), '^NYA.csv')
+    save_result_to = 'byDcorralation_NYSE'
 elif selected_market == '4':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^XAX.csv'), 'AMEX')
-    market_name = 'byDcorralation_AMEX'
+    market_datapath = os.path.join(os.getcwd(), '^XAX.csv')
+    save_result_to = 'byDcorralation_AMEX'
 elif selected_market == '5':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^OSEAX.csv'), 'OLSOBORS')
-    market_name = 'byDcorralation_OLSOBORS'
+    market_datapath = os.path.join(os.getcwd(), '^OSEAX.csv')
+    save_result_to = 'byDcorralation_OLSOBORS'
 elif selected_market == '6':
     data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^IXIC.csv'), 'NASDAQ')
-    market_name = 'byDcorralation_NASDAQ'
+    market_datapath = os.path.join(os.getcwd(), '^IXIC.csv')
+    save_result_to = 'byDcorralation_NASDAQ'
 elif selected_market == '7':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuAEX')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^AEX.csv'), 'AEX')
-    market_name = 'byDcorralation_AEX'
+    market_datapath = os.path.join(os.getcwd(), '^AEX.csv')
+    save_result_to = 'byDcorralation_AEX'
 elif selected_market == '8':
     data_dictionary = os.path.join(os.getcwd(), 'dulieucac40')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^FCHI.csv'), 'CAC40')
-    market_name = 'byDcorralation_CAC40'
+    market_datapath = os.path.join(os.getcwd(), '^FCHI.csv')
+    save_result_to = 'byDcorralation_CAC40'
 elif selected_market == '9':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuEuronext100')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^N100.csv'), 'EURO100')
-    market_name = 'byDcorralation_EURO100'
+    market_datapath = os.path.join(os.getcwd(), '^N100.csv')
+    save_result_to = 'byDcorralation_EURO100'
 elif selected_market == '10':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuIBEX35')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^IBEX.csv'), 'IBEX35')
-    market_name = 'byDcorralation_IBEX35'
+    market_datapath = os.path.join(os.getcwd(), '^IBEX.csv')
+    save_result_to = 'byDcorralation_IBEX35'
 elif selected_market == '11':
     data_dictionary = os.path.join(os.getcwd(), 'dulieunikkei225')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^N225.csv'), 'NIKKEI225')
-    market_name = 'byDcorralation_NIKKEI225'
+    market_datapath = os.path.join(os.getcwd(), '^N225.csv')
+    save_result_to = 'byDcorralation_NIKKEI225'
 elif selected_market == '12':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuTSX')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^GSPTSE.csv'), 'TSX')
-    market_name = 'bydegree_TSX'
+    market_datapath = os.path.join(os.getcwd(), '^GSPTSE.csv')
+    save_result_to = 'bydegree_TSX'
 elif selected_market == '13':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^XU100.csv'), 'XU100')
-    market_name = 'byDdistance_XU100'
+    market_datapath = os.path.join(os.getcwd(), '^XU100.csv')
+    save_result_to = 'byDdistance_XU100'
 elif selected_market == '14':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuIPC')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^MXX.csv'), 'IPC')
-    market_name = 'byDcorralation_IPC'
+    market_datapath = os.path.join(os.getcwd(), '^MXX.csv')
+    save_result_to = 'byDcorralation_IPC'
 elif selected_market == '15':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuBOVESPA')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^BVSP.csv'), 'BOVESPA')
-    market_name = 'byDcorralation_BOVESPA'
+    market_datapath = os.path.join(os.getcwd(), '^BVSP.csv')
+    save_result_to = 'byDcorralation_BOVESPA'
 elif selected_market == '16':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuAustraliaS&P200')
-    market_index = read_market_index_yf(os.path.join(
-        os.getcwd(), '^AXJO.csv'), 'AustraliaS&P200')
-    market_name = 'byDcorralation_AustraliaS&P200'
+    market_datapath = os.path.join(os.getcwd(), '^AXJO.csv')
+    save_result_to = 'byDcorralation_AustraliaS&P200'
 elif selected_market == '17':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuNZX50')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^NZ50.csv'), 'NZX50')
-    market_name = 'byDcorralation_NZX50'
+    market_datapath = os.path.join(os.getcwd(), '^NZ50.csv')
+    save_result_to = 'byDcorralation_NZX50'
 elif selected_market == '18':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuShanghai')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^SSEC.csv'), 'Shanghai')
-    market_name = 'byDcorralation_Shanghai'
+    market_datapath = os.path.join(os.getcwd(), '^SSEC.csv')
+    save_result_to = 'byDcorralation_Shanghai'
 elif selected_market == '19':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuKOSPI')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^KS11.csv'), 'KOSPI')
-    market_name = 'byDcorralation_KOSPI'
+    market_datapath = os.path.join(os.getcwd(), '^KS11.csv')
+    save_result_to = 'byDcorralation_KOSPI'
 elif selected_market == '20':
     data_dictionary = os.path.join(os.getcwd(), 'dulieuSSEC50')
-    market_index = read_market_index_yf(
-        os.path.join(os.getcwd(), '^SSE50.csv'), 'SSEC50')
-    market_name = 'byDcorralation_SSEC50'
+    market_datapath = os.path.join(os.getcwd(), '^SSE50.csv')
+    save_result_to = 'byDcorralation_SSEC50'
 else:
     print("...")
 
@@ -895,8 +764,13 @@ print("Tong so co phieu la: ", len(all_stocks_filepath))
 stocks = []
 
 for i in range(0, len(all_stocks_filepath)):
-    stock = read_detail_stock(all_stocks_filepath[i])
+    stock = ReadFile.read_data_stock(all_stocks_filepath[i])
+    r = calculate_r(stock.list_close_price)
+    stock.set_r(r)
+    
     stocks.append(stock)
+    
+market_index = ReadFile.read_data_marketindex(market_datapath)
 # End
 
 # Train to find optimal portfolios under each combination of market conditions in period
@@ -904,7 +778,8 @@ start_day_train = datetime.date(2015, 6, 1)
 end_day_train = datetime.date(2017, 6, 1)
 
 # OPS is dictionary contain key is conbination of market and value is optimal portfolio
-train_to_find_OPS(market_name, start_day_train, end_day_train)
+train_to_find_OPS(save_result_to, start_day_train, end_day_train)
+
 
 
 '''
