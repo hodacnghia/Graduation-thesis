@@ -85,13 +85,13 @@ def convert_datetime_to_YYYYMMDD(dt):
     return yyyymmdd
     
 #==============================================================================#
-change_format_excel(os.path.join(os.getcwd(), '^KS11.csv'), os.getcwd())
-fill_data_to_nullcell(os.path.join(os.getcwd(), '^KS11.csv'), os.getcwd())
+change_format_excel(os.path.join(os.getcwd(), '^OSEAX.csv'), os.getcwd())
+fill_data_to_nullcell(os.path.join(os.getcwd(), '^OSEAX.csv'), os.getcwd())
 
 
-market_index = ReadFile.read_data_marketindex(os.path.join(os.getcwd(), '^KS11.csv'))
+market_index = ReadFile.read_data_marketindex(os.path.join(os.getcwd(), '^OSEAX.csv'))
 
-data_dictionary = os.path.join(os.getcwd(), 'dulieuKOSPI')
+data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
 
 # TODO: get all filename .csv
 all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
