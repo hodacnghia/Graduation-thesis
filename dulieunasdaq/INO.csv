@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,<High>,<Low>,<Close>,<Volume>
 INO,20180504,4.45,4.61,4.45,4.54,582800
 INO,20180503,4.5,4.58,4.43,4.47,697400
 INO,20180502,4.43,4.61,4.41,4.5,685800

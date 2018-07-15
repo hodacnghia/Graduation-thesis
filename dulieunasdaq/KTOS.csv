@@ -1,4 +1,4 @@
-<Ticker>,<DTYYYYMMDD>,<Open>,High,<Low>,<Close>,<Volume>
+<Ticker>,<DTYYYYMMDD>,<Open>,<High>,<Low>,<Close>,<Volume>
 KTOS,20180504,9.95,10.21,9.91,10.01,1504500
 KTOS,20180503,9.9,10.05,9.78,10.02,657300
 KTOS,20180502,9.85,10.15,9.85,9.92,1204400

@@ -139,8 +139,7 @@ def change_format_excel(filepath, save_to):
     dframe = list(zip(ticker, dtyyyymmdd, open, high, low, close, volume))
 
     os.remove(filepath)
-    df = pd.DataFrame(data=dframe, columns=[
-                      '<Ticker>', '<DTYYYYMMDD>', '<Open>', 'High', '<Low>', '<Close>', '<Volume>'])
+    df = pd.DataFrame(data=dframe, columns=['<Ticker>', '<DTYYYYMMDD>', '<Open>', 'High', '<Low>', '<Close>', '<Volume>'])
     df.to_csv(os.path.join(save_to, t + '.csv'), index=False, header=True)
 
 
