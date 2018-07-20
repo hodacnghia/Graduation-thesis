@@ -4,10 +4,9 @@ Created on Tue Jul 10 00:57:46 2018
 
 @author: vttqh
 """
-import math, ReadFile, os, glob, datetime
+import math, ReadFile, os, glob, datetime, PMFG
 from CLASS import Stock
 from sklearn.linear_model import LinearRegression
-from matplotlib import pyplot
 import numpy as np
 import networkx as nx
 import planarity
@@ -36,14 +35,28 @@ class Segment():
         
     def set_covariance(self, covariance):
         self.covariance = covariance
+        
+class Vertex():
+    label = ''
+    centrality_score = 0
+    
+    def __init__(self, label, centrality_score):
+        self.label = label
+        self.centrality_score = centrality_score
+    
+    def set_label(self, label):
+        self.label = label
+        
+    def set_centrality_score(self, centrality_score):
+        self.centrality_score = centrality_score
+    
 #============================================================================#
 def calculate_r(time_series):
     r = []
-    for i in range(0, len(time_series) - 2):
-        difference = math.log(time_series[i], 2.718) - math.log(time_series[i + 1], 2.718)
+    for i in range(0, len(time_series) - 1):
+        difference = math.log(time_series[i] + 0.01, 2.718) - math.log(time_series[i + 1] + 0.01, 2.718)
         r.append(difference)
         
-    r.append(0)
     return r
 
 def integrated_timeseries(time_series):
@@ -96,9 +109,13 @@ def build_crosscorelation_matrix(dcca_stocks, Q, S):
     matrix = np.empty([len(dcca_stocks), len(dcca_stocks)], dtype=np.float)
     for i in range(0, len(dcca_stocks)):
         for j in range(i, len(dcca_stocks)):
+            if i == j:
+                matrix[i][i] = 0
+                continue
+            
             p = qdependent_cc_coefficient(dcca_stocks[i], dcca_stocks[j], Q, S)
             matrix[i][j] = round(p, 6)
-            matrix[j][i] = round(p, 5)
+            matrix[j][i] = round(p, 6)
             
     return matrix
     
@@ -120,30 +137,6 @@ def calculate_residual_signals(integrated_ts):
 def calculate_variance(residual_signals):
     total = sum(i * i for i in residual_signals)
     return (1 / S) * total
-    
-def sort_graph_edges(G):
-    sorted_edges = []
-    for source, dest, data in sorted(G.edges(data=True), 
-                                     key=lambda x: x[2]['weight'],
-                                     reverse=True):
-        sorted_edges.append({'source': source, 
-                             'dest': dest,
-                             'weight': data['weight']})
-        print(data['weight'])
-    
-    return sorted_edges
-
-def compute_PMFG(sorted_edges, nb_nodes):
-    PMFG = nx.Graph()
-    for edge in sorted_edges:
-        PMFG.add_edge(edge['source'], edge['dest'])
-        if not planarity.is_planar(PMFG):
-            PMFG.remove_edge(edge['source'], edge['dest'])
-            
-        if len(PMFG.edges()) == 3*(nb_nodes-2):
-            break
-        
-    return PMFG
 
 #============================================================================#
 Q = 2
@@ -161,8 +154,10 @@ dcca_stocks = []
 
 for filePath in all_stocks_filepath:
     stock = ReadFile.read_data_stock(filePath)
-    
     dcca_stock = DCCA_Stock(stock)
+    dcca_stocks.append(dcca_stock)
+    
+for dcca_stock in dcca_stocks:
     #Get list_close_price to use
     lcp_to_use = dcca_stock.get_close_price_in_period(begin_day, end_day)
     
@@ -171,8 +166,6 @@ for filePath in all_stocks_filepath:
     
     integrated_ts = integrated_timeseries(dcca_stock.r)
     dcca_stock.set_integrated_ts(integrated_ts)
-    
-    dcca_stocks.append(dcca_stock)
 
 nb_nodes = len(dcca_stocks)
 
@@ -182,13 +175,15 @@ complete_graph = nx.Graph()
 for i in range(0, nb_nodes):
     for j in range(i+1, nb_nodes):
         complete_graph.add_edge(dcca_stocks[i].ticker, dcca_stocks[j].ticker, weight=c_matrix[i,j])
-        
-sorted_edges = sort_graph_edges(complete_graph)
 
-PMFG = compute_PMFG(sorted_edges, len(complete_graph.nodes))
-print(len(PMFG.edges))
-nx.draw(PMFG, with_labels=True)
+PMFG_graph = PMFG.build_PMFG(complete_graph)
+portfolios = PMFG.choose_central_peripheral(PMFG_graph, 10, 10)
 
+for v in portfolios['central']:
+    print(v.label)
+    
+for v in portfolios['peripheral']:
+    print(v.label)
 
 
 
