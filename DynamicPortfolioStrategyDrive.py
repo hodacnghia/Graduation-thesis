@@ -60,7 +60,7 @@ def calculate_r(list):
     r = []
     for i in range(0, len(list) - 1):
         difference = math.log(0.001 if list[i] == 0 else list[i], 2.718) - math.log(
-            0.001 if list[i+1] == 0 else list[i+1], 2.718)
+            0.001 if list[i-1] == 0 else list[i-1], 2.718)
         r.append(difference)
     r.append(0)
     return r
@@ -107,7 +107,7 @@ def correlation_coefficent(stock1_in_st, stock2_in_st):
 
 
 def distance_of_2_stock(correlation_coefficent):
-    return math.sqrt(2 * (1 - correlation_coefficent))
+    return math.sqrt(2 * abs(1 - correlation_coefficent))
 
 
 def calculate_correlation_cofficent_by_distance(distance):
@@ -510,7 +510,7 @@ def train_to_find_OPS(market_name, start_day, end_day):
     total_profit_peripheral = 0
     total_profit_random = 0
 
-    savepath = os.path.join(os.getcwd(), 'resultDPS',
+    savepath = os.path.join(os.getcwd(), 'drive/app/resultDPS',
                             market_name + '_train.txt')
     ff = open(savepath, 'w')
 
@@ -674,84 +674,89 @@ print("20: SSEC50")'''
 
 for selected_market in range(5, 21):
     if selected_market == 1:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
-        market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuvnindex')
+        market_datapath = os.path.join(
+            os.getcwd(), 'drive/app/excel_^vnindex.csv')
         save_result_to = 'byC_HOSE'
     elif selected_market == 2:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
-        market_datapath = os.path.join(os.getcwd(), 'excel_^hastc.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuhnxindex')
+        market_datapath = os.path.join(
+            os.getcwd(), 'drive/app/excel_^hastc.csv')
         save_result_to = 'byC_HNX'
     elif selected_market == 3:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
-        market_datapath = os.path.join(os.getcwd(), '^NYA.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieunyse')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^NYA.csv')
         save_result_to = 'byC_NYSE'
     elif selected_market == 4:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
-        market_datapath = os.path.join(os.getcwd(), '^XAX.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuamex')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^XAX.csv')
         save_result_to = 'byC_AMEX'
     elif selected_market == 5:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
-        market_datapath = os.path.join(os.getcwd(), '^OSEAX.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuolsobors')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^OSEAX.csv')
         save_result_to = 'byC_OLSOBORS'
     elif selected_market == 6:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
-        market_datapath = os.path.join(os.getcwd(), '^IXIC.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieunasdaq')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^IXIC.csv')
         save_result_to = 'byC_NASDAQ'
     elif selected_market == 7:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuAEX')
-        market_datapath = os.path.join(os.getcwd(), '^AEX.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuAEX')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^AEX.csv')
         save_result_to = 'byC_AEX'
     elif selected_market == 8:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieucac40')
-        market_datapath = os.path.join(os.getcwd(), '^FCHI.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieucac40')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^FCHI.csv')
         save_result_to = 'byC_CAC40'
     elif selected_market == 9:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuEuronext100')
-        market_datapath = os.path.join(os.getcwd(), '^N100.csv')
+        data_dictionary = os.path.join(
+            os.getcwd(), 'drive/app/dulieuEuronext100')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^N100.csv')
         save_result_to = 'byC_EURO100'
     elif selected_market == 10:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuIBEX35')
-        market_datapath = os.path.join(os.getcwd(), '^IBEX.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuIBEX35')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^IBEX.csv')
         save_result_to = 'byC_IBEX35'
     elif selected_market == 11:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieunikkei225')
-        market_datapath = os.path.join(os.getcwd(), '^N225.csv')
+        data_dictionary = os.path.join(
+            os.getcwd(), 'drive/app/dulieunikkei225')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^N225.csv')
         save_result_to = 'byC_NIKKEI225'
     elif selected_market == 12:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuTSX')
-        market_datapath = os.path.join(os.getcwd(), '^GSPTSE.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuTSX')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^GSPTSE.csv')
         save_result_to = 'byC_TSX'
     elif selected_market == 13:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
-        market_datapath = os.path.join(os.getcwd(), '^XU100.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuturkey')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^XU100.csv')
         save_result_to = 'byC_XU100'
     elif selected_market == 14:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuIPC')
-        market_datapath = os.path.join(os.getcwd(), '^MXX.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuIPC')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^MXX.csv')
         save_result_to = 'byC_IPC'
     elif selected_market == 15:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuBOVESPA')
-        market_datapath = os.path.join(os.getcwd(), '^BVSP.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuBOVESPA')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^BVSP.csv')
         save_result_to = 'byC_BOVESPA'
     elif selected_market == 16:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuAustraliaS&P200')
-        market_datapath = os.path.join(os.getcwd(), '^AXJO.csv')
+        data_dictionary = os.path.join(
+            os.getcwd(), 'drive/app/dulieuAustraliaS&P200')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^AXJO.csv')
         save_result_to = 'byC_AustraliaS&P200'
     elif selected_market == 17:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuNZX50')
-        market_datapath = os.path.join(os.getcwd(), '^NZ50.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuNZX50')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^NZ50.csv')
         save_result_to = 'byC_NZX50'
     elif selected_market == 18:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuShanghai')
-        market_datapath = os.path.join(os.getcwd(), '^SSEC.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuShanghai')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^SSEC.csv')
         save_result_to = 'byC_Shanghai'
     elif selected_market == 19:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuKOSPI')
-        market_datapath = os.path.join(os.getcwd(), '^KS11.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuKOSPI')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^KS11.csv')
         save_result_to = 'byC_KOSPI'
     elif selected_market == 20:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuSSEC50')
-        market_datapath = os.path.join(os.getcwd(), '^SSE50.csv')
+        data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuSSEC50')
+        market_datapath = os.path.join(os.getcwd(), 'drive/app/^SSE50.csv')
         save_result_to = 'byC_SSEC50'
     else:
         print("...")
