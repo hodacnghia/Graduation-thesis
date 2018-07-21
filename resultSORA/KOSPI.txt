@@ -2,9 +2,9 @@
 Ngay chon co phieu de dau tu: '2014-06-01',
 total_AR_of_central_portfolios: 293.26261654838703,
 total_AR_of_peripheral_portfolios: 910.8100841774193,
-total_AR_of_random_portfolios: 5983.456775290323,
+total_AR_of_random_portfolios: 2682.9698447258065,
 },
-{
+
 Ngay chon co phieu de dau tu: '2014-07-01',
 total_AR_of_central_portfolios: -1315.148889737705,
 total_AR_of_peripheral_portfolios: 474.1540887704915,

@@ -4,7 +4,7 @@ Created on Tue Jul 10 00:57:46 2018
 
 @author: vttqh
 """
-import math, ReadFile, os, glob, datetime, PMFG
+import math, ReadFile, os, glob, datetime, PMFG, random
 from CLASS import Stock
 from sklearn.linear_model import LinearRegression
 import numpy as np
@@ -138,52 +138,229 @@ def calculate_variance(residual_signals):
     total = sum(i * i for i in residual_signals)
     return (1 / S) * total
 
+def invest(stocks, portfolios, begin_date, end_date):
+    total_average_profit = 0
+    for ticker in portfolios:
+        stock = next((s for s in stocks if s.ticker == ticker), None)
+        
+        #Get list_close_price to use, note: decrease date
+        lcp_to_use = stock.get_close_price_in_period(begin_date, end_date)
+        
+        average_profit = (1 / len(lcp_to_use)) * sum(lcp_to_use[i] - lcp_to_use[i + 1] for i in range(0, len(lcp_to_use) - 1))
+        total_average_profit += average_profit
+    
+    return total_average_profit
+
+def invest(stocks, portfolios, begin_date, end_date):
+    total_average_profit = 0
+    for ticker in portfolios:
+        stock = next((s for s in stocks if s.ticker == ticker), None)
+        
+        #Get list_close_price to use, note: decrease date
+        lcp_to_use = stock.get_close_price_in_period(begin_date, end_date)
+        
+        average_profit = (1 / len(lcp_to_use)) * sum(lcp_to_use[i] - lcp_to_use[i + 1] for i in range(0, len(lcp_to_use) - 1))
+        total_average_profit += average_profit
+    
+    return total_average_profit
+
+def choose_stocks_to_invest(stocks, day_choose_stocks, Q, S):
+    dcca_stocks = stocks.copy()
+    
+    # The first day of the period is selected to select the stock that needs to be invested
+    first_day = day_choose_stocks - datetime.timedelta(days=1000)
+    for dcca_stock in dcca_stocks:
+        #Get list_close_price to use
+        lcp_to_use = dcca_stock.get_close_price_in_period(first_day, day_choose_stocks)
+    
+        r = calculate_r(lcp_to_use)
+        dcca_stock.set_r(r)
+    
+        integrated_ts = integrated_timeseries(dcca_stock.r)
+        dcca_stock.set_integrated_ts(integrated_ts)
+    
+    c_matrix = build_crosscorelation_matrix(dcca_stocks, Q, S)
+    
+    nb_nodes = len(dcca_stocks)
+    complete_graph = nx.Graph()
+    for i in range(0, nb_nodes):
+        for j in range(i+1, nb_nodes):
+            complete_graph.add_edge(dcca_stocks[i].ticker, dcca_stocks[j].ticker, weight=c_matrix[i,j])
+
+    PMFG_graph = PMFG.build_PMFG(complete_graph)
+    
+    ten_percent = int(nb_nodes * 0.1)
+    portfolios = PMFG.choose_central_peripheral(PMFG_graph, ten_percent, ten_percent)
+    
+    return portfolios
+
+def qdependent_DCCA(stocks, investment_start_date, investment_stop_date, market_name):
+    Q = 1
+    S = 50
+    
+    while Q <= 4.:
+        while S <= 200:
+            filename = market_name + '_Q=' + str(2) + '_S=' + str(S)
+            save_result_to = os.path.join(os.getcwd(), 'result_qdependent_dcca', filename + '.txt')
+            
+            ff = open(save_result_to, 'w')
+            
+            total_profit_of_central    = 0
+            total_profit_of_peripheral = 0
+            total_profit_of_random     = 0
+            
+            day_choose_stocks = investment_start_date
+            while day_choose_stocks < investment_stop_date:
+                print(day_choose_stocks, Q, S)
+                
+                portfolios = choose_stocks_to_invest(stocks, day_choose_stocks, Q, S)
+            
+                central_portfolio    = [x.label for x in portfolios['central']]
+                peripheral_portfolio = [x.label for x in portfolios['peripheral']]
+                
+                random_portfolio     = random.sample(stocks, len(central_portfolio))
+                random_portfolio     = [s.ticker for s in random_portfolio]
+                
+                lastday_of_invesment = day_choose_stocks + datetime.timedelta(days=90)
+                
+                central_AP    = invest(stocks, central_portfolio, day_choose_stocks, lastday_of_invesment)
+                peripheral_AP = invest(stocks, peripheral_portfolio, day_choose_stocks, lastday_of_invesment)
+                random_AP     = invest(stocks, random_portfolio, day_choose_stocks, lastday_of_invesment)
+                
+                total_profit_of_central    += central_AP
+                total_profit_of_peripheral += peripheral_AP
+                total_profit_of_random     += random_AP
+                
+                ff.write('{\n')
+                ff.write('Ngay chon co phieu de dau tu: \'' + 
+                         str(day_choose_stocks) + "\',\n")
+                ff.write('total_AR_of_central_portfolios: ' +
+                         str(central_AP) + ",\n")
+                ff.write('total_AR_of_peripheral_portfolios: ' +
+                         str(peripheral_AP) + ",\n")
+                ff.write('total_AR_of_random_portfolios: ' +
+                         str(random_AP) + ",\n")
+                ff.write('},\n')
+            
+                day_choose_stocks += datetime.timedelta(days=30)
+                
+            ff.write("================\n")
+            ff.write('Profit of central: '    + str(total_profit_of_central) + '\n')
+            ff.write('Profit of peripheral: ' + str(total_profit_of_peripheral) + '\n')
+            ff.write('Profit of random: '     + str(total_profit_of_random) + '\n')
+            ff.close()
+            
+            S += 50
+        
+        Q += 1
+        
+    
+
+
 #============================================================================#
-Q = 2
-S = 100
-begin_day = datetime.date(2009, 6, 1)
-end_day = datetime.date(2017, 7, 1)
+os.makedirs('result_qdependent_dcca', exist_ok=True)
 
-data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
-market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
-
-all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
-print("Tong so co phieu la: ", len(all_stocks_filepath))
-
-dcca_stocks = []
-
-for filePath in all_stocks_filepath:
-    stock = ReadFile.read_data_stock(filePath)
-    dcca_stock = DCCA_Stock(stock)
-    dcca_stocks.append(dcca_stock)
+for selected_market in range(1, 10):
+    if selected_market == 1:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
+        market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
+        market_name     = 'HOSE'
+    elif selected_market == 2:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
+        market_datapath = os.path.join(os.getcwd(), 'excel_^hastc.csv')
+        market_name     = 'HNX'
+    elif selected_market == 3:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
+        market_datapath = os.path.join(os.getcwd(), '^NYA.csv')
+        market_name     = 'NYSE'
+    elif selected_market == 4:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
+        market_datapath = os.path.join(os.getcwd(), '^XAX.csv')
+        market_name     = 'AMEX'
+    elif selected_market == 5:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
+        market_datapath = os.path.join(os.getcwd(), '^OSEAX.csv')
+        market_name     = 'OLSOBORS'
+    elif selected_market == 6:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
+        market_datapath = os.path.join(os.getcwd(), '^IXIC.csv')
+        market_name     = 'NASDAQ'
+    elif selected_market == 7:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuAEX')
+        market_datapath = os.path.join(os.getcwd(), '^AEX.csv')
+        market_name     = 'AEX'
+    elif selected_market == 8:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieucac40')
+        market_datapath = os.path.join(os.getcwd(), '^FCHI.csv')
+        market_name     = 'CAC40'
+    elif selected_market == 9:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuEuronext100')
+        market_datapath = os.path.join(os.getcwd(), '^N100.csv')
+        market_name     = 'EURO100'
+    elif selected_market == 10:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuIBEX35')
+        market_datapath = os.path.join(os.getcwd(), '^IBEX.csv')
+        market_name     = 'IBEX35'
+    elif selected_market == 11:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieunikkei225')
+        market_datapath = os.path.join(os.getcwd(), '^N225.csv')
+        market_name     = 'NIKKEI225'
+    elif selected_market == 12:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuTSX')
+        market_datapath = os.path.join(os.getcwd(), '^GSPTSE.csv')
+        market_name     = 'TSX'
+    elif selected_market == 13:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
+        market_datapath = os.path.join(os.getcwd(), '^XU100.csv')
+        market_name     = 'XU100'
+    elif selected_market == 14:
+        #data_dictionary = os.path.join(os.getcwd(), 'dulieuIPC')
+       # market_datapath = os.path.join(os.getcwd(), '^MXX.csv')
+        #save_result_to = 'IPC
+        continue
+    elif selected_market == 15:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuBOVESPA')
+        market_datapath = os.path.join(os.getcwd(), '^BVSP.csv')
+        market_name     = 'BOVESPA'
+    elif selected_market == 16:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuAustraliaS&P200')
+        market_datapath = os.path.join(os.getcwd(), '^AXJO.csv')
+        market_name     = 'AustraliaS&P200'
+    elif selected_market == 17:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuNZX50')
+        market_datapath = os.path.join(os.getcwd(), '^NZ50.csv')
+        market_name     = 'NZX50'
+    elif selected_market == 18:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuShanghai')
+        market_datapath = os.path.join(os.getcwd(), '^SSEC.csv')
+        market_name     = 'Shanghai'
+    elif selected_market == 19:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuKOSPI')
+        market_datapath = os.path.join(os.getcwd(), '^KS11.csv')
+        market_name     = 'KOSPI'
+    elif selected_market == 20:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuSSEC50')
+        market_datapath = os.path.join(os.getcwd(), '^SSE50.csv')
+        market_name     = 'SSEC50'
+    else:
+        print("...")
+        
+    print(market_name)
     
-for dcca_stock in dcca_stocks:
-    #Get list_close_price to use
-    lcp_to_use = dcca_stock.get_close_price_in_period(begin_day, end_day)
     
-    r = calculate_r(lcp_to_use)
-    dcca_stock.set_r(r)
+    all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
+    print("Tong so co phieu la: ", len(all_stocks_filepath))
     
-    integrated_ts = integrated_timeseries(dcca_stock.r)
-    dcca_stock.set_integrated_ts(integrated_ts)
-
-nb_nodes = len(dcca_stocks)
-
-c_matrix = build_crosscorelation_matrix(dcca_stocks, Q, S)
-
-complete_graph = nx.Graph()
-for i in range(0, nb_nodes):
-    for j in range(i+1, nb_nodes):
-        complete_graph.add_edge(dcca_stocks[i].ticker, dcca_stocks[j].ticker, weight=c_matrix[i,j])
-
-PMFG_graph = PMFG.build_PMFG(complete_graph)
-portfolios = PMFG.choose_central_peripheral(PMFG_graph, 10, 10)
-
-for v in portfolios['central']:
-    print(v.label)
+    dcca_stocks = []
     
-for v in portfolios['peripheral']:
-    print(v.label)
-
+    for filePath in all_stocks_filepath:
+        stock = ReadFile.read_data_stock(filePath)
+        dcca_stock = DCCA_Stock(stock)
+        dcca_stocks.append(dcca_stock)
+    
+    investment_start_date = datetime.date(2014, 6, 1)
+    investment_stop_date  = datetime.date(2017, 6, 1)
+    
+    qdependent_DCCA(dcca_stocks, investment_start_date, investment_stop_date, market_name)
 
 

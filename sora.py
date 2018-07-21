@@ -146,7 +146,7 @@ def SORA(sora_stocks, investment_start_date, investment_stop_date, save_result_t
 #==============================================================================#
 os.makedirs('resultSORA', exist_ok=True)
 
-for selected_market in range(6, 7):
+for selected_market in range(1, 21):
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
