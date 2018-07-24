@@ -336,7 +336,7 @@ def portfolio_selection(stocks, index_selection_horizon):
         v.set_distance(list_distance[i])
         vertices.append(v)
 
-    vertices = sort_vertices(G, vertices, BY_C)
+    vertices = sort_vertices(G, vertices, BY_DEGREE)
 
     ten_percent = int(len(vertices) / 10)
     peripheral_vertices = vertices[:ten_percent]
@@ -672,7 +672,7 @@ print("18: Shanghai")
 print("19: KOSPI")
 print("20: SSEC50")'''
 
-for selected_market in range(5, 21):
+for selected_market in range(3, 4):
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuvnindex')
         market_datapath = os.path.join(
@@ -686,7 +686,7 @@ for selected_market in range(5, 21):
     elif selected_market == 3:
         data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieunyse')
         market_datapath = os.path.join(os.getcwd(), 'drive/app/^NYA.csv')
-        save_result_to = 'byC_NYSE'
+        save_result_to = 'byDegree_NYSE'
     elif selected_market == 4:
         data_dictionary = os.path.join(os.getcwd(), 'drive/app/dulieuamex')
         market_datapath = os.path.join(os.getcwd(), 'drive/app/^XAX.csv')

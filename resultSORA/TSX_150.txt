@@ -1,0 +1,52 @@
+{
+Ngay chon co phieu de dau tu: '2014-06-01',
+total_AR_of_central_portfolios: 0.7090476666666664,
+total_AR_of_peripheral_portfolios: 0.3941269523809521,
+total_AR_of_random_portfolios: 0.7196034126984123,
+},
+{
+Ngay chon co phieu de dau tu: '2014-10-29',
+total_AR_of_central_portfolios: -0.8608063387096772,
+total_AR_of_peripheral_portfolios: -0.014703467741935594,
+total_AR_of_random_portfolios: 1.1800003548387097,
+},
+{
+Ngay chon co phieu de dau tu: '2015-03-28',
+total_AR_of_central_portfolios: 0.2141270158730159,
+total_AR_of_peripheral_portfolios: -0.09031747619047609,
+total_AR_of_random_portfolios: 0.07811906349206336,
+},
+{
+Ngay chon co phieu de dau tu: '2015-08-25',
+total_AR_of_central_portfolios: 0.5022513333333335,
+total_AR_of_peripheral_portfolios: 0.016825460317460385,
+total_AR_of_random_portfolios: 0.3235095714285713,
+},
+{
+Ngay chon co phieu de dau tu: '2016-01-22',
+total_AR_of_central_portfolios: 1.0364242539682536,
+total_AR_of_peripheral_portfolios: 1.640159476190477,
+total_AR_of_random_portfolios: 0.8351243492063493,
+},
+{
+Ngay chon co phieu de dau tu: '2016-06-20',
+total_AR_of_central_portfolios: 0.08241940322580632,
+total_AR_of_peripheral_portfolios: 1.7433872580645162,
+total_AR_of_random_portfolios: 0.029516258064516094,
+},
+{
+Ngay chon co phieu de dau tu: '2016-11-17',
+total_AR_of_central_portfolios: 0.562096870967742,
+total_AR_of_peripheral_portfolios: 0.5259677419354837,
+total_AR_of_random_portfolios: 0.4850000161290321,
+},
+{
+Ngay chon co phieu de dau tu: '2017-04-16',
+total_AR_of_central_portfolios: -0.5006348095238097,
+total_AR_of_peripheral_portfolios: 0.09984131746031727,
+total_AR_of_random_portfolios: -0.12920620634920613,
+},
+================
+Profit of central: 1.744925395801331
+Profit of peripheral: 4.315287262416795
+Profit of random: 3.521666819508448

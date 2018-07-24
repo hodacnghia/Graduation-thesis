@@ -672,7 +672,7 @@ print("18: Shanghai")
 print("19: KOSPI")
 print("20: SSEC50")'''
 
-for selected_market in range(15, 21):
+for selected_market in range(3, 4):
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
         market_datapath = os.path.join(
