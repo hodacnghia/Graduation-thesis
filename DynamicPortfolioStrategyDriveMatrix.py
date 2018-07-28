@@ -15,6 +15,7 @@ import ReadFile
 import pandas as pd
 import numpy as np
 import networkx as nx
+import matplotlib.pyplot as plt
 from operator import attrgetter
 from CLASS import Stock, MarketIndex
 #============================================================================#
@@ -158,6 +159,7 @@ def build_MST(distance_matrix):
 
     for i in range(1, len(parent)):
         G.add_edge(stocks[parent[i]].ticker, stocks[i].ticker, weight=key[i])
+        
     return G
 
 
@@ -319,7 +321,7 @@ def sort_vertices(graph, vertices, sort_by):
 def portfolio_selection(stocks, index_selection_horizon):
     distance_matrix = build_distance_matrix(stocks, index_selection_horizon)
     G = build_MST(distance_matrix)
-    print(G)
+    nx.draw(G, with_labels=True)
     plt.show()
     vertices = []
     nodes = list(G.nodes)

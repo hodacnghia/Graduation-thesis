@@ -106,8 +106,8 @@ def qdependent_cc_coefficient(dcca_stock_1, dcca_stock_2, Q, S):
         s2_rs = calculate_residual_signals(s2_integrated)
 
         # calculate variance and covariance
-        s1_variance = calculate_variance(s1_rs)
-        s2_variance = calculate_variance(s2_rs)
+        s1_variance = calculate_variance(s1_rs, S)
+        s2_variance = calculate_variance(s2_rs, S)
         covariance = (1 / S) * sum(s1_rs[i] * s2_rs[i] for i in range(0, S))
 
         segments[i].set_s1_variance(s1_variance)
@@ -159,24 +159,9 @@ def calculate_residual_signals(integrated_ts):
     return residual_signals
 
 
-def calculate_variance(residual_signals):
+def calculate_variance(residual_signals, S):
     total = sum(i * i for i in residual_signals)
     return (1 / S) * total
-
-
-def invest(stocks, portfolios, begin_date, end_date):
-    total_average_profit = 0
-    for ticker in portfolios:
-        stock = next((s for s in stocks if s.ticker == ticker), None)
-
-        # Get list_close_price to use, note: decrease date
-        lcp_to_use = stock.get_close_price_in_period(begin_date, end_date)
-
-        average_profit = (1 / len(lcp_to_use)) * sum(
-            lcp_to_use[i] - lcp_to_use[i + 1] for i in range(0, len(lcp_to_use) - 1))
-        total_average_profit += average_profit
-
-    return total_average_profit
 
 
 def invest(stocks, portfolios, begin_date, end_date):
@@ -198,7 +183,8 @@ def choose_stocks_to_invest(stocks, day_choose_stocks, Q, S):
     dcca_stocks = stocks.copy()
 
     # The first day of the period is selected to select the stock that needs to be invested
-    first_day = day_choose_stocks - datetime.timedelta(days=1000)
+    first_day = day_choose_stocks - datetime.timedelta(days=1500)
+    print(first_day)
     for dcca_stock in dcca_stocks:
         # Get list_close_price to use
         lcp_to_use = dcca_stock.get_close_price_in_period(
@@ -232,9 +218,11 @@ def qdependent_DCCA(stocks, investment_start_date, investment_stop_date, market_
     Q = 1
     S = 50
 
-    while Q <= 4.:
-        while S <= 200:
-            filename = market_name + '_Q=' + str(2) + '_S=' + str(S)
+    while Q <= 4:
+
+        while S <= 150:
+
+            filename = market_name + '_Q=' + str(Q) + '_S=' + str(S)
             save_result_to = os.path.join(
                 os.getcwd(), 'result_qdependent_dcca', filename + '.txt')
 
@@ -296,7 +284,8 @@ def qdependent_DCCA(stocks, investment_start_date, investment_stop_date, market_
 
             S += 50
 
-        Q += 1
+        S = 50
+        Q = 1
 
 
 

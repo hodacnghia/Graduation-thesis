@@ -17,7 +17,7 @@ for i in range(nb_nodes):
 t = nx.eigenvector_centrality(complete_graph)
 print(t[0],
       "eigenvector_centrality")
-nx.draw(complete_graph, with_labels=True)
+# nx.draw(complete_graph, with_labels=True)
 plt.show()
 
 print(nx.eigenvector_centrality(complete_graph),

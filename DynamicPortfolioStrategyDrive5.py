@@ -672,7 +672,7 @@ print("18: Shanghai")
 print("19: KOSPI")
 print("20: SSEC50")'''
 
-for selected_market in range(15, 21):
+for selected_market in range(1, 15):
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
         market_datapath = os.path.join(
@@ -730,9 +730,10 @@ for selected_market in range(15, 21):
         market_datapath = os.path.join(os.getcwd(), '^XU100.csv')
         save_result_to = 'byDistance_XU100'
     elif selected_market == 14:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuIPC')
-        market_datapath = os.path.join(os.getcwd(), '^MXX.csv')
-        save_result_to = 'byDistance_IPC'
+        # data_dictionary = os.path.join(os.getcwd(), 'dulieuIPC')
+        # market_datapath = os.path.join(os.getcwd(), '^MXX.csv')
+        # save_result_to = 'byDistance_IPC'
+        continue
     elif selected_market == 15:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuBOVESPA')
         market_datapath = os.path.join(os.getcwd(), '^BVSP.csv')
