@@ -478,8 +478,6 @@ def train_to_find_OPS(market_name, start_day, end_day):
     # TODO: Training to find the optimal portfolio strategy in each combination of market conditions between start_day and end_day
     # INPUT: Stocks: information of all stocks, start_day: the date begin traing, end_day: the date complete traning
     # OUTPUT: The dictionary contains key is ombination of market conditions and value is optimal portfolio
-
-    optimal_portfolios_in_MC = {}
     random_portfolios = random.sample(stocks, int(len(stocks) / 10))
 
     DPS = []
@@ -539,27 +537,6 @@ def train_to_find_OPS(market_name, start_day, end_day):
     ff.write('Profit of peripheral: ' + str(total_profit_peripheral) + '\n')
     ff.write('Profit of random: '     + str(total_profit_random) + '\n')
     ff.close()
-
-    '''
-    # Find optimal portfolios under combination portfolios
-    for key, value in samples_were_classified.items():
-        profit_of_central = 0
-        profit_of_peripheral = 0
-        profit_of_random = 0
-        
-        for v in value:
-            profit_of_central += v['total_AR_of_central']
-            profit_of_peripheral += v['total_AR_of_peripheral']
-            profit_of_random += v['total_AR_of_random']
-        
-        if profit_of_central >= profit_of_peripheral:
-            optimal_portfolios_in_MC[key] = 'central'
-        else:
-            optimal_portfolios_in_MC[key] = 'peripheral'
-                
-    return optimal_portfolios_in_MC
-    '''
-
 
 def combination_of_MC(selection_mc, investment_mc):
     # TODO: compare to return combination of market condition
@@ -659,7 +636,7 @@ print("18: Shanghai")
 print("19: KOSPI")
 print("20: SSEC50")'''
 
-for selected_market in range(1, 21):
+for selected_market in range(1, 13):
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
@@ -685,62 +662,29 @@ for selected_market in range(1, 21):
         market_datapath = os.path.join(os.getcwd(), '^IXIC.csv')
         save_result_to = 'BY_CORRELATION_NASDAQ'
     elif selected_market == 7:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuAEX')
-        market_datapath = os.path.join(os.getcwd(), '^AEX.csv')
-        save_result_to = 'BY_CORRELATION_AEX'
-    elif selected_market == 8:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieucac40')
-        market_datapath = os.path.join(os.getcwd(), '^FCHI.csv')
-        save_result_to = 'BY_CORRELATION_CAC40'
-    elif selected_market == 9:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuEuronext100')
-        market_datapath = os.path.join(os.getcwd(), '^N100.csv')
-        save_result_to = 'BY_CORRELATION_EURO100'
-    elif selected_market == 10:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuIBEX35')
-        market_datapath = os.path.join(os.getcwd(), '^IBEX.csv')
-        save_result_to = 'BY_CORRELATION_IBEX35'
-    elif selected_market == 11:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunikkei225')
         market_datapath = os.path.join(os.getcwd(), '^N225.csv')
         save_result_to = 'BY_CORRELATION_NIKKEI225'
-    elif selected_market == 12:
+    elif selected_market == 8:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuTSX')
         market_datapath = os.path.join(os.getcwd(), '^GSPTSE.csv')
         save_result_to = 'BY_CORRELATION_TSX'
-    elif selected_market == 13:
+    elif selected_market == 9:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
         market_datapath = os.path.join(os.getcwd(), '^XU100.csv')
         save_result_to = 'BY_CORRELATION_XU100'
-    elif selected_market == 14:
-        #data_dictionary = os.path.join(os.getcwd(), 'dulieuIPC')
-       # market_datapath = os.path.join(os.getcwd(), '^MXX.csv')
-        #save_result_to = 'BY_DISTANCE_IPC
-        continue
-    elif selected_market == 15:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuBOVESPA')
-        market_datapath = os.path.join(os.getcwd(), '^BVSP.csv')
-        save_result_to = 'BY_CORRELATION_BOVESPA'
-    elif selected_market == 16:
+    elif selected_market == 10:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuAustraliaS&P200')
         market_datapath = os.path.join(os.getcwd(), '^AXJO.csv')
         save_result_to = 'BY_CORRELATION_AustraliaS&P200'
-    elif selected_market == 17:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuNZX50')
-        market_datapath = os.path.join(os.getcwd(), '^NZ50.csv')
-        save_result_to = 'BY_CORRELATION_NZX50'
-    elif selected_market == 18:
+    elif selected_market == 11:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuShanghai')
         market_datapath = os.path.join(os.getcwd(), '^SSEC.csv')
         save_result_to = 'BY_CORRELATION_Shanghai'
-    elif selected_market == 19:
+    elif selected_market == 12:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuKOSPI')
         market_datapath = os.path.join(os.getcwd(), '^KS11.csv')
         save_result_to = 'BY_CORRELATION_KOSPI'
-    elif selected_market == 20:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuSSEC50')
-        market_datapath = os.path.join(os.getcwd(), '^SSE50.csv')
-        save_result_to = 'BY_CORRELATION_SSEC50'
     else:
         print("...")
 
