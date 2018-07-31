@@ -671,88 +671,56 @@ print("18: Shanghai")
 print("19: KOSPI")
 print("20: SSEC50")'''
 
-for selected_market in range(0, 21):
+
+for selected_market in range(4, 13):
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
-        save_result_to = 'BY_DISTANCE_HOSE'
+        save_result_to = 'BY_CORRELATION_HOSE'
     elif selected_market == 2:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^hastc.csv')
-        save_result_to = 'BY_DISTANCE_HNX'
+        save_result_to = 'BY_CORRELATION_HNX'
     elif selected_market == 3:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
         market_datapath = os.path.join(os.getcwd(), '^NYA.csv')
-        save_result_to = 'BY_DISTANCE_NYSE'
+        save_result_to = 'BY_CORRELATION_NYSE'
     elif selected_market == 4:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
         market_datapath = os.path.join(os.getcwd(), '^XAX.csv')
-        save_result_to = 'BY_DISTANCE_AMEX'
+        save_result_to = 'BY_CORRELATION_AMEX'
     elif selected_market == 5:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
         market_datapath = os.path.join(os.getcwd(), '^OSEAX.csv')
-        save_result_to = 'BY_DISTANCE_OLSOBORS'
+        save_result_to = 'BY_CORRELATION_OLSOBORS'
     elif selected_market == 6:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
         market_datapath = os.path.join(os.getcwd(), '^IXIC.csv')
-        save_result_to = 'BY_DISTANCE_NASDAQ'
+        save_result_to = 'BY_CORRELATION_NASDAQ'
     elif selected_market == 7:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuAEX')
-        market_datapath = os.path.join(os.getcwd(), '^AEX.csv')
-        save_result_to = 'BY_DISTANCE_AEX'
-    elif selected_market == 8:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieucac40')
-        market_datapath = os.path.join(os.getcwd(), '^FCHI.csv')
-        save_result_to = 'BY_DISTANCE_CAC40'
-    elif selected_market == 9:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuEuronext100')
-        market_datapath = os.path.join(os.getcwd(), '^N100.csv')
-        save_result_to = 'BY_DISTANCE_EURO100'
-    elif selected_market == 10:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuIBEX35')
-        market_datapath = os.path.join(os.getcwd(), '^IBEX.csv')
-        save_result_to = 'BY_DISTANCE_IBEX35'
-    elif selected_market == 11:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunikkei225')
         market_datapath = os.path.join(os.getcwd(), '^N225.csv')
-        save_result_to = 'BY_DISTANCE_NIKKEI225'
-    elif selected_market == 12:
+        save_result_to = 'BY_CORRELATION_NIKKEI225'
+    elif selected_market == 8:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuTSX')
         market_datapath = os.path.join(os.getcwd(), '^GSPTSE.csv')
-        save_result_to = 'BY_DISTANCE_TSX'
-    elif selected_market == 13:
+        save_result_to = 'BY_CORRELATION_TSX'
+    elif selected_market == 9:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
         market_datapath = os.path.join(os.getcwd(), '^XU100.csv')
-        save_result_to = 'BY_DISTANCE_XU100'
-    elif selected_market == 14:
-        #data_dictionary = os.path.join(os.getcwd(), 'dulieuIPC')
-       # market_datapath = os.path.join(os.getcwd(), '^MXX.csv')
-        #save_result_to = 'BY_DISTANCE_IPC
-        continue
-    elif selected_market == 15:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuBOVESPA')
-        market_datapath = os.path.join(os.getcwd(), '^BVSP.csv')
-        save_result_to = 'BY_DISTANCE_BOVESPA'
-    elif selected_market == 16:
+        save_result_to = 'BY_CORRELATION_XU100'
+    elif selected_market == 10:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuAustraliaS&P200')
         market_datapath = os.path.join(os.getcwd(), '^AXJO.csv')
-        save_result_to = 'BY_DISTANCE_AustraliaS&P200'
-    elif selected_market == 17:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuNZX50')
-        market_datapath = os.path.join(os.getcwd(), '^NZ50.csv')
-        save_result_to = 'BY_DISTANCE_NZX50'
-    elif selected_market == 18:
+        save_result_to = 'BY_CORRELATION_AustraliaS&P200'
+    elif selected_market == 11:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuShanghai')
         market_datapath = os.path.join(os.getcwd(), '^SSEC.csv')
-        save_result_to = 'BY_DISTANCE_Shanghai'
-    elif selected_market == 19:
+        save_result_to = 'BY_CORRELATION_Shanghai'
+    elif selected_market == 12:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuKOSPI')
         market_datapath = os.path.join(os.getcwd(), '^KS11.csv')
-        save_result_to = 'BY_DISTANCE_KOSPI'
-    elif selected_market == 20:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuSSEC50')
-        market_datapath = os.path.join(os.getcwd(), '^SSE50.csv')
-        save_result_to = 'BY_DISTANCE_SSEC50'
+        save_result_to = 'BY_CORRELATION_KOSPI'
     else:
         print("...")
 

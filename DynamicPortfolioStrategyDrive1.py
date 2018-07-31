@@ -416,7 +416,7 @@ def portfolio_strategy(day_t, random_portfolios):
     # End
 
     # Calculate profit in investment horizol
-    number_of_investment_days = 300
+    number_of_investment_days = 30
     last_investment_day = day_t + \
         datetime.timedelta(days=number_of_investment_days)
     investment_mc = market_condition_in_period(
@@ -510,7 +510,7 @@ def train_to_find_OPS(market_name, start_day, end_day):
     total_profit_peripheral = 0
     total_profit_random = 0
 
-    savepath = os.path.join(os.getcwd(), 'resultDPS',
+    savepath = os.path.join(os.getcwd(), 'resultDPS3',
                             market_name + '_train.txt')
     ff = open(savepath, 'w')
 
@@ -642,7 +642,7 @@ def invest_DPS(OPS, market_name, start_day, end_day):
 
 
 #============================================================================#
-os.makedirs('resultDPS', exist_ok=True)
+os.makedirs('resultDPS3', exist_ok=True)
 BY_DEGREE = 1
 BY_C = 2
 BY_D_DEGREE = 3
@@ -672,16 +672,14 @@ print("18: Shanghai")
 print("19: KOSPI")
 print("20: SSEC50")'''
 
-for selected_market in range(1, 21):
+for selected_market in range(4,13):
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
-        market_datapath = os.path.join(
-            os.getcwd(), 'excel_^vnindex.csv')
+        market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
         save_result_to = 'byDegree_HOSE'
     elif selected_market == 2:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
-        market_datapath = os.path.join(
-            os.getcwd(), 'excel_^hastc.csv')
+        market_datapath = os.path.join(os.getcwd(), 'excel_^hastc.csv')
         save_result_to = 'byDegree_HNX'
     elif selected_market == 3:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
@@ -700,65 +698,29 @@ for selected_market in range(1, 21):
         market_datapath = os.path.join(os.getcwd(), '^IXIC.csv')
         save_result_to = 'byDegree_NASDAQ'
     elif selected_market == 7:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuAEX')
-        market_datapath = os.path.join(os.getcwd(), '^AEX.csv')
-        save_result_to = 'byDegree_AEX'
-    elif selected_market == 8:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieucac40')
-        market_datapath = os.path.join(os.getcwd(), '^FCHI.csv')
-        save_result_to = 'byDegree_CAC40'
-    elif selected_market == 9:
-        data_dictionary = os.path.join(
-            os.getcwd(), 'dulieuEuronext100')
-        market_datapath = os.path.join(os.getcwd(), '^N100.csv')
-        save_result_to = 'byDegree_EURO100'
-    elif selected_market == 10:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuIBEX35')
-        market_datapath = os.path.join(os.getcwd(), '^IBEX.csv')
-        save_result_to = 'byDegree_IBEX35'
-    elif selected_market == 11:
-        data_dictionary = os.path.join(
-            os.getcwd(), 'dulieunikkei225')
+        data_dictionary = os.path.join(os.getcwd(), 'dulieunikkei225')
         market_datapath = os.path.join(os.getcwd(), '^N225.csv')
         save_result_to = 'byDegree_NIKKEI225'
-    elif selected_market == 12:
+    elif selected_market == 8:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuTSX')
         market_datapath = os.path.join(os.getcwd(), '^GSPTSE.csv')
         save_result_to = 'byDegree_TSX'
-    elif selected_market == 13:
+    elif selected_market == 9:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
         market_datapath = os.path.join(os.getcwd(), '^XU100.csv')
         save_result_to = 'byDegree_XU100'
-    elif selected_market == 14:
-        # data_dictionary = os.path.join(os.getcwd(), 'dulieuIPC')
-        # market_datapath = os.path.join(os.getcwd(), '^MXX.csv')
-        # save_result_to = 'byDegree_IPC'
-        continue
-    elif selected_market == 15:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuBOVESPA')
-        market_datapath = os.path.join(os.getcwd(), '^BVSP.csv')
-        save_result_to = 'byDegree_BOVESPA'
-    elif selected_market == 16:
-        data_dictionary = os.path.join(
-            os.getcwd(), 'dulieuAustraliaS&P200')
+    elif selected_market == 10:
+        data_dictionary = os.path.join(os.getcwd(), 'dulieuAustraliaS&P200')
         market_datapath = os.path.join(os.getcwd(), '^AXJO.csv')
         save_result_to = 'byDegree_AustraliaS&P200'
-    elif selected_market == 17:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuNZX50')
-        market_datapath = os.path.join(os.getcwd(), '^NZ50.csv')
-        save_result_to = 'byDegree_NZX50'
-    elif selected_market == 18:
+    elif selected_market == 11:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuShanghai')
         market_datapath = os.path.join(os.getcwd(), '^SSEC.csv')
         save_result_to = 'byDegree_Shanghai'
-    elif selected_market == 19:
+    elif selected_market == 12:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuKOSPI')
         market_datapath = os.path.join(os.getcwd(), '^KS11.csv')
         save_result_to = 'byDegree_KOSPI'
-    elif selected_market == 20:
-        data_dictionary = os.path.join(os.getcwd(), 'dulieuSSEC50')
-        market_datapath = os.path.join(os.getcwd(), '^SSE50.csv')
-        save_result_to = 'byDegree_SSEC50'
     else:
         print("...")
 

@@ -15,7 +15,7 @@ import pandas as pd
 import numpy as np
 import networkx as nx
 from operator import attrgetter
-#============================================================================#
+#        ============#
 
 
 class Stock():
@@ -118,7 +118,7 @@ class MarketCondition():
     def set_rf(self, rf):
         self.rf = rf
 
-#============================================================================#
+#        ============#
 
 
 def read_detail_stock(filepath):
@@ -658,7 +658,7 @@ def train_to_find_OPS(market_name, start_day, end_day):
                      str(v['selection_mc'].rd) + "\n")
             ff.write('rd of market condition in investment horizon: ' +
                      str(v['investment_mc'].rd) + "\n\n")
-        ff.write("================\n")
+        ff.write("  \n")
     ff.write('Profit of central: ' + str(total_profit_central) + '\n')
     ff.write('Profit of peripheral: ' + str(total_profit_peripheral) + '\n')
     ff.close()
@@ -746,12 +746,12 @@ def invest_DPS(OPS, market_name, start_day, end_day):
 
         day_t += datetime.timedelta(days=150)
 
-    ff.write('========================\n')
+    ff.write('  ========\n')
     ff.write('total_average_return: ' + str(total_average_return))
     ff.close()
 
 
-#====================================================================15========#
+#        ====15========#
 BY_DEGREE = 1
 BY_C = 2
 BY_D_DEGREE = 3

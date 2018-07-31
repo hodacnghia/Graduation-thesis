@@ -2,6 +2,7 @@ import numpy as np
 
 #==========================================================================================#
 class Stock():
+    ratio = 0
     ticker = ""
     list_close_price = []
     list_trading_day = []
@@ -9,7 +10,8 @@ class Stock():
 
     def set_ticker(self, ticker):
         self.ticker = ticker
-
+    def set_ratio(self, ratio):
+        self.ratio = ratio
     def set_close_price(self, list_close_price):
         self.list_close_price = list_close_price
 

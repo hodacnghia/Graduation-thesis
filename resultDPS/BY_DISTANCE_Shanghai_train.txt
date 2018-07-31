@@ -1,7 +1,7 @@
-Combination market condition: SU
+ 
 {
 'day_t': '2014-06-01',
-'total_AR_of_central_portfolios': 0.0010749999999999991,
+'total_AR_of_peripheral_portfolios': 0.0010749999999999991,
 'total_AR_of_peripheral_portfolios': 0.0022049499999999985,
 'total_AR_of_random_portfolios': 0.0016914999999999903,
 'rd_of_MC_in_selection_horizon': 0.48743718592964824,
@@ -11,7 +11,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2014-07-01',
-'total_AR_of_central_portfolios': -0.0012228140703517583,
+'total_AR_of_peripheral_portfolios': -0.0012228140703517583,
 'total_AR_of_peripheral_portfolios': -0.00038824120603014905,
 'total_AR_of_random_portfolios': -0.0020201005025125636,
 'rd_of_MC_in_selection_horizon': 0.48484848484848486,
@@ -21,7 +21,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2014-07-31',
-'total_AR_of_central_portfolios': -0.000530303030303028,
+'total_AR_of_peripheral_portfolios': -0.000530303030303028,
 'total_AR_of_peripheral_portfolios': -0.0031156565656565677,
 'total_AR_of_random_portfolios': -0.0022666666666666616,
 'rd_of_MC_in_selection_horizon': 0.4975369458128079,
@@ -31,7 +31,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2014-08-30',
-'total_AR_of_central_portfolios': -0.0017003535353535366,
+'total_AR_of_peripheral_portfolios': -0.0017003535353535366,
 'total_AR_of_peripheral_portfolios': -0.0021901010101010093,
 'total_AR_of_random_portfolios': -0.0009899040404040532,
 'rd_of_MC_in_selection_horizon': 0.4975609756097561,
@@ -41,7 +41,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2014-09-29',
-'total_AR_of_central_portfolios': 0.00015989898989899226,
+'total_AR_of_peripheral_portfolios': 0.00015989898989899226,
 'total_AR_of_peripheral_portfolios': -0.0008752525252525219,
 'total_AR_of_random_portfolios': -0.004813136363636377,
 'rd_of_MC_in_selection_horizon': 0.5245098039215687,
@@ -51,7 +51,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2014-10-29',
-'total_AR_of_central_portfolios': -0.0007225123152709353,
+'total_AR_of_peripheral_portfolios': -0.0007225123152709353,
 'total_AR_of_peripheral_portfolios': -0.0016636945812807942,
 'total_AR_of_random_portfolios': 7.290147783254958e-05,
 'rd_of_MC_in_selection_horizon': 0.535,
@@ -61,7 +61,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2016-05-21',
-'total_AR_of_central_portfolios': 0.0006281407035175878,
+'total_AR_of_peripheral_portfolios': 0.0006281407035175878,
 'total_AR_of_peripheral_portfolios': 0.0034601507537688567,
 'total_AR_of_random_portfolios': 0.0009814120603015284,
 'rd_of_MC_in_selection_horizon': 0.515,
@@ -71,7 +71,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2016-06-20',
-'total_AR_of_central_portfolios': -0.0007070707070707122,
+'total_AR_of_peripheral_portfolios': -0.0007070707070707122,
 'total_AR_of_peripheral_portfolios': -0.0010569696969696886,
 'total_AR_of_random_portfolios': -0.003461611111111113,
 'rd_of_MC_in_selection_horizon': 0.5353535353535354,
@@ -81,7 +81,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2016-07-20',
-'total_AR_of_central_portfolios': 0.001928934010152288,
+'total_AR_of_peripheral_portfolios': 0.001928934010152288,
 'total_AR_of_peripheral_portfolios': 0.002117451776649746,
 'total_AR_of_random_portfolios': 0.007358883248730969,
 'rd_of_MC_in_selection_horizon': 0.54,
@@ -91,7 +91,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2016-08-19',
-'total_AR_of_central_portfolios': -0.0015384615384615376,
+'total_AR_of_peripheral_portfolios': -0.0015384615384615376,
 'total_AR_of_peripheral_portfolios': 0.0001598974358974267,
 'total_AR_of_random_portfolios': 0.0016005076923076963,
 'rd_of_MC_in_selection_horizon': 0.526829268292683,
@@ -101,7 +101,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2016-09-18',
-'total_AR_of_central_portfolios': 0.00020202020202020443,
+'total_AR_of_peripheral_portfolios': 0.00020202020202020443,
 'total_AR_of_peripheral_portfolios': 2.7671717171708243e-05,
 'total_AR_of_random_portfolios': -0.006944944444444425,
 'rd_of_MC_in_selection_horizon': 0.5320197044334976,
@@ -111,7 +111,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2016-10-18',
-'total_AR_of_central_portfolios': 0.0004455445544554427,
+'total_AR_of_peripheral_portfolios': 0.0004455445544554427,
 'total_AR_of_peripheral_portfolios': 6.841584158415377e-05,
 'total_AR_of_random_portfolios': -0.0006307029702970473,
 'rd_of_MC_in_selection_horizon': 0.5353535353535354,
@@ -121,7 +121,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2016-11-17',
-'total_AR_of_central_portfolios': -0.00042328042328042834,
+'total_AR_of_peripheral_portfolios': -0.00042328042328042834,
 'total_AR_of_peripheral_portfolios': -0.002398571428571439,
 'total_AR_of_random_portfolios': -0.0015238148148148216,
 'rd_of_MC_in_selection_horizon': 0.542713567839196,
@@ -131,7 +131,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2016-12-17',
-'total_AR_of_central_portfolios': 0.0014285714285714297,
+'total_AR_of_peripheral_portfolios': 0.0014285714285714297,
 'total_AR_of_peripheral_portfolios': 0.0026445773809523777,
 'total_AR_of_random_portfolios': -9.463095238093123e-05,
 'rd_of_MC_in_selection_horizon': 0.5490196078431373,
@@ -141,7 +141,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2017-01-16',
-'total_AR_of_central_portfolios': -0.0012837837837837865,
+'total_AR_of_peripheral_portfolios': -0.0012837837837837865,
 'total_AR_of_peripheral_portfolios': -0.0028668310810810796,
 'total_AR_of_random_portfolios': -0.0034770202702702376,
 'rd_of_MC_in_selection_horizon': 0.5172413793103449,
@@ -151,7 +151,7 @@ Combination market condition: SU
 },
 {
 'day_t': '2017-02-15',
-'total_AR_of_central_portfolios': 0.0020610687022900834,
+'total_AR_of_peripheral_portfolios': 0.0020610687022900834,
 'total_AR_of_peripheral_portfolios': 0.0037186946564885335,
 'total_AR_of_random_portfolios': 0.0020732900763358944,
 'rd_of_MC_in_selection_horizon': 0.542713567839196,
@@ -159,11 +159,11 @@ Combination market condition: SU
 'rf_of_MC_in_selection_horizon': 0.539645303974451,
 'rf_of_MC_in_investment_horizon': 0.5269256916681813,
 },
-================
-Combination market condition: UU
+  
+  
 {
 'day_t': '2014-11-28',
-'total_AR_of_central_portfolios': -0.0022388059701492547,
+'total_AR_of_peripheral_portfolios': -0.0022388059701492547,
 'total_AR_of_peripheral_portfolios': -0.005232388059701485,
 'total_AR_of_random_portfolios': -0.0025761144278606926,
 'rd_of_MC_in_selection_horizon': 0.5522388059701493,
@@ -173,7 +173,7 @@ Combination market condition: UU
 },
 {
 'day_t': '2014-12-28',
-'total_AR_of_central_portfolios': -0.0013620812182741104,
+'total_AR_of_peripheral_portfolios': -0.0013620812182741104,
 'total_AR_of_peripheral_portfolios': 0.0009992944162436422,
 'total_AR_of_random_portfolios': 0.004391365482233493,
 'rd_of_MC_in_selection_horizon': 0.5560975609756098,
@@ -183,7 +183,7 @@ Combination market condition: UU
 },
 {
 'day_t': '2015-01-27',
-'total_AR_of_central_portfolios': 0.002011818181818176,
+'total_AR_of_peripheral_portfolios': 0.002011818181818176,
 'total_AR_of_peripheral_portfolios': 0.0034196919191919195,
 'total_AR_of_random_portfolios': 0.0038530202020201788,
 'rd_of_MC_in_selection_horizon': 0.5763546798029556,
@@ -193,7 +193,7 @@ Combination market condition: UU
 },
 {
 'day_t': '2015-02-26',
-'total_AR_of_central_portfolios': -0.0008866995073891699,
+'total_AR_of_peripheral_portfolios': -0.0008866995073891699,
 'total_AR_of_peripheral_portfolios': -0.0019211822660098507,
 'total_AR_of_random_portfolios': 0.0017630492610837207,
 'rd_of_MC_in_selection_horizon': 0.58,
@@ -203,7 +203,7 @@ Combination market condition: UU
 },
 {
 'day_t': '2017-03-17',
-'total_AR_of_central_portfolios': 4.119968255444917e-18,
+'total_AR_of_peripheral_portfolios': 4.119968255444917e-18,
 'total_AR_of_peripheral_portfolios': -0.003951449541284388,
 'total_AR_of_random_portfolios': -0.011063302752293601,
 'rd_of_MC_in_selection_horizon': 0.56,
@@ -213,7 +213,7 @@ Combination market condition: UU
 },
 {
 'day_t': '2017-04-16',
-'total_AR_of_central_portfolios': 0.0020879120879120925,
+'total_AR_of_peripheral_portfolios': 0.0020879120879120925,
 'total_AR_of_peripheral_portfolios': -0.006083175824175819,
 'total_AR_of_random_portfolios': 0.006923087912087871,
 'rd_of_MC_in_selection_horizon': 0.56,
@@ -223,7 +223,7 @@ Combination market condition: UU
 },
 {
 'day_t': '2017-05-16',
-'total_AR_of_central_portfolios': -0.003000000000000006,
+'total_AR_of_peripheral_portfolios': -0.003000000000000006,
 'total_AR_of_peripheral_portfolios': 0.008874142857142895,
 'total_AR_of_random_portfolios': -0.007157085714285658,
 'rd_of_MC_in_selection_horizon': 0.5577889447236181,
@@ -231,11 +231,11 @@ Combination market condition: UU
 'rf_of_MC_in_selection_horizon': 0.5139498688737686,
 'rf_of_MC_in_investment_horizon': 0.6164098727341144,
 },
-================
-Combination market condition: US
+  
+  
 {
 'day_t': '2015-03-28',
-'total_AR_of_central_portfolios': 0.002586206896551726,
+'total_AR_of_peripheral_portfolios': 0.002586206896551726,
 'total_AR_of_peripheral_portfolios': 0.005179261083743844,
 'total_AR_of_random_portfolios': 0.007589147783251215,
 'rd_of_MC_in_selection_horizon': 0.6119402985074627,
@@ -245,7 +245,7 @@ Combination market condition: US
 },
 {
 'day_t': '2015-04-27',
-'total_AR_of_central_portfolios': 0.0007407070707070649,
+'total_AR_of_peripheral_portfolios': 0.0007407070707070649,
 'total_AR_of_peripheral_portfolios': -0.007055808080808067,
 'total_AR_of_random_portfolios': -0.0033302929292929172,
 'rd_of_MC_in_selection_horizon': 0.6318407960199005,
@@ -255,7 +255,7 @@ Combination market condition: US
 },
 {
 'day_t': '2015-05-27',
-'total_AR_of_central_portfolios': 0.0034254773869346715,
+'total_AR_of_peripheral_portfolios': 0.0034254773869346715,
 'total_AR_of_peripheral_portfolios': 0.0059932110552763755,
 'total_AR_of_random_portfolios': 0.003121100502512541,
 'rd_of_MC_in_selection_horizon': 0.625,
@@ -265,7 +265,7 @@ Combination market condition: US
 },
 {
 'day_t': '2015-06-26',
-'total_AR_of_central_portfolios': -0.01018427135678392,
+'total_AR_of_peripheral_portfolios': -0.01018427135678392,
 'total_AR_of_peripheral_portfolios': -0.024511261306532674,
 'total_AR_of_random_portfolios': -0.035357793969849255,
 'rd_of_MC_in_selection_horizon': 0.6231155778894473,
@@ -275,7 +275,7 @@ Combination market condition: US
 },
 {
 'day_t': '2015-07-26',
-'total_AR_of_central_portfolios': 0.002060301507537685,
+'total_AR_of_peripheral_portfolios': 0.002060301507537685,
 'total_AR_of_peripheral_portfolios': -0.005961959798994978,
 'total_AR_of_random_portfolios': -0.012896467336683419,
 'rd_of_MC_in_selection_horizon': 0.6,
@@ -285,7 +285,7 @@ Combination market condition: US
 },
 {
 'day_t': '2015-08-25',
-'total_AR_of_central_portfolios': -0.004914948979591837,
+'total_AR_of_peripheral_portfolios': -0.004914948979591837,
 'total_AR_of_peripheral_portfolios': -0.018306576530612247,
 'total_AR_of_random_portfolios': -0.01657500510204083,
 'rd_of_MC_in_selection_horizon': 0.5902439024390244,
@@ -295,7 +295,7 @@ Combination market condition: US
 },
 {
 'day_t': '2015-09-24',
-'total_AR_of_central_portfolios': -0.00021040404040404393,
+'total_AR_of_peripheral_portfolios': -0.00021040404040404393,
 'total_AR_of_peripheral_portfolios': -0.00046777777777776955,
 'total_AR_of_random_portfolios': -0.00324393939393941,
 'rd_of_MC_in_selection_horizon': 0.5812807881773399,
@@ -305,7 +305,7 @@ Combination market condition: US
 },
 {
 'day_t': '2015-10-24',
-'total_AR_of_central_portfolios': -0.0019036274509803787,
+'total_AR_of_peripheral_portfolios': -0.0019036274509803787,
 'total_AR_of_peripheral_portfolios': 0.0015289705882352948,
 'total_AR_of_random_portfolios': 0.004642656862745089,
 'rd_of_MC_in_selection_horizon': 0.5808080808080808,
@@ -315,7 +315,7 @@ Combination market condition: US
 },
 {
 'day_t': '2015-11-23',
-'total_AR_of_central_portfolios': -0.0016915422885572177,
+'total_AR_of_peripheral_portfolios': -0.0016915422885572177,
 'total_AR_of_peripheral_portfolios': 0.0002665273631841037,
 'total_AR_of_random_portfolios': 0.00035720895522388266,
 'rd_of_MC_in_selection_horizon': 0.57,
@@ -325,7 +325,7 @@ Combination market condition: US
 },
 {
 'day_t': '2015-12-23',
-'total_AR_of_central_portfolios': 0.002882653061224492,
+'total_AR_of_peripheral_portfolios': 0.002882653061224492,
 'total_AR_of_peripheral_portfolios': -0.00017617857142857983,
 'total_AR_of_random_portfolios': 0.0015908061224489817,
 'rd_of_MC_in_selection_horizon': 0.5756097560975609,
@@ -333,11 +333,11 @@ Combination market condition: US
 'rf_of_MC_in_selection_horizon': 0.5116758179779451,
 'rf_of_MC_in_investment_horizon': 0.45485582403663005,
 },
-================
-Combination market condition: SS
+  
+  
 {
 'day_t': '2016-01-22',
-'total_AR_of_central_portfolios': 0.00868020304568528,
+'total_AR_of_peripheral_portfolios': 0.00868020304568528,
 'total_AR_of_peripheral_portfolios': 0.011229187817258884,
 'total_AR_of_random_portfolios': 0.019625883248730967,
 'rd_of_MC_in_selection_horizon': 0.5441176470588235,
@@ -347,7 +347,7 @@ Combination market condition: SS
 },
 {
 'day_t': '2016-02-21',
-'total_AR_of_central_portfolios': 0.0012807881773399003,
+'total_AR_of_peripheral_portfolios': 0.0012807881773399003,
 'total_AR_of_peripheral_portfolios': 0.003036596059113286,
 'total_AR_of_random_portfolios': 0.0014531970443349875,
 'rd_of_MC_in_selection_horizon': 0.515,
@@ -357,7 +357,7 @@ Combination market condition: SS
 },
 {
 'day_t': '2016-03-22',
-'total_AR_of_central_portfolios': 0.0019402985074626826,
+'total_AR_of_peripheral_portfolios': 0.0019402985074626826,
 'total_AR_of_peripheral_portfolios': 0.0020137313432835842,
 'total_AR_of_random_portfolios': 0.0012601940298507294,
 'rd_of_MC_in_selection_horizon': 0.527363184079602,
@@ -367,7 +367,7 @@ Combination market condition: SS
 },
 {
 'day_t': '2016-04-21',
-'total_AR_of_central_portfolios': 0.0007360406091370537,
+'total_AR_of_peripheral_portfolios': 0.0007360406091370537,
 'total_AR_of_peripheral_portfolios': 0.00033958375634516474,
 'total_AR_of_random_portfolios': 0.002038583756345184,
 'rd_of_MC_in_selection_horizon': 0.527363184079602,
@@ -375,7 +375,7 @@ Combination market condition: SS
 'rf_of_MC_in_selection_horizon': 0.4491956880523089,
 'rf_of_MC_in_investment_horizon': 0.5387525728782787,
 },
-================
+  
 Profit of optimal: -0.030986960311276547
 Profit of central: 0.0018406249072111945
 Profit of peripheral: -0.030941068030737297
