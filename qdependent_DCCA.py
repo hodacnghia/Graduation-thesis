@@ -13,6 +13,7 @@ import planarity
 #============================================================================#
 class DCCA_Stock(Stock):
     integrated_ts = []
+    ratio = 0
     
     def __init__(self, stock):
         self.ticker = stock.ticker
@@ -21,6 +22,9 @@ class DCCA_Stock(Stock):
         
     def set_integrated_ts(self, integrated_ts):
         self.integrated_ts = integrated_ts
+        
+    def set_ratio(self, ratio):
+        self.ratio = ratio
         
 class Segment():
     s1_variance = 0
@@ -75,7 +79,7 @@ def calculate_expected(l):
     return total / len(l)
 
 def qdependent_cc_coefficient(dcca_stock_1, dcca_stock_2, Q, S):
-    lenght_integrated_ts = min(len(dcca_stock_1.integrated_ts),len(dcca_stock_2.integrated_ts))
+    lenght_integrated_ts = min(len(dcca_stock_1.integrated_ts), len(dcca_stock_2.integrated_ts))
     
     #Divide time series into segments of lenght S
     segment_count = int(lenght_integrated_ts / S)
@@ -113,6 +117,7 @@ def build_crosscorelation_matrix(dcca_stocks, Q, S):
                 matrix[i][i] = 0
                 continue
             
+            #print(dcca_stocks[i].ticker, dcca_stocks[j].ticker)
             p = qdependent_cc_coefficient(dcca_stocks[i], dcca_stocks[j], Q, S)
             matrix[i][j] = round(p, 6)
             matrix[j][i] = round(p, 6)
@@ -156,7 +161,6 @@ def choose_stocks_to_invest(stocks, day_choose_stocks, Q, S):
     
     # The first day of the period is selected to select the stock that needs to be invested
     first_day = day_choose_stocks - datetime.timedelta(days=1500)
-    print(first_day)
     for dcca_stock in dcca_stocks:
         #Get list_close_price to use
         lcp_to_use = dcca_stock.get_close_price_in_period(first_day, day_choose_stocks)
@@ -166,6 +170,18 @@ def choose_stocks_to_invest(stocks, day_choose_stocks, Q, S):
     
         integrated_ts = integrated_timeseries(dcca_stock.r)
         dcca_stock.set_integrated_ts(integrated_ts)
+        
+        
+        #loai co phieu
+        ratio = np.mean(r) / np.std(r)
+        dcca_stock.set_ratio(ratio)
+    
+    #loai co phieu
+    dcca_stocks = sorted(dcca_stocks, key=lambda s: (s.ratio), reverse=True)
+    half_length = int(len(dcca_stocks) / 2)
+    dcca_stocks = dcca_stocks[:half_length]
+    print(len(dcca_stocks))
+    
     
     c_matrix = build_crosscorelation_matrix(dcca_stocks, Q, S)
     
@@ -177,14 +193,15 @@ def choose_stocks_to_invest(stocks, day_choose_stocks, Q, S):
 
     PMFG_graph = PMFG.build_PMFG(complete_graph)
     
-    ten_percent = int(nb_nodes * 0.1)
+    #ssu
+    ten_percent = int(nb_nodes * 0.2)
     portfolios = PMFG.choose_central_peripheral(PMFG_graph, ten_percent, ten_percent)
     
     return portfolios
 
 def qdependent_DCCA(stocks, investment_start_date, investment_stop_date, market_name):
-    Q = 1
-    S = 200
+    Q = 3
+    S = 50
     
     while Q <= 4:
         while S <= 200:
@@ -199,7 +216,7 @@ def qdependent_DCCA(stocks, investment_start_date, investment_stop_date, market_
             
             day_choose_stocks = investment_start_date
             while day_choose_stocks < investment_stop_date:
-                print(day_choose_stocks, Q, S)
+                print(market_name, day_choose_stocks, Q, S)
                 
                 portfolios = choose_stocks_to_invest(stocks, day_choose_stocks, Q, S)
             
@@ -209,7 +226,7 @@ def qdependent_DCCA(stocks, investment_start_date, investment_stop_date, market_
                 random_portfolio     = random.sample(stocks, len(central_portfolio))
                 random_portfolio     = [s.ticker for s in random_portfolio]
                 
-                lastday_of_invesment = day_choose_stocks + datetime.timedelta(days=90)
+                lastday_of_invesment = day_choose_stocks + datetime.timedelta(days=300)
                 
                 central_AP    = invest(stocks, central_portfolio, day_choose_stocks, lastday_of_invesment)
                 peripheral_AP = invest(stocks, peripheral_portfolio, day_choose_stocks, lastday_of_invesment)
@@ -240,7 +257,7 @@ def qdependent_DCCA(stocks, investment_start_date, investment_stop_date, market_
             
             S += 50
             
-        S = 200
+        S = 50
         Q += 1
         
     
@@ -249,60 +266,67 @@ def qdependent_DCCA(stocks, investment_start_date, investment_stop_date, market_
 #============================================================================#
 os.makedirs('result_qdependent_dcca', exist_ok=True)
 
-for selected_market in range(1, 13):
+for selected_market in range(9, 10):
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
         market_name     = 'HOSE'
+        #ok
     elif selected_market == 2:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^hastc.csv')
         market_name     = 'HNX'
+        #ok
     elif selected_market == 3:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
         market_datapath = os.path.join(os.getcwd(), '^NYA.csv')
         market_name     = 'NYSE'
+        #ok
     elif selected_market == 4:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
         market_datapath = os.path.join(os.getcwd(), '^XAX.csv')
         market_name     = 'AMEX'
+        #ok
     elif selected_market == 5:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
         market_datapath = os.path.join(os.getcwd(), '^OSEAX.csv')
         market_name     = 'OLSOBORS'
+        #ok
     elif selected_market == 6:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
         market_datapath = os.path.join(os.getcwd(), '^IXIC.csv')
         market_name     = 'NASDAQ'
-        market_name     = 'EURO100'
+        #ok
     elif selected_market == 7:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunikkei225')
         market_datapath = os.path.join(os.getcwd(), '^N225.csv')
         market_name     = 'NIKKEI225'
+        #thieu 3 thng
     elif selected_market == 8:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuTSX')
         market_datapath = os.path.join(os.getcwd(), '^GSPTSE.csv')
         market_name     = 'TSX'
+        #thieu 3 thang
     elif selected_market == 9:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
         market_datapath = os.path.join(os.getcwd(), '^XU100.csv')
-        market_name     = 'XU100'
+        market_name     = 'XU100_10'
     elif selected_market == 10:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuAustraliaS&P200')
         market_datapath = os.path.join(os.getcwd(), '^AXJO.csv')
         market_name     = 'AustraliaS&P200'
+        #thieu 3 thang
     elif selected_market == 11:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuShanghai')
         market_datapath = os.path.join(os.getcwd(), '^SSEC.csv')
         market_name     = 'Shanghai'
+        #thieu 3 thng
     elif selected_market == 12:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuKOSPI')
         market_datapath = os.path.join(os.getcwd(), '^KS11.csv')
-        market_name     = 'KOSPI'
+        market_name     = 'KOSPI_10'
     else:
         print("...")
-        
-    print(market_name)
     
     
     all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))

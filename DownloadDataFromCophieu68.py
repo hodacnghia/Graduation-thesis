@@ -322,7 +322,7 @@ for i in nasdaq_stockIDs:
 shutil.rmtree('dulieuturkey', ignore_errors=True)
 os.makedirs('dulieuturkey', exist_ok=True)
 driver = get_driver('dulieuturkey')
-# crawl_stockID_in_tradingeconomic(driver, 'turkey', 'stockID_turkey.txt')
+crawl_stockID_in_tradingeconomic(driver, 'turkey', 'stockID_turkey.txt')
 cac40_stockIDs = read_list_stockID_from_file('stockID_turkey.txt')
 
 for i in cac40_stockIDs:

@@ -5,13 +5,21 @@ Created on Sat Mar 24 11:06:37 2018
 @author: vttqh
 """
 
-import os, glob, math, datetime, sys, random, ReadFile
+import os
+import glob
+import math
+import datetime
+import sys
+import random
+import ReadFile
 import pandas as pd
 import numpy as np
 import networkx as nx
 from operator import attrgetter
 from CLASS import Stock, MarketIndex
 #============================================================================#
+
+
 class Vertex():
     label = ""
     degree = 0
@@ -34,6 +42,7 @@ class Vertex():
     def set_correlation(self, correlation):
         self.correlation = correlation
 
+
 class MarketCondition():
     rd = 0
     rf = 0
@@ -45,6 +54,8 @@ class MarketCondition():
         self.rf = rf
 
 #============================================================================#
+
+
 def calculate_r(list):
     r = []
     for i in range(0, len(list) - 1):
@@ -324,7 +335,7 @@ def portfolio_selection(stocks, index_selection_horizon):
         v.set_distance(list_distance[i])
         vertices.append(v)
 
-    vertices = sort_vertices(G, vertices, BY_CORRELATION)
+    vertices = sort_vertices(G, vertices, BY_C)
 
     ten_percent = int(len(vertices) / 10)
     peripheral_vertices = vertices[:ten_percent]
@@ -404,7 +415,7 @@ def portfolio_strategy(day_t, random_portfolios):
     # End
 
     # Calculate profit in investment horizol
-    number_of_investment_days = 300
+    number_of_investment_days = 90
     last_investment_day = day_t + \
         datetime.timedelta(days=number_of_investment_days)
     investment_mc = market_condition_in_period(
@@ -478,6 +489,8 @@ def train_to_find_OPS(market_name, start_day, end_day):
     # TODO: Training to find the optimal portfolio strategy in each combination of market conditions between start_day and end_day
     # INPUT: Stocks: information of all stocks, start_day: the date begin traing, end_day: the date complete traning
     # OUTPUT: The dictionary contains key is ombination of market conditions and value is optimal portfolio
+
+    optimal_portfolios_in_MC = {}
     random_portfolios = random.sample(stocks, int(len(stocks) / 10))
 
     DPS = []
@@ -496,7 +509,8 @@ def train_to_find_OPS(market_name, start_day, end_day):
     total_profit_peripheral = 0
     total_profit_random = 0
 
-    savepath = os.path.join(os.getcwd(), 'resultDPS', market_name + '_train.txt')
+    savepath = os.path.join(os.getcwd(), 'resultDPS',
+                            market_name + '_train.txt')
     ff = open(savepath, 'w')
 
     for key, value in samples_were_classified.items():
@@ -508,11 +522,11 @@ def train_to_find_OPS(market_name, start_day, end_day):
                 total_profit_optimal += v['total_AR_of_central']
             else:
                 total_profit_optimal += v['total_AR_of_peripheral']
-                
-            total_profit_central    += v['total_AR_of_central']
+
+            total_profit_central += v['total_AR_of_central']
             total_profit_peripheral += v['total_AR_of_peripheral']
-            total_profit_random     += v['total_AR_of_random']
-            
+            total_profit_random += v['total_AR_of_random']
+
             ff.write('{\n')
             ff.write('day_t: \'' + str(v['day_t']) + "\',\n")
             ff.write('total_AR_of_central_portfolios: ' +
@@ -531,12 +545,33 @@ def train_to_find_OPS(market_name, start_day, end_day):
                      str(v['investment_mc'].rf) + ",\n")
             ff.write('},\n')
         ff.write("================\n")
-        
-    ff.write('Profit of optimal: '    + str(total_profit_optimal) + '\n')
-    ff.write('Profit of central: '    + str(total_profit_central) + '\n')
+
+    ff.write('Profit of optimal: ' + str(total_profit_optimal) + '\n')
+    ff.write('Profit of central: ' + str(total_profit_central) + '\n')
     ff.write('Profit of peripheral: ' + str(total_profit_peripheral) + '\n')
-    ff.write('Profit of random: '     + str(total_profit_random) + '\n')
+    ff.write('Profit of random: ' + str(total_profit_random) + '\n')
     ff.close()
+
+    '''
+    # Find optimal portfolios under combination portfolios
+    for key, value in samples_were_classified.items():
+        profit_of_central = 0
+        profit_of_peripheral = 0
+        profit_of_random = 0
+        
+        for v in value:
+            profit_of_central += v['total_AR_of_central']
+            profit_of_peripheral += v['total_AR_of_peripheral']
+            profit_of_random += v['total_AR_of_random']
+        
+        if profit_of_central >= profit_of_peripheral:
+            optimal_portfolios_in_MC[key] = 'central'
+        else:
+            optimal_portfolios_in_MC[key] = 'peripheral'
+                
+    return optimal_portfolios_in_MC
+    '''
+
 
 def combination_of_MC(selection_mc, investment_mc):
     # TODO: compare to return combination of market condition
@@ -636,7 +671,8 @@ print("18: Shanghai")
 print("19: KOSPI")
 print("20: SSEC50")'''
 
-for selected_market in range(1, 13):
+
+for selected_market in range(10, 13):
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
@@ -691,25 +727,22 @@ for selected_market in range(1, 13):
     # TODO: Read all stocks infomation from files
     all_stocks_filepath = glob.glob(os.path.join(data_dictionary, "*.csv"))
     print("Tong so co phieu la: ", len(all_stocks_filepath))
-    
+
     stocks = []
-    
+
     for i in range(0, len(all_stocks_filepath)):
         stock = ReadFile.read_data_stock(all_stocks_filepath[i])
         r = calculate_r(stock.list_close_price)
         stock.set_r(r)
-        
+
         stocks.append(stock)
-        
+
     market_index = ReadFile.read_data_marketindex(market_datapath)
     # End
-    
+
     # Train to find optimal portfolios under each combination of market conditions in period
     start_day_train = datetime.date(2014, 6, 1)
     end_day_train = datetime.date(2017, 6, 1)
-    
+
     # OPS is dictionary contain key is conbination of market and value is optimal portfolio
     train_to_find_OPS(save_result_to, start_day_train, end_day_train)
-
-
-
