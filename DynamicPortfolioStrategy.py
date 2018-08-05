@@ -415,7 +415,7 @@ def portfolio_strategy(day_t, random_portfolios):
     # End
 
     # Calculate profit in investment horizol
-    number_of_investment_days = 300
+    number_of_investment_days = 90
     last_investment_day = day_t + \
         datetime.timedelta(days=number_of_investment_days)
     investment_mc = market_condition_in_period(
@@ -672,7 +672,11 @@ print("19: KOSPI")
 print("20: SSEC50")'''
 
 
+<<<<<<< HEAD
 for selected_market in range(4, 13):
+=======
+for selected_market in range(10, 13):
+>>>>>>> adea34be6f51dd38a69d82675eab0359c171ef8d
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')

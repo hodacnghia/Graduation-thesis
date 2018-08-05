@@ -1883,18 +1883,469 @@ a10Distance = [
         'rf_of_MC_in_investment_horizon': 0.6481524103675869,
     },
 ]
+b = [
+    {
+        'day_t': '2014-06-01',
+        'total_AR_of_central_portfolios': 0.1090731707317073,
+        'total_AR_of_peripheral_portfolios': 0.09492682926829266,
+        'total_AR_of_random_portfolios': 0.10097560975609754,
+    },
+    {
+        'day_t': '2014-07-01',
+        'total_AR_of_central_portfolios': 0.1402439024390244,
+        'total_AR_of_peripheral_portfolios': -0.02951219512195123,
+        'total_AR_of_random_portfolios': 0.03697560975609757,
+    },
+    {
+        'day_t': '2014-07-31',
+        'total_AR_of_central_portfolios': 0.05432835820895526,
+        'total_AR_of_peripheral_portfolios': 0.09880597014925377,
+        'total_AR_of_random_portfolios': 0.030398009950248744,
+    },
+    {
+        'day_t': '2014-08-30',
+        'total_AR_of_central_portfolios': -0.03601990049751245,
+        'total_AR_of_peripheral_portfolios': 0.0754726368159204,
+        'total_AR_of_random_portfolios': 0.07129353233830846,
+    },
+    {
+        'day_t': '2014-09-29',
+        'total_AR_of_central_portfolios': 0.08339901477832508,
+        'total_AR_of_peripheral_portfolios': -0.009014778325123133,
+        'total_AR_of_random_portfolios': 0.11709359605911329,
+    },
+    {
+        'day_t': '2014-10-29',
+        'total_AR_of_central_portfolios': -0.19586206896551725,
+        'total_AR_of_peripheral_portfolios': 0.28965517241379296,
+        'total_AR_of_random_portfolios': -0.17704433497536942,
+    },
+    {
+        'day_t': '2014-11-28',
+        'total_AR_of_central_portfolios': 0.0003960396039603903,
+        'total_AR_of_peripheral_portfolios': -0.09277227722772276,
+        'total_AR_of_random_portfolios': 0.1104950495049505,
+    },
+    {
+        'day_t': '2014-12-28',
+        'total_AR_of_central_portfolios': -0.022326732673267347,
+        'total_AR_of_peripheral_portfolios': 0.0542574257425743,
+        'total_AR_of_random_portfolios': 0.12153465346534653,
+    },
+    {
+        'day_t': '2015-01-27',
+        'total_AR_of_central_portfolios': -0.020049019607843152,
+        'total_AR_of_peripheral_portfolios': 0.013186274509803926,
+        'total_AR_of_random_portfolios': 0.02411764705882355,
+    },
+    {
+        'day_t': '2015-02-26',
+        'total_AR_of_central_portfolios': -0.104,
+        'total_AR_of_peripheral_portfolios': -0.016428571428571435,
+        'total_AR_of_random_portfolios': -0.0728571428571429,
+    },
+    {
+        'day_t': '2015-03-28',
+        'total_AR_of_central_portfolios': -0.14650717703349284,
+        'total_AR_of_peripheral_portfolios': 0.08535885167464113,
+        'total_AR_of_random_portfolios': 0.04287081339712918,
+    },
+    {
+        'day_t': '2015-04-27',
+        'total_AR_of_central_portfolios': -0.07230392156862746,
+        'total_AR_of_peripheral_portfolios': 0.004117647058823492,
+        'total_AR_of_random_portfolios': 0.059117647058823566,
+    },
+    {
+        'day_t': '2015-05-27',
+        'total_AR_of_central_portfolios': 0.0018269230769230808,
+        'total_AR_of_peripheral_portfolios': 0.31331730769230787,
+        'total_AR_of_random_portfolios': 0.09072115384615387,
+    },
+    {
+        'day_t': '2015-06-26',
+        'total_AR_of_central_portfolios': 0.04956521739130432,
+        'total_AR_of_peripheral_portfolios': -0.11357487922705314,
+        'total_AR_of_random_portfolios': 0.1467149758454106,
+    },
+    {
+        'day_t': '2015-07-26',
+        'total_AR_of_central_portfolios': -0.003804878048780498,
+        'total_AR_of_peripheral_portfolios': -0.02439024390243899,
+        'total_AR_of_random_portfolios': 0.07136585365853668,
+    },
+    {
+        'day_t': '2015-08-25',
+        'total_AR_of_central_portfolios': 0.04190243902439025,
+        'total_AR_of_peripheral_portfolios': 0.18790243902439027,
+        'total_AR_of_random_portfolios': 0.08634146341463411,
+    },
+    {
+        'day_t': '2015-09-24',
+        'total_AR_of_central_portfolios': 0.04305825242718445,
+        'total_AR_of_peripheral_portfolios': 0.045970873786407726,
+        'total_AR_of_random_portfolios': 0.24888349514563102,
+    },
+    {
+        'day_t': '2015-10-24',
+        'total_AR_of_central_portfolios': 0.005533980582524255,
+        'total_AR_of_peripheral_portfolios': 0.1763592233009708,
+        'total_AR_of_random_portfolios': 0.21533980582524267,
+    },
+    {
+        'day_t': '2015-11-23',
+        'total_AR_of_central_portfolios': -0.01087804878048778,
+        'total_AR_of_peripheral_portfolios': 0.06741463414634147,
+        'total_AR_of_random_portfolios': 0.431609756097561,
+    },
+    {
+        'day_t': '2015-12-23',
+        'total_AR_of_central_portfolios': 0.03146341463414634,
+        'total_AR_of_peripheral_portfolios': 0.38482926829268294,
+        'total_AR_of_random_portfolios': 0.2282439024390244,
+    },
+    {
+        'day_t': '2016-01-22',
+        'total_AR_of_central_portfolios': 0.032718446601941745,
+        'total_AR_of_peripheral_portfolios': 0.11218446601941744,
+        'total_AR_of_random_portfolios': 0.385631067961165,
+    },
+    {
+        'day_t': '2016-02-21',
+        'total_AR_of_central_portfolios': 0.04497630331753555,
+        'total_AR_of_peripheral_portfolios': -0.010805687203791499,
+        'total_AR_of_random_portfolios': 0.04071090047393365,
+    },
+    {
+        'day_t': '2016-03-22',
+        'total_AR_of_central_portfolios': -0.05152380952380953,
+        'total_AR_of_peripheral_portfolios': 0.18114285714285713,
+        'total_AR_of_random_portfolios': 0.34714285714285714,
+    },
+    {
+        'day_t': '2016-04-21',
+        'total_AR_of_central_portfolios': 0.023252427184466035,
+        'total_AR_of_peripheral_portfolios': 0.08383495145631066,
+        'total_AR_of_random_portfolios': 0.3581067961165048,
+    },
+    {
+        'day_t': '2016-05-21',
+        'total_AR_of_central_portfolios': 0.5115865384615386,
+        'total_AR_of_peripheral_portfolios': 0.25927884615384617,
+        'total_AR_of_random_portfolios': 0.08975961538461541,
+    },
+    {
+        'day_t': '2016-06-20',
+        'total_AR_of_central_portfolios': 0.08062801932367146,
+        'total_AR_of_peripheral_portfolios': 0.08256038647342996,
+        'total_AR_of_random_portfolios': 0.5794202898550724,
+    },
+    {
+        'day_t': '2016-07-20',
+        'total_AR_of_central_portfolios': 0.20014634146341462,
+        'total_AR_of_peripheral_portfolios': 0.24936585365853664,
+        'total_AR_of_random_portfolios': 0.17117073170731706,
+    },
+    {
+        'day_t': '2016-08-19',
+        'total_AR_of_central_portfolios': 0.08409756097560976,
+        'total_AR_of_peripheral_portfolios': 0.2888780487804878,
+        'total_AR_of_random_portfolios': 0.1640487804878049,
+    },
+    {
+        'day_t': '2016-09-18',
+        'total_AR_of_central_portfolios': 0.11728155339805825,
+        'total_AR_of_peripheral_portfolios': 0.10461165048543686,
+        'total_AR_of_random_portfolios': 0.17966019417475726,
+    },
+    {
+        'day_t': '2016-10-18',
+        'total_AR_of_central_portfolios': 0.15980582524271839,
+        'total_AR_of_peripheral_portfolios': 0.09019417475728156,
+        'total_AR_of_random_portfolios': 0.16713592233009716,
+    },
+    {
+        'day_t': '2016-11-17',
+        'total_AR_of_central_portfolios': 0.15395121951219512,
+        'total_AR_of_peripheral_portfolios': 0.24882926829268295,
+        'total_AR_of_random_portfolios': 0.3629268292682928,
+    },
+    {
+        'day_t': '2016-12-17',
+        'total_AR_of_central_portfolios': 0.2765365853658537,
+        'total_AR_of_peripheral_portfolios': 0.1291219512195123,
+        'total_AR_of_random_portfolios': 0.16682926829268283,
+    },
+    {
+        'day_t': '2017-01-16',
+        'total_AR_of_central_portfolios': -0.005970873786407774,
+        'total_AR_of_peripheral_portfolios': 0.04354368932038835,
+        'total_AR_of_random_portfolios': 0.021601941747572812,
+    },
+    {
+        'day_t': '2017-02-15',
+        'total_AR_of_central_portfolios': 0.2617535545023696,
+        'total_AR_of_peripheral_portfolios': 0.1272511848341232,
+        'total_AR_of_random_portfolios': 0.5019431279620854,
+    },
+    {
+        'day_t': '2017-03-17',
+        'total_AR_of_central_portfolios': 0.39438095238095244,
+        'total_AR_of_peripheral_portfolios': 0.36933333333333346,
+        'total_AR_of_random_portfolios': 0.336904761904762,
+    },
+    {
+        'day_t': '2017-04-16',
+        'total_AR_of_central_portfolios': 0.36602870813397137,
+        'total_AR_of_peripheral_portfolios': 0.06157894736842108,
+        'total_AR_of_random_portfolios': 0.11779904306220094,
+    },
+    {
+        'day_t': '2017-05-16',
+        'total_AR_of_central_portfolios': 0.5158252427184467,
+        'total_AR_of_peripheral_portfolios': -0.053932038834951485,
+        'total_AR_of_random_portfolios': 0.4378640776699029,
+    },
+]
+c = [
+    {
+        'day_t': '2014-06-01',
+        'total_AR_of_central_portfolios': 0.24584905660377357,
+        'total_AR_of_peripheral_portfolios': 0.234811320754717,
+        'total_AR_of_random_portfolios': 0.10066037735849054,
+    },
+    {
+        'day_t': '2014-07-01',
+        'total_AR_of_central_portfolios': 0.20299065420560744,
+        'total_AR_of_peripheral_portfolios': 0.08177570093457945,
+        'total_AR_of_random_portfolios': 0.1576635514018692,
+    },
+    {
+        'day_t': '2014-07-31',
+        'total_AR_of_central_portfolios': 0.10190476190476194,
+        'total_AR_of_peripheral_portfolios': 0.0042857142857143475,
+        'total_AR_of_random_portfolios': 0.09733333333333341,
+    },
+    {
+        'day_t': '2014-08-30',
+        'total_AR_of_central_portfolios': 0.005533980582524255,
+        'total_AR_of_peripheral_portfolios': -0.04543689320388353,
+        'total_AR_of_random_portfolios': 0.09398058252427191,
+    },
+    {
+        'day_t': '2014-09-29',
+        'total_AR_of_central_portfolios': -0.005049504950495063,
+        'total_AR_of_peripheral_portfolios': -0.011089108910891134,
+        'total_AR_of_random_portfolios': -0.3474257425742576,
+    },
+    {
+        'day_t': '2014-10-29',
+        'total_AR_of_central_portfolios': -0.0414,
+        'total_AR_of_peripheral_portfolios': 0.09809999999999997,
+        'total_AR_of_random_portfolios': 0.033899999999999986,
+    },
+    {
+        'day_t': '2014-11-28',
+        'total_AR_of_central_portfolios': -0.07949494949494948,
+        'total_AR_of_peripheral_portfolios': 0.07828282828282836,
+        'total_AR_of_random_portfolios': -0.13656565656565656,
+    },
+    {
+        'day_t': '2014-12-28',
+        'total_AR_of_central_portfolios': 0.012500000000000048,
+        'total_AR_of_peripheral_portfolios': 0.04177083333333336,
+        'total_AR_of_random_portfolios': -0.004791666666666676,
+    },
+    {
+        'day_t': '2015-01-27',
+        'total_AR_of_central_portfolios': 0.012727272727272719,
+        'total_AR_of_peripheral_portfolios': -0.01181818181818183,
+        'total_AR_of_random_portfolios': 0.06656565656565662,
+    },
+    {
+        'day_t': '2015-02-26',
+        'total_AR_of_central_portfolios': 0.00349514563106796,
+        'total_AR_of_peripheral_portfolios': -0.06252427184466013,
+        'total_AR_of_random_portfolios': 0.22145631067961158,
+    },
+    {
+        'day_t': '2015-03-28',
+        'total_AR_of_central_portfolios': -0.0556310679611651,
+        'total_AR_of_peripheral_portfolios': 0.2857281553398057,
+        'total_AR_of_random_portfolios': 0.15359223300970862,
+    },
+    {
+        'day_t': '2015-04-27',
+        'total_AR_of_central_portfolios': 0.02836538461538459,
+        'total_AR_of_peripheral_portfolios': 0.0955769230769231,
+        'total_AR_of_random_portfolios': -0.054230769230769284,
+    },
+    {
+        'day_t': '2015-05-27',
+        'total_AR_of_central_portfolios': 0.05588785046728972,
+        'total_AR_of_peripheral_portfolios': -0.009906542056074663,
+        'total_AR_of_random_portfolios': 0.16196261682243002,
+    },
+    {
+        'day_t': '2015-06-26',
+        'total_AR_of_central_portfolios': -0.009811320754716968,
+        'total_AR_of_peripheral_portfolios': 0.10415094339622634,
+        'total_AR_of_random_portfolios': 0.07735849056603775,
+    },
+    {
+        'day_t': '2015-07-26',
+        'total_AR_of_central_portfolios': -0.1332710280373832,
+        'total_AR_of_peripheral_portfolios': -0.004579439252336323,
+        'total_AR_of_random_portfolios': 0.04355140186915896,
+    },
+    {
+        'day_t': '2015-08-25',
+        'total_AR_of_central_portfolios': -0.09158878504672896,
+        'total_AR_of_peripheral_portfolios': -0.06028037383177556,
+        'total_AR_of_random_portfolios': -0.06934579439252335,
+    },
+    {
+        'day_t': '2015-09-24',
+        'total_AR_of_central_portfolios': -0.10356435643564355,
+        'total_AR_of_peripheral_portfolios': 0.1914851485148514,
+        'total_AR_of_random_portfolios': -0.03326732673267323,
+    },
+    {
+        'day_t': '2015-10-24',
+        'total_AR_of_central_portfolios': -0.08792079207920794,
+        'total_AR_of_peripheral_portfolios': 0.2668316831683168,
+        'total_AR_of_random_portfolios': 0.07316831683168307,
+    },
+    {
+        'day_t': '2015-11-23',
+        'total_AR_of_central_portfolios': -0.0876470588235294,
+        'total_AR_of_peripheral_portfolios': 0.04039215686274526,
+        'total_AR_of_random_portfolios': 0.283921568627451,
+    },
+    {
+        'day_t': '2015-12-23',
+        'total_AR_of_central_portfolios': 0.0347474747474748,
+        'total_AR_of_peripheral_portfolios': 0.17949494949494949,
+        'total_AR_of_random_portfolios': 0.07868686868686872,
+    },
+    {
+        'day_t': '2016-01-22',
+        'total_AR_of_central_portfolios': 0.20818181818181816,
+        'total_AR_of_peripheral_portfolios': 0.49040404040404045,
+        'total_AR_of_random_portfolios': 0.15949494949494947,
+    },
+    {
+        'day_t': '2016-02-21',
+        'total_AR_of_central_portfolios': 0.13266666666666674,
+        'total_AR_of_peripheral_portfolios': 0.3224761904761905,
+        'total_AR_of_random_portfolios': 0.29638095238095236,
+    },
+    {
+        'day_t': '2016-03-22',
+        'total_AR_of_central_portfolios': 0.09867924528301886,
+        'total_AR_of_peripheral_portfolios': 0.4186792452830188,
+        'total_AR_of_random_portfolios': 0.05273584905660373,
+    },
+    {
+        'day_t': '2016-04-21',
+        'total_AR_of_central_portfolios': 0.17394230769230778,
+        'total_AR_of_peripheral_portfolios': 0.7579807692307691,
+        'total_AR_of_random_portfolios': 0.40153846153846157,
+    },
+    {
+        'day_t': '2016-05-21',
+        'total_AR_of_central_portfolios': 0.08415094339622639,
+        'total_AR_of_peripheral_portfolios': 0.21632075471698117,
+        'total_AR_of_random_portfolios': 0.34207547169811325,
+    },
+    {
+        'day_t': '2016-06-20',
+        'total_AR_of_central_portfolios': 0.0008333333333333352,
+        'total_AR_of_peripheral_portfolios': 0.028055555555555518,
+        'total_AR_of_random_portfolios': 0.1086111111111111,
+    },
+    {
+        'day_t': '2016-07-20',
+        'total_AR_of_central_portfolios': -0.024299065420560706,
+        'total_AR_of_peripheral_portfolios': 0.20299065420560747,
+        'total_AR_of_random_portfolios': 0.29252336448598115,
+    },
+    {
+        'day_t': '2016-08-19',
+        'total_AR_of_central_portfolios': 0.02285714285714293,
+        'total_AR_of_peripheral_portfolios': 0.0595238095238097,
+        'total_AR_of_random_portfolios': 0.02171428571428575,
+    },
+    {
+        'day_t': '2016-09-18',
+        'total_AR_of_central_portfolios': 0.20421568627450987,
+        'total_AR_of_peripheral_portfolios': 0.15784313725490196,
+        'total_AR_of_random_portfolios': 0.05735294117647062,
+    },
+    {
+        'day_t': '2016-10-18',
+        'total_AR_of_central_portfolios': 0.04145631067961144,
+        'total_AR_of_peripheral_portfolios': 0.0652427184466019,
+        'total_AR_of_random_portfolios': -0.06233009708737865,
+    },
+    {
+        'day_t': '2016-11-17',
+        'total_AR_of_central_portfolios': 0.1246,
+        'total_AR_of_peripheral_portfolios': 0.06140000000000004,
+        'total_AR_of_random_portfolios': 0.19990000000000008,
+    },
+    {
+        'day_t': '2016-12-17',
+        'total_AR_of_central_portfolios': 0.33,
+        'total_AR_of_peripheral_portfolios': 0.22,
+        'total_AR_of_random_portfolios': 0.7704081632653061,
+    },
+    {
+        'day_t': '2017-01-16',
+        'total_AR_of_central_portfolios': 0.30029702970297034,
+        'total_AR_of_peripheral_portfolios': 0.3169306930693069,
+        'total_AR_of_random_portfolios': 0.36534653465346534,
+    },
+    {
+        'day_t': '2017-02-15',
+        'total_AR_of_central_portfolios': 0.314952380952381,
+        'total_AR_of_peripheral_portfolios': 0.414,
+        'total_AR_of_random_portfolios': 0.626761904761905,
+    },
+    {
+        'day_t': '2017-03-17',
+        'total_AR_of_central_portfolios': 0.4545192307692308,
+        'total_AR_of_peripheral_portfolios': 0.34855769230769224,
+        'total_AR_of_random_portfolios': 0.3411538461538463,
+    },
+    {
+        'day_t': '2017-04-16',
+        'total_AR_of_central_portfolios': 0.27457142857142863,
+        'total_AR_of_peripheral_portfolios': 0.20428571428571426,
+        'total_AR_of_random_portfolios': 0.12457142857142864,
+    },
+    {
+        'day_t': '2017-05-16',
+        'total_AR_of_central_portfolios': 0.0875925925925926,
+        'total_AR_of_peripheral_portfolios': 0.19342592592592592,
+        'total_AR_of_random_portfolios': 0.16953703703703704,
+    },
+]
 dateArray = []
-rf_of_MC_in_selection_horizon_array_d = []
-rf_of_MC_in_selection_horizon_array_c = []
-rf_of_MC_in_selection_horizon_array_dd = []
-rf_of_MC_in_selection_horizon_array_dis = []
+# rf_of_MC_in_selection_horizon_array_d = []
+# rf_of_MC_in_selection_horizon_array_c = []
+# rf_of_MC_in_selection_horizon_array_dd = []
+# rf_of_MC_in_selection_horizon_array_dis = []
 rf_of_MC_in_selection_horizon_array_corr = []
-a=sorted(a10Degree, key=lambda student: student['day_t'])
-b=sorted(a10C, key=lambda student: student['day_t'])
-c=sorted(a10DDegree, key=lambda student: student['day_t'])
-d= sorted(a10Distance, key=lambda student: student['day_t'])
-e= sorted(a10Correlation, key=lambda student: student['day_t'])
-
+bai2 = []
+bai3 = []
+# a=sorted(a10Degree, key=lambda student: student['day_t'])
+# b=sorted(a10C, key=lambda student: student['day_t'])
+# c=sorted(a10DDegree, key=lambda student: student['day_t'])
+# d= sorted(a10Distance, key=lambda student: student['day_t'])
+a = sorted(a10Correlation, key=lambda student: student['day_t'])
+b = sorted(b, key=lambda student: student['day_t'])
+c = sorted(c, key=lambda student: student['day_t'])
 for o in a:
     string_day = o['day_t']
     dtime = datetime.date(int(string_day[:4]), int(
@@ -1902,30 +2353,32 @@ for o in a:
     dateArray.append(dtime)
 for o in a:
     string_day = o['total_AR_of_central_portfolios']
-    rf_of_MC_in_selection_horizon_array_d.append(string_day)
+    rf_of_MC_in_selection_horizon_array_corr.append(string_day)
 for o in b:
     string_day = o['total_AR_of_central_portfolios']
-    rf_of_MC_in_selection_horizon_array_c.append(string_day)
+    bai2.append(string_day)
 for o in c:
     string_day = o['total_AR_of_central_portfolios']
-    rf_of_MC_in_selection_horizon_array_dd.append(string_day)
-for o in d:
-    string_day = o['total_AR_of_central_portfolios']
-    rf_of_MC_in_selection_horizon_array_dis.append(string_day)
-for o in e:
-    string_day = o['total_AR_of_central_portfolios']
-    rf_of_MC_in_selection_horizon_array_corr.append(string_day)
+    bai3.append(string_day)
+# for o in d:
+#     string_day = o['total_AR_of_central_portfolios']
+#     rf_of_MC_in_selection_horizon_array_dis.append(string_day)
+# for o in e:
+#     string_day = o['total_AR_of_central_portfolios']
+#     rf_of_MC_in_selection_horizon_array_corr.append(string_day)
 # sum = 0
 # for o in a:
 #     sum += o[''total_AR_of_peripheral_portfolios'']
 
 # print(sum)
-plt.plot_date(dateArray, rf_of_MC_in_selection_horizon_array_d, 'y-')
-plt.plot_date(dateArray, rf_of_MC_in_selection_horizon_array_corr, 'r-')
-plt.plot_date(dateArray,
-              rf_of_MC_in_selection_horizon_array_dd, 'b-',)
-plt.plot_date(dateArray, rf_of_MC_in_selection_horizon_array_dis, 'g-',)
 plt.plot_date(dateArray, rf_of_MC_in_selection_horizon_array_corr, 'k-')
-plt.legend(['Degree', 'Closeness', 'DDegree', 'Distance',  'Correlation'])
+plt.xlabel('HOSE')
+
+plt.plot_date(dateArray, bai2, 'y-')
+plt.plot_date(dateArray, bai3, 'r-')
+# plt.plot_date(dateArray,
+#               rf_of_MC_in_selection_horizon_array_dd, 'b-',)
+# plt.plot_date(dateArray, rf_of_MC_in_selection_horizon_array_dis, 'g-',)
+plt.legend(['Phương pháp 1', 'Phương pháp 2', 'Phương pháp 3', ])
 
 plt.show()
