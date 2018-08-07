@@ -385,16 +385,20 @@ def calculate_average_return(price_history):
     return total_profit / (len(price_history) - 1)
 
 
-def total_AR_of_portfolios_in_period(portfolios, start_day, end_day):
+def total_AR_of_portfolios_in_period(portfolios, amount_per_share, start_day, end_day):
     # TODO: calculate total average return of all stocks of portfolios in period
     # INPUT: portfolios is set of stock, start_day is the date begin invest , end_day is the date finish invest
     # OUTPUT: total average return
     total_AR = 0
     for stock in portfolios:
         price_history = stock.get_close_price_in_period(start_day, end_day)
-        total_AR += calculate_average_return(price_history)
+        
+        stock_price = price_history[0]
+        shares_purchased = amount_per_share / stock_price
+        
+        total_AR += calculate_average_return(price_history) * shares_purchased
+        
     return total_AR
-
 
 def market_condition_in_period(market_index, begin_day, end_day):
     list_price = market_index.get_close_price_in_period(begin_day, end_day)
@@ -422,11 +426,11 @@ def portfolio_strategy(day_t, random_portfolios):
         market_index, day_t + datetime.timedelta(days=1), last_investment_day)
 
     total_AR_of_central = total_AR_of_portfolios_in_period(
-        portfolios['central'], day_t + datetime.timedelta(days=1), last_investment_day)
+        portfolios['central'], AMOUNT_PER_SHARE, day_t + datetime.timedelta(days=1), last_investment_day)
     total_AR_of_peripheral = total_AR_of_portfolios_in_period(
-        portfolios['peripheral'], day_t + datetime.timedelta(days=1), last_investment_day)
+        portfolios['peripheral'], AMOUNT_PER_SHARE, day_t + datetime.timedelta(days=1), last_investment_day)
     total_AR_of_random = total_AR_of_portfolios_in_period(
-        random_portfolios, day_t + datetime.timedelta(days=1), last_investment_day)
+        random_portfolios, AMOUNT_PER_SHARE, day_t + datetime.timedelta(days=1), last_investment_day)
     # End
 
     return {'selection_mc': selection_mc, 'investment_mc': investment_mc, 'day_t': day_t, 'last_investment_day': last_investment_day,
@@ -552,27 +556,6 @@ def train_to_find_OPS(market_name, start_day, end_day):
     ff.write('Profit of random: ' + str(total_profit_random) + '\n')
     ff.close()
 
-    '''
-    # Find optimal portfolios under combination portfolios
-    for key, value in samples_were_classified.items():
-        profit_of_central = 0
-        profit_of_peripheral = 0
-        profit_of_random = 0
-        
-        for v in value:
-            profit_of_central += v['total_AR_of_central']
-            profit_of_peripheral += v['total_AR_of_peripheral']
-            profit_of_random += v['total_AR_of_random']
-        
-        if profit_of_central >= profit_of_peripheral:
-            optimal_portfolios_in_MC[key] = 'central'
-        else:
-            optimal_portfolios_in_MC[key] = 'peripheral'
-                
-    return optimal_portfolios_in_MC
-    '''
-
-
 def combination_of_MC(selection_mc, investment_mc):
     # TODO: compare to return combination of market condition
     # INPUT: mc_in_selection, mc_in_investment is float number
@@ -601,45 +584,6 @@ def combination_of_MC(selection_mc, investment_mc):
             return 'UU'
 
 
-def invest_DPS(OPS, market_name, start_day, end_day):
-    # TODO: Use dynamic portfolio strategy to invest in period between start_day and end_day
-    # INPUT: stocks: all stocks in market, OPS: dictionary with key is conbination of market and value is optimal portfolio
-    total_average_return = 0
-    day_t = start_day
-
-    ff = open(market_name + '_invest.txt', 'w')
-
-    while day_t < end_day:
-        ps = portfolio_strategy(day_t, [])
-
-        combination = combination_of_MC(
-            ps['selection_mc'].rd, ps['investment_mc'].rd)
-
-        if combination in OPS.keys():
-            optimal_portfolio = OPS[combination]
-            average_return_of_portfolio = 0
-
-            if (optimal_portfolio == 'central'):
-                average_return_of_portfolio += ps['total_AR_of_central']
-            else:
-                average_return_of_portfolio += ps['total_AR_of_peripheral']
-
-            total_average_return += average_return_of_portfolio
-
-            ff.write('day_t: \'' + str(ps['day_t']) + '\'\n')
-            ff.write('last_investment_day: ' +
-                     str(ps['last_investment_day']) + '\n')
-            ff.write('optimal portfolios: ' + str(optimal_portfolio) + '\n')
-            ff.write('average_return_of_portfolio: ' +
-                     str(average_return_of_portfolio) + '\n')
-
-        day_t += datetime.timedelta(days=150)
-
-    ff.write('========================\n')
-    ff.write('total_average_return: ' + str(total_average_return))
-    ff.close()
-
-
 #============================================================================#
 os.makedirs('resultDPS', exist_ok=True)
 BY_DEGREE = 1
@@ -647,6 +591,9 @@ BY_C = 2
 BY_D_DEGREE = 3
 BY_CORRELATION = 4
 BY_DISTANCE = 5
+
+#số tiền đầu tư cho mỗi cổ phiếu
+AMOUNT_PER_SHARE = 1000
 
 '''
 print("Please select one of markets below:")
@@ -672,55 +619,55 @@ print("19: KOSPI")
 print("20: SSEC50")'''
 
 
-for selected_market in range(10, 13):
+for selected_market in range(1, 13):
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
-        save_result_to = 'BY_CORRELATION_HOSE'
+        save_result_to = 'BY_CORRELATION_HOSE_10m'
     elif selected_market == 2:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^hastc.csv')
-        save_result_to = 'BY_CORRELATION_HNX'
+        save_result_to = 'BY_CORRELATION_HNX_10m'
     elif selected_market == 3:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
         market_datapath = os.path.join(os.getcwd(), '^NYA.csv')
-        save_result_to = 'BY_CORRELATION_NYSE'
+        save_result_to = 'BY_CORRELATION_NYSE_10m'
     elif selected_market == 4:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
         market_datapath = os.path.join(os.getcwd(), '^XAX.csv')
-        save_result_to = 'BY_CORRELATION_AMEX'
+        save_result_to = 'BY_CORRELATION_AMEX_10m'
     elif selected_market == 5:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
         market_datapath = os.path.join(os.getcwd(), '^OSEAX.csv')
-        save_result_to = 'BY_CORRELATION_OLSOBORS'
+        save_result_to = 'BY_CORRELATION_OLSOBORS_10m'
     elif selected_market == 6:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
         market_datapath = os.path.join(os.getcwd(), '^IXIC.csv')
-        save_result_to = 'BY_CORRELATION_NASDAQ'
+        save_result_to = 'BY_CORRELATION_NASDAQ_10m'
     elif selected_market == 7:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunikkei225')
         market_datapath = os.path.join(os.getcwd(), '^N225.csv')
-        save_result_to = 'BY_CORRELATION_NIKKEI225'
+        save_result_to = 'BY_CORRELATION_NIKKEI225_10m'
     elif selected_market == 8:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuTSX')
         market_datapath = os.path.join(os.getcwd(), '^GSPTSE.csv')
-        save_result_to = 'BY_CORRELATION_TSX'
+        save_result_to = 'BY_CORRELATION_TSX_10m'
     elif selected_market == 9:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
         market_datapath = os.path.join(os.getcwd(), '^XU100.csv')
-        save_result_to = 'BY_CORRELATION_XU100'
+        save_result_to = 'BY_CORRELATION_XU100_10m'
     elif selected_market == 10:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuAustraliaS&P200')
         market_datapath = os.path.join(os.getcwd(), '^AXJO.csv')
-        save_result_to = 'BY_CORRELATION_AustraliaS&P200'
+        save_result_to = 'BY_CORRELATION_AustraliaS&P200_10m'
     elif selected_market == 11:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuShanghai')
         market_datapath = os.path.join(os.getcwd(), '^SSEC.csv')
-        save_result_to = 'BY_CORRELATION_Shanghai'
+        save_result_to = 'BY_CORRELATION_Shanghai_10m'
     elif selected_market == 12:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuKOSPI')
         market_datapath = os.path.join(os.getcwd(), '^KS11.csv')
-        save_result_to = 'BY_CORRELATION_KOSPI'
+        save_result_to = 'BY_CORRELATION_KOSPI_10m'
     else:
         print("...")
 
