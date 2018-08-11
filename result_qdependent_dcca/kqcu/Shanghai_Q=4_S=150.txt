@@ -1,0 +1,18 @@
+{
+Ngay chon co phieu de dau tu: '2014-06-01',
+total_AR_of_central_portfolios: 0.09156250000000002,
+total_AR_of_peripheral_portfolios: 0.11706093749999999,
+total_AR_of_random_portfolios: 0.14741204687500006,
+},
+{
+Ngay chon co phieu de dau tu: '2014-07-01',
+total_AR_of_central_portfolios: 0.15664484375,
+total_AR_of_peripheral_portfolios: 0.14580968750000003,
+total_AR_of_random_portfolios: 0.41584660937499995,
+},
+{
+Ngay chon co phieu de dau tu: '2014-07-31',
+total_AR_of_central_portfolios: 0.0123728983050848,
+total_AR_of_peripheral_portfolios: 0.034056779661016945,
+total_AR_of_random_portfolios: 0.030998135593220323,
+},

@@ -143,16 +143,27 @@ def calculate_variance(residual_signals, S):
     total = sum(i * i for i in residual_signals)
     return (1 / S) * total
 
-def invest(stocks, portfolios, begin_date, end_date):
+def invest(stocks, portfolios, amount_per_share, begin_date, end_date):
+    #Tổng lợi nhuận trung bình
     total_average_profit = 0
+    
+    # Tính tổng lợi nhuận trung bình của danh mục đầu tư
     for ticker in portfolios:
         stock = next((s for s in stocks if s.ticker == ticker), None)
         
         #Get list_close_price to use, note: decrease date
         lcp_to_use = stock.get_close_price_in_period(begin_date, end_date)
+
+        # Giá cổ phiếu khi mua
+        stock_price = lcp_to_use[0]
         
+        #Số cổ phiếu mua được
+        shares_purchased = amount_per_share / stock_price
+        
+        # Lợi nhuận trung bình của mỗi cổ phiếu mua được
         average_profit = (1 / len(lcp_to_use)) * sum(lcp_to_use[i] - lcp_to_use[i + 1] for i in range(0, len(lcp_to_use) - 1))
-        total_average_profit += average_profit
+        
+        total_average_profit += (average_profit * shares_purchased)
     
     return total_average_profit
 
@@ -171,17 +182,17 @@ def choose_stocks_to_invest(stocks, day_choose_stocks, Q, S):
         integrated_ts = integrated_timeseries(dcca_stock.r)
         dcca_stock.set_integrated_ts(integrated_ts)
         
-        
-        #loai co phieu
+        '''
+        #nho xoa
         ratio = np.mean(r) / np.std(r)
         dcca_stock.set_ratio(ratio)
-    
-    #loai co phieu
+        
+    # nho xoa
     dcca_stocks = sorted(dcca_stocks, key=lambda s: (s.ratio), reverse=True)
-    half_length = int(len(dcca_stocks) / 2)
-    dcca_stocks = dcca_stocks[:half_length]
-    print(len(dcca_stocks))
+    half_length = int(len(dcca_stocks) * 0.8)
+    dcca_stocks = dcca_stocks[:half_length]'''
     
+    print(len(dcca_stocks))
     
     c_matrix = build_crosscorelation_matrix(dcca_stocks, Q, S)
     
@@ -193,18 +204,18 @@ def choose_stocks_to_invest(stocks, day_choose_stocks, Q, S):
 
     PMFG_graph = PMFG.build_PMFG(complete_graph)
     
-    #ssu
-    ten_percent = int(nb_nodes * 0.2)
+    ten_percent = int(nb_nodes * 0.1)
     portfolios = PMFG.choose_central_peripheral(PMFG_graph, ten_percent, ten_percent)
     
     return portfolios
 
 def qdependent_DCCA(stocks, investment_start_date, investment_stop_date, market_name):
-    Q = 3
+    Q = 1
     S = 50
     
     while Q <= 4:
         while S <= 200:
+            
             filename = market_name + '_Q=' + str(Q) + '_S=' + str(S)
             save_result_to = os.path.join(os.getcwd(), 'result_qdependent_dcca', filename + '.txt')
             
@@ -228,9 +239,9 @@ def qdependent_DCCA(stocks, investment_start_date, investment_stop_date, market_
                 
                 lastday_of_invesment = day_choose_stocks + datetime.timedelta(days=300)
                 
-                central_AP    = invest(stocks, central_portfolio, day_choose_stocks, lastday_of_invesment)
-                peripheral_AP = invest(stocks, peripheral_portfolio, day_choose_stocks, lastday_of_invesment)
-                random_AP     = invest(stocks, random_portfolio, day_choose_stocks, lastday_of_invesment)
+                central_AP    = invest(stocks, central_portfolio, AMOUNT_PER_SHARE, day_choose_stocks, lastday_of_invesment)
+                peripheral_AP = invest(stocks, peripheral_portfolio, AMOUNT_PER_SHARE, day_choose_stocks, lastday_of_invesment)
+                random_AP     = invest(stocks, random_portfolio, AMOUNT_PER_SHARE, day_choose_stocks, lastday_of_invesment)
                 
                 total_profit_of_central    += central_AP
                 total_profit_of_peripheral += peripheral_AP
@@ -264,67 +275,70 @@ def qdependent_DCCA(stocks, investment_start_date, investment_stop_date, market_
 
 
 #============================================================================#
+#số tiền đầu tư cho mỗi cổ phiếu
+AMOUNT_PER_SHARE = 1000
+        
 os.makedirs('result_qdependent_dcca', exist_ok=True)
 
 for selected_market in range(9, 10):
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
-        market_name     = 'HOSE'
+        market_name     = 'HOSE_10m'
         #ok
     elif selected_market == 2:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^hastc.csv')
-        market_name     = 'HNX'
+        market_name     = 'HNX_10m'
         #ok
     elif selected_market == 3:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
         market_datapath = os.path.join(os.getcwd(), '^NYA.csv')
-        market_name     = 'NYSE'
+        market_name     = 'NYSE_10m'
         #ok
     elif selected_market == 4:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
         market_datapath = os.path.join(os.getcwd(), '^XAX.csv')
-        market_name     = 'AMEX'
+        market_name     = 'AMEX_10m'
         #ok
     elif selected_market == 5:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
         market_datapath = os.path.join(os.getcwd(), '^OSEAX.csv')
-        market_name     = 'OLSOBORS'
+        market_name     = 'OLSOBORS_10m'
         #ok
     elif selected_market == 6:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
         market_datapath = os.path.join(os.getcwd(), '^IXIC.csv')
-        market_name     = 'NASDAQ'
+        market_name     = 'NASDAQ_10m'
         #ok
     elif selected_market == 7:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunikkei225')
         market_datapath = os.path.join(os.getcwd(), '^N225.csv')
-        market_name     = 'NIKKEI225'
+        market_name     = 'NIKKEI225_10m'
         #thieu 3 thng
     elif selected_market == 8:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuTSX')
         market_datapath = os.path.join(os.getcwd(), '^GSPTSE.csv')
-        market_name     = 'TSX'
+        market_name     = 'TSX_10m'
         #thieu 3 thang
     elif selected_market == 9:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
         market_datapath = os.path.join(os.getcwd(), '^XU100.csv')
-        market_name     = 'XU100_10'
+        market_name     = 'XU100_10m'
     elif selected_market == 10:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuAustraliaS&P200')
         market_datapath = os.path.join(os.getcwd(), '^AXJO.csv')
-        market_name     = 'AustraliaS&P200'
+        market_name     = 'AustraliaS&P200_10m'
         #thieu 3 thang
     elif selected_market == 11:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuShanghai')
         market_datapath = os.path.join(os.getcwd(), '^SSEC.csv')
-        market_name     = 'Shanghai'
+        market_name     = 'Shanghai_10m'
         #thieu 3 thng
     elif selected_market == 12:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuKOSPI')
         market_datapath = os.path.join(os.getcwd(), '^KS11.csv')
-        market_name     = 'KOSPI_10'
+        market_name     = 'KOSPI_10_10m'
     else:
         print("...")
     

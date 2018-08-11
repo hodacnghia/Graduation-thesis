@@ -619,7 +619,15 @@ print("19: KOSPI")
 print("20: SSEC50")'''
 
 
+<<<<<<< HEAD
 for selected_market in range(1, 13):
+=======
+<<<<<<< HEAD
+for selected_market in range(4, 13):
+=======
+for selected_market in range(10, 13):
+>>>>>>> adea34be6f51dd38a69d82675eab0359c171ef8d
+>>>>>>> 5c2a65af2bd1d89130b0467f0e099131be41d72a
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')

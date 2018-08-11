@@ -80,18 +80,28 @@ def build_peason_correlation_matrix(stocks):
             
     return matrix
 
-def invest(stocks, portfolios, begin_date, end_date):
+def invest(stocks, portfolios, amount_per_share, begin_date, end_date):
+    #Tổng lợi nhuận trung bình
     total_average_profit = 0
+    
     print(begin_date, end_date)
+    # Tính tổng lợi nhuận trung bình của danh mục đầu tư
     for ticker in portfolios:
         stock = next((s for s in stocks if s.ticker == ticker), None)
         
         #Get list_close_price to use, note: decrease date
         lcp_to_use = stock.get_close_price_in_period(begin_date, end_date)
+
+        # Giá cổ phiếu khi mua
+        stock_price = lcp_to_use[0]
         
+        #Số cổ phiếu mua được
+        shares_purchased = amount_per_share / stock_price
+        
+        # Lợi nhuận trung bình của mỗi cổ phiếu mua được
         average_profit = (1 / len(lcp_to_use)) * sum(lcp_to_use[i] - lcp_to_use[i + 1] for i in range(0, len(lcp_to_use) - 1))
-        print(stock.ticker, average_profit)
-        total_average_profit += average_profit
+        
+        total_average_profit += (average_profit * shares_purchased)
     
     return total_average_profit
 
@@ -113,9 +123,9 @@ def SORA(sora_stocks, investment_start_date, investment_stop_date, save_result_t
 
         lastday_of_invesment = day_choose_stocks + datetime.timedelta(days=300)
 
-        central_AP    = invest(sora_stocks, central_portfolio, day_choose_stocks, lastday_of_invesment)
-        peripheral_AP = invest(sora_stocks, peripheral_portfolio, day_choose_stocks, lastday_of_invesment)
-        random_AP     = invest(sora_stocks, random_portfolio, day_choose_stocks, lastday_of_invesment)
+        central_AP    = invest(sora_stocks, central_portfolio, AMOUNT_PER_SHARE, day_choose_stocks, lastday_of_invesment)
+        peripheral_AP = invest(sora_stocks, peripheral_portfolio, AMOUNT_PER_SHARE, day_choose_stocks, lastday_of_invesment)
+        random_AP     = invest(sora_stocks, random_portfolio, AMOUNT_PER_SHARE, day_choose_stocks, lastday_of_invesment)
         
         total_profit_of_central    += central_AP
         total_profit_of_peripheral += peripheral_AP
@@ -144,6 +154,9 @@ def SORA(sora_stocks, investment_start_date, investment_stop_date, save_result_t
         
 
 #==============================================================================#
+#số tiền đầu tư cho mỗi cổ phiếu
+AMOUNT_PER_SHARE = 1000
+    
 os.makedirs('resultSORA', exist_ok=True)
 
 for selected_market in range(1, 13):
