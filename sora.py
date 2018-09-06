@@ -27,7 +27,7 @@ def choose_stocks_to_invest(sora_stocks, day_choose_stocks):
     stocks = sora_stocks.copy()
     
     # The first day of the period is selected to select the stock that needs to be invested
-    first_day = day_choose_stocks - datetime.timedelta(days=125)
+    first_day = day_choose_stocks - datetime.timedelta(days=300)
     for s in stocks:
         lcp_to_use = s.get_close_price_in_period(first_day, day_choose_stocks)
         r = calculate_r(lcp_to_use)
@@ -56,7 +56,9 @@ def choose_stocks_to_invest(sora_stocks, day_choose_stocks):
     
     return portfolios
 
-        
+def distance_of_2_stock(correlation_coefficent):
+    return math.sqrt(2 * abs(1 - correlation_coefficent))        
+
 def calculate_r(stock_returns):
     r = []
     price_in_first_day = stock_returns[0]
@@ -73,8 +75,10 @@ def build_peason_correlation_matrix(stocks):
             if i == j:
                 matrix[i][i] = 0
                 continue
+            
             print(stocks[i].ticker, stocks[j].ticker)
             p = pearsonr(stocks[i].r, stocks[j].r)[0]
+            print(p)
             matrix[i][j] = round(p, 6)
             matrix[j][i] = round(p, 6)
             
@@ -163,51 +167,51 @@ for selected_market in range(1, 13):
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
-        save_result_to = 'HOSE_10'
+        save_result_to = 'HOSE_10m_1'
     elif selected_market == 2:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuhnxindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^hastc.csv')
-        save_result_to = 'HNX_10'
+        save_result_to = 'HNX_10m_1'
     elif selected_market == 3:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunyse')
         market_datapath = os.path.join(os.getcwd(), '^NYA.csv')
-        save_result_to = 'NYSE_10'
+        save_result_to = 'NYSE_10m_1'
     elif selected_market == 4:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuamex')
         market_datapath = os.path.join(os.getcwd(), '^XAX.csv')
-        save_result_to = 'AMEX_10'
+        save_result_to = 'AMEX_10m_1'
     elif selected_market == 5:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuolsobors')
         market_datapath = os.path.join(os.getcwd(), '^OSEAX.csv')
-        save_result_to = 'OLSOBORS_10'
+        save_result_to = 'OLSOBORS_10m_1'
     elif selected_market == 6:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunasdaq')
         market_datapath = os.path.join(os.getcwd(), '^IXIC.csv')
-        save_result_to = 'NASDAQ_10'
+        save_result_to = 'NASDAQ_10m_1'
     elif selected_market == 7:
         data_dictionary = os.path.join(os.getcwd(), 'dulieunikkei225')
         market_datapath = os.path.join(os.getcwd(), '^N225.csv')
-        save_result_to = 'NIKKEI225_10'
+        save_result_to = 'NIKKEI225_10m_1'
     elif selected_market == 8:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuTSX')
         market_datapath = os.path.join(os.getcwd(), '^GSPTSE.csv')
-        save_result_to = 'TSX_10'
+        save_result_to = 'TSX_10m_1'
     elif selected_market == 9:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuturkey')
         market_datapath = os.path.join(os.getcwd(), '^XU100.csv')
-        save_result_to = 'XU100_10'
+        save_result_to = 'XU100_10m_1'
     elif selected_market == 10:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuAustraliaS&P200')
         market_datapath = os.path.join(os.getcwd(), '^AXJO.csv')
-        save_result_to = 'AustraliaS&P200_10'
+        save_result_to = 'AustraliaS&P200_10m_1'
     elif selected_market == 11:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuShanghai')
         market_datapath = os.path.join(os.getcwd(), '^SSEC.csv')
-        save_result_to = 'Shanghai_10'
+        save_result_to = 'Shanghai_10m_1'
     elif selected_market == 12:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuKOSPI')
         market_datapath = os.path.join(os.getcwd(), '^KS11.csv')
-        save_result_to = 'KOSPI_10'
+        save_result_to = 'KOSPI_10m_1'
     else:
         print("...")
     print(save_result_to)

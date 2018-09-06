@@ -13,7 +13,6 @@ import planarity
 #============================================================================#
 class DCCA_Stock(Stock):
     integrated_ts = []
-    ratio = 0
     
     def __init__(self, stock):
         self.ticker = stock.ticker
@@ -22,9 +21,6 @@ class DCCA_Stock(Stock):
         
     def set_integrated_ts(self, integrated_ts):
         self.integrated_ts = integrated_ts
-        
-    def set_ratio(self, ratio):
-        self.ratio = ratio
         
 class Segment():
     s1_variance = 0
@@ -181,18 +177,6 @@ def choose_stocks_to_invest(stocks, day_choose_stocks, Q, S):
     
         integrated_ts = integrated_timeseries(dcca_stock.r)
         dcca_stock.set_integrated_ts(integrated_ts)
-        
-        '''
-        #nho xoa
-        ratio = np.mean(r) / np.std(r)
-        dcca_stock.set_ratio(ratio)
-        
-    # nho xoa
-    dcca_stocks = sorted(dcca_stocks, key=lambda s: (s.ratio), reverse=True)
-    half_length = int(len(dcca_stocks) * 0.8)
-    dcca_stocks = dcca_stocks[:half_length]'''
-    
-    print(len(dcca_stocks))
     
     c_matrix = build_crosscorelation_matrix(dcca_stocks, Q, S)
     
@@ -280,7 +264,7 @@ AMOUNT_PER_SHARE = 1000
         
 os.makedirs('result_qdependent_dcca', exist_ok=True)
 
-for selected_market in range(9, 10):
+for selected_market in range(1, 2):
     if selected_market == 1:
         data_dictionary = os.path.join(os.getcwd(), 'dulieuvnindex')
         market_datapath = os.path.join(os.getcwd(), 'excel_^vnindex.csv')
@@ -354,7 +338,7 @@ for selected_market in range(9, 10):
         dcca_stocks.append(dcca_stock)
     
     investment_start_date = datetime.date(2014, 6, 1)
-    investment_stop_date  = datetime.date(2017, 6, 1)
+    investment_stop_date  = datetime.date(2014, 6, 20)
     
     qdependent_DCCA(dcca_stocks, investment_start_date, investment_stop_date, market_name)
 
