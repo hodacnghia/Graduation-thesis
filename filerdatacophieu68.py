@@ -168,31 +168,3 @@ for i in range(0, len(all_stocks_filepath)):
 # save_list_stockID_to_file(stocks, 'stockID_SENSEX.txt')
 print(len(stocks))
 
-
-'''
-# TODO: Read all of stocks from files download in netfond
-stocks = []
-for i in range(0, len(all_stocks_filepath)):
-    stock = read_detail_stock(all_stocks_filepath[i])
-    
-    if stock != None:
-        if valid_stock(stock, 30):
-            stocks.append(stock)
-         
-stocks = sorted(stocks, key = lambda s: (s.average_volumn))
-
-if (len(stocks) > 200):
-    stocks = stocks[:200]
-
-stocks_ticker = []
-
-for s in stocks:
-    stocks_ticker.append(s.ticker)
-    
-save_list_stockID_to_file(stocks_ticker, 'stockID_nyse.txt')
-print(len(stocks_ticker))
-
-
-
-# TODO: Read all of stocks from files download in yahoo finance
-'''
